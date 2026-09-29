@@ -15,6 +15,7 @@ import { useApp } from "../components/AppProvider";
 import { useShellNavigation } from "../components/AppShell";
 import UserAvatar from "../components/UserAvatar";
 import DemoDataSwitch from "../demo/DemoDataSwitch";
+import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import type { ViewId } from "../lib/types";
 import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import TruncatedText from "@/components/TruncatedText/TruncatedText";
@@ -296,12 +297,14 @@ function Events({
  */
 export default function Dashboard({
   greeting,
-  courses,
+  courses: fetchedCourses,
 }: {
   greeting: string;
   courses: ShortlistedCourse[];
 }) {
   const { navigate, openDialog } = useApp();
+  const demo = useDemoData();
+  const courses = demo.has("colleges") ? DEMO_DATA.colleges : fetchedCourses;
   const { navigationOpen, openNavigation } = useShellNavigation();
   const [query, setQuery] = useState("");
   const [dialog, setDialog] = useState<DialogState>(null);
