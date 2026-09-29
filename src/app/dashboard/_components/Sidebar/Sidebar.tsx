@@ -41,21 +41,23 @@ const SidebarOption: React.FC<SidebarOptionProps> = ({
                                                          onClick,
                                                      }) => {
     return (
-        <div
+        <button
+            type="button"
             className={`sidebar--menu-item ${isActive ? "active" : ""}`}
+            aria-current={isActive ? "page" : undefined}
             onClick={onClick}
         >
-            <div className="sidebar--icon-wrapper">
-                <div
+            <span className="sidebar--icon-wrapper" aria-hidden="true">
+                <span
                     className="sidebar--icon"
                     style={{
                         maskImage: `url(${icon})`,
                         WebkitMaskImage: `url(${icon})`,
                     } as React.CSSProperties}
                 />
-            </div>
+            </span>
             <span className="sidebar--menu-text">{label}</span>
-        </div>
+        </button>
     );
 };
 
@@ -72,12 +74,14 @@ const ProfileMenuItem: React.FC<{
         requestedSrc === failedSrc ? placeholderSrc : requestedSrc;
 
     return (
-        <div
+        <button
+            type="button"
             className={`sidebar--menu-item ${isActive ? "active" : ""}`}
+            aria-label="Profile"
             onClick={onClick}
         >
-            <div className="sidebar--icon-wrapper">
-                <div className="sidebar--profile-avatar">
+            <span className="sidebar--icon-wrapper">
+                <span className="sidebar--profile-avatar">
                     <Image
                         src={profileSrc}
                         alt={user?.first_name || "Profile"}
@@ -86,10 +90,10 @@ const ProfileMenuItem: React.FC<{
                         className="sidebar--profile-avatar-img"
                         onError={() => setFailedSrc(requestedSrc)}
                     />
-                </div>
-            </div>
+                </span>
+            </span>
             {/*<span className="sidebar--menu-text">Profile</span>*/}
-        </div>
+        </button>
     );
 };
 
@@ -104,13 +108,10 @@ const SidebarContent: React.FC<{
             <LtaIcon />
         </div>
 
-        <div
-            className="common--width-100 common--flex-col"
-            style={{ gap: "24px", flex: 1 }}
-        >
-            <div className="common--flex-col" style={{ gap: "16px" }}>
+        <div className="sidebar--menu">
+            <div>
                 <p className="sidebar--menu-label">MAIN MENU</p>
-                <div className="common--flex-col" style={{ gap: "4px" }}>
+                <nav className="sidebar--menu-list" aria-label="Main menu">
                     {MENU_ITEMS.map((item) => (
                         <SidebarOption
                             key={item.id}
@@ -127,13 +128,10 @@ const SidebarContent: React.FC<{
                             onClick={() => onItemClick(5)}
                         />
                     )}
-                </div>
+                </nav>
             </div>
 
-            <div
-                className="common--flex-col"
-                style={{ marginTop: "auto", gap: "4px" }}
-            >
+            <div className="sidebar--menu-list sidebar--bottom">
                 {BOTTOM_ITEMS.map((item) =>
                     item.label === "Logout" ? (
                         <SidebarOption
@@ -176,13 +174,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     return (
         <>
             {/* Desktop */}
-            <div className="sidebar--container-large-screen">
+            <aside
+                className="sidebar--container-large-screen"
+                aria-label="Main navigation"
+            >
                 <SidebarContent
                     activeId={activeId}
                     onItemClick={setActiveId}
                     onLogout={handleLogout}
                 />
-            </div>
+            </aside>
 
             {/* Mobile overlay backdrop */}
             {isOpen && <div className="sidebar--overlay" onClick={onClose} />}
@@ -190,6 +191,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             {/* Mobile drawer */}
             <div
                 className={`sidebar--container-mobile-screen ${isOpen ? "open" : ""}`}
+                inert={!isOpen}
             >
                 <SidebarContent
                     activeId={activeId}
