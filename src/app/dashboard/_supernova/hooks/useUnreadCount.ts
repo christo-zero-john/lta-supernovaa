@@ -1,11 +1,14 @@
 import { useApp } from "../components/AppProvider";
-import { NOTIFICATIONS } from "../lib/fixtures";
+import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 
-/** Unread notifications for the current persona (seeded plus local ones). */
+/** Unread notifications: the dummy ones when chosen, plus local ones. */
 export function useUnreadCount() {
   const { persona, state } = useApp();
   const { notices, read } = state[persona];
-  return [...NOTIFICATIONS[persona], ...notices].filter(
+  const seeded = useDemoData().has("notifications")
+    ? DEMO_DATA.notifications
+    : [];
+  return [...seeded, ...notices].filter(
     (notice) => !read.includes(notice.id),
   ).length;
 }
