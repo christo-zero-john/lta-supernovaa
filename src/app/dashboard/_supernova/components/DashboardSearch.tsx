@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useApp } from "./AppProvider";
-import { APPLICATIONS, MENTORS, DOCUMENTS } from "../lib/fixtures";
+import { MENTORS } from "../lib/fixtures";
+import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import { hasAccess } from "../lib/model";
 import { Icon } from "./ui";
 import type { ViewId } from "../lib/types";
@@ -16,10 +17,13 @@ export default function DashboardSearch() {
   const { persona, uploads, navigate } = useApp(),
     [query, setQuery] = useState(""),
     [shown, setShown] = useState(false),
-    [active, setActive] = useState(0);
+    [active, setActive] = useState(0),
+    demo = useDemoData(),
+    applications = demo.has("applications") ? DEMO_DATA.applications : [],
+    documents = demo.has("documents") ? DEMO_DATA.documents : [];
   const rows: [ViewId, string, string][] = [
     ...(hasAccess(persona, "zenna")
-      ? APPLICATIONS.map(
+      ? applications.map(
           (a) =>
             ["zenna", a.uni + " · " + a.course, a.id] as [
               ViewId,
@@ -34,7 +38,7 @@ export default function DashboardSearch() {
             ["connect", m.n + " · " + m.role, m.id] as [ViewId, string, string],
         )
       : []),
-    ...DOCUMENTS[persona].map(
+    ...documents.map(
       (d) => ["documents", d.name, d.id] as [ViewId, string, string],
     ),
   ];
