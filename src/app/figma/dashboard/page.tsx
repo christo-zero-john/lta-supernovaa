@@ -1,4 +1,12 @@
-import { Suspense } from 'react';
-import SupernovaApp from './_components/SupernovaApp';
+import { Suspense } from "react";
+import SupernovaApp from "./_components/SupernovaApp";
 
-export default function Page() { return <Suspense fallback={<div className="sn-loading">Opening your LTA Account…</div>}><SupernovaApp /></Suspense>; }
+export default function Page() {
+  return (
+    <Suspense
+      fallback={<div className="sn-loading">Opening your LTA Account…</div>}
+    >
+      <SupernovaApp />
+    </Suspense>
+  );
+}
