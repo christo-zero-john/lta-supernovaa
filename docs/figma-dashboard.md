@@ -1,54 +1,47 @@
-# Figma dashboard reference
+# Supernova: one LTA account
 
-Route: `/figma/dashoard` (the originally requested spelling). `/figma/dashboard` redirects to it.
+Canonical route: `/figma/dashboard`. Legacy `/figma/dashoard` redirects here. View/persona bookmarks use `?view=zenna&persona=paid`; back/forward and refresh preserve selection.
 
-Source: [Figma frame 1:514](https://www.figma.com/design/lnOH0IYXWcqSfk8e4jobzq/lta-dev-ref?node-id=1-514), 1425 × 1770.846.
+The unchanged `supernova_concept_v3 (1).html` defines source content, controls, layout hierarchy and persona entitlements. LTA frame 7892:34777 and the previous dashboard recreation define typography, rounded surfaces, subdued purple controls, artwork and motion. This is an LTA redesign of the HTML, not a copy of the old single-screen Figma dashboard.
 
-## Implementation
+## Views and states
 
-The route is public for visual review, with the same deterministic profile and content as the design. It does not call the account API or change login state. Only this exact route and its `/figma/dashboard` alias bypass authentication; the existing dashboard stays protected. Metadata disables indexing.
+Dashboard, Documents, Notifications, Support, Zenna, LTA Connect, Course Shortlisting and Project004 render in one shell. All three source personas are implemented: free Explorer; paid Applicant; Project004 Job seeker with archived Zenna and mentor Connect. Source counts are retained: nine applications, six mentors, five chance results and three jobs.
 
-`src/app/figma/dashoard` contains the route, scoped styles, and components. Figma source images and SVGs are local in `public/assets/figma/dashboard`. Fonts are downloaded and self-hosted by `next/font`; they do not depend on browser requests to Google Fonts.
+Main navigation stays sticky and scrolls internally when necessary. At 1024px and above the dashboard has three hero cards. Layout is fluid, with smaller grids and a mobile drawer; no global frame zoom or hidden horizontal overflow. Search has no border effects. LTA CTA hover darkens from #6B5A89 to #5B4B7A over 200ms ease-out. Booking-calendar hover fades to pale gray over 150ms. Reduced-motion preferences are honored.
 
-The 247px sidebar, 12px outer spacing, 24px content padding, 32px section spacing, 325px recommendations row, university card compositing, product imagery, event fixtures, calendar excerpt, testimonial gradients and footer follow the source context. Native exported SVG dimensions are retained. Suitable existing document, support, settings and logout icons are reused.
+## React organization
 
-Recommendations retain their native 273 × 317 proportions and never stretch beyond that size. Complete cards scale as a unit, including their text and images, and the mascot and speech bubble scale together. From 1024 CSS pixels upwards, the entire 1425px desktop frame scales uniformly to fit the viewport width, capped at its native size. Fonts, sidebar, artwork and spacing scale together, matching the prototype's Fit width setting. At least three complete university cards remain visible; smaller screens use two or one. The source's horizontal gallery is keyboard-scrollable without adding a next button. The sidebar stays at the viewport top while the main page scrolls.
+`src/app/figma/dashboard` hosts scoped fonts/CSS, a server entry and interactive client app. Typed fixtures and pure validation/calculation functions are in `_lib`; a reducer/provider owns persona-local interactions. Separate `_views` compose shared shell, cards, buttons, status/progress, application/mentor rows, gates and native dialogs. Upload URL ownership is isolated in `_hooks/useUploads.ts`.
 
-Following the requested overflow correction, testimonial badges and quotes wrap within each card, and cards grow from their original 277.682px minimum height to show all text. This deliberately corrects the fixed-width text overhang in the source. Narrow screens reflow the testimonials, event panel and footer. Calendar cells below 600px of calendar width separate date numbers from the entire session label. These responsive states adapt the single desktop frame; they are not separate Figma-designed breakpoints.
+Source strings were extracted directly in UTF-8. Search covers accessible source applications/mentors/documents and uploaded files; selections open details or focus the matching document. Locked products remain discoverable and gates never grant access implicitly.
 
-## Interactions
+## Local interactions
 
-Calendar hover uses the observed pale gray fill with a 150ms ease-out dissolve, including session cells; no purple inset outline is added. MainCTA hover changes its base color from #6B5A89 to #5B4B7A with the source 200ms ease-out smart animation, without movement or scale. These were read from the live prototype and its component properties (calendar 1:971; CTA 1:1052, library hover 6992:10532).
+Booking and rescheduling save local sessions and feed notifications. Team bookings remain viewable in Support even for free users, and correctly retain the LTA-team identity. Mentor request accept/decline updates pending counts. Zenna filters, AI confirm/dismiss, notification reads and badges, profile/settings/WhatsApp preference, waitlist choices, FAQ disclosures and concept logout work. Logout resets only local concept data; real cookies/accounts are untouched.
 
-- Search has no border or focus border effect and filters the local university fixtures; an empty result state is explicit.
-- University cards open details including admission percentage, days remaining, course, location, duration and starting cost; the same details are available to screen readers.
-- Calendar arrows navigate complete months; the initial three-week excerpt and its session highlights reproduce the reference, including its source weekday/date alignment. Session cells open their date-specific details; other cells show the selected date and its empty schedule.
-- Watch-video buttons open a native modal dialog using the existing LTA introduction video. Escape, close and backdrop clicks dismiss it.
-- Booking, chat, account/sidebar and event buttons open informational reference dialogs. These are demo interactions; they do not submit bookings, send messages or mutate account data.
-- Try Connect opens the existing LTA Connect destination. LinkedIn and Instagram use the public website's linked accounts; the YouTube icon opens the LTA video preview.
+Shortlisting retains the HTML's basic formula, bounds and copy, with random noise removed for repeatable results. It is concept logic, not a validated admissions model. Degree/field controls retain source options but do not invent new prediction factors.
 
-## Verification
+Uploads accept PDF/JPEG/PNG up to 10MB, stay in memory, have local preview/download/remove controls and revoke object URLs on removal/reset/unmount. Duplicate filenames remain separate; files and validation errors are persona-local. Archived application records and Project004 sharing generate truthful local text summaries. Email opens a draft; no messages or LinkedIn posts are sent automatically.
 
-With a server already running:
+The app does not submit bookings, upload to a backend, contact an AI service, mutate accounts or process payments. Refresh clears local interaction state. The real authenticated `/dashboard` stays independent; middleware bypass remains restricted to the exact two reference paths.
+
+## Verification commands
+
+With the user's server running:
 
 ```powershell
+pnpm.cmd test:figma:model
 pnpm.cmd test:figma
-pnpm.cmd exec eslint src/app/figma/dashoard scripts/test-figma-dashboard.mjs src/middleware.ts next.config.ts
+pnpm.cmd test:figma -- --suite shell
+pnpm.cmd test:figma -- --suite products
+pnpm.cmd test:figma -- --suite interactions
+pnpm.cmd test:figma -- --suite documents
+pnpm.cmd test:figma -- --suite responsive
+pnpm.cmd exec eslint src/app/figma/dashboard src/app/figma/dashoard/page.tsx src/app/figma/dashoard/layout.tsx scripts/test-figma-dashboard.mjs scripts/test-supernova-model.mjs
 pnpm.cmd exec tsc --noEmit
 ```
 
-Playwright checks anonymous and session access, image loading, page and section overflow at ten CSS viewport widths, eight desktop zoom equivalents, three complete desktop cards, native card geometry, testimonial glyph containment, borderless search, calendar/CTA hover colors and timing, sticky sidebar, calendar text/date overlap, search, keyboard carousel access, complete month navigation, date/session-specific dialogs, video/booking dialogs, and narrow-screen navigation dismissal by Escape and its close button. Screenshots go to ignored `.codex/artifacts/figma-dashboard/`. The browser always closes in a `finally` block.
+The browser suite checks all 24 view/persona states, original counts/copy, gates, filters, keyboard search and dialogs, local bookings, team identity/accessibility, files/URL cleanup, deterministic forms, downloads, settings/notifications/requests/logout and FAQ. Responsive checks cover eight widths (1920,1425,1280,1024,960,768,640,480) across eight views, eight zoom equivalents (50,67,80,100,125,150,175,200 percent), glyph containment, assets, sticky navigation and reduced motion. Evidence is ignored in `.codex/artifacts/supernova`. Test browsers close in `finally`.
 
-For production verification alongside a running dev server:
-
-```powershell
-$env:NEXT_DIST_DIR = '.next-codex'
-pnpm.cmd build
-Remove-Item Env:NEXT_DIST_DIR
-```
-
-The output directory is ignored. Next may add its generated type paths to `tsconfig.json`; avoid committing incidental changes from this isolated check.
-
-Desktop zoom was checked with equivalent CSS viewport dimensions and device pixel ratios at 50%, 67%, 80%, 100%, 125%, 150%, 175%, and 200%. This validates the browser layout effects of zoom, rather than an operating-system zoom shortcut.
-
-Repository-wide lint has existing failures outside the reference route in action return types, `src/lib/axios.ts`, and the original `LtaSuit` navigation handler. Keep those distinct from route-specific validation.
+For a production build beside the existing dev server, set `NEXT_DIST_DIR=.next-codex`; restore build-generated tsconfig and next-env route references to the dev output after verification. Preserve preexisting resources and stop every task-started helper before completion. No backend/live-account integration is implied by local checks.
