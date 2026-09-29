@@ -3,11 +3,12 @@
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useApp } from "../components/AppProvider";
-import { DOCUMENTS } from "../lib/fixtures";
+import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import { Button, Card, Icon, StatusBadge, EmptyState } from "../components/ui";
 export default function DocumentsView() {
   const { persona, uploads, notify } = useApp(),
-    item = useSearchParams().get("item");
+    item = useSearchParams().get("item"),
+    documents = useDemoData().has("documents") ? DEMO_DATA.documents : [];
   useEffect(() => {
     if (!item) return;
     const el = document.getElementById(`document-${item}`);
@@ -44,14 +45,14 @@ export default function DocumentsView() {
         </p>
       )}
       <Card>
-        {!DOCUMENTS[persona].length && !uploads.files.length && (
+        {!documents.length && !uploads.files.length && (
           <EmptyState>
             No documents yet. Start with your passport and latest transcripts —
             they’ll be ready the moment you need them for an application or a
             chance check.
           </EmptyState>
         )}
-        {DOCUMENTS[persona].map((d) => (
+        {documents.map((d) => (
           <div
             className={`sn-doc ${item === d.id ? "sn-doc-selected" : ""}`}
             id={`document-${d.id}`}
