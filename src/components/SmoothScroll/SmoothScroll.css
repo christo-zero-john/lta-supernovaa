@@ -1,0 +1,6 @@
+/* CSS snapping re-snaps every programmatic scroll, which would fight each
+   frame of the glide. Suspend it only while Lenis animates; touch,
+   keyboard and scrollbar input keep native snapping. */
+.lenis.lenis-smooth {
+    scroll-snap-type: none !important;
+}

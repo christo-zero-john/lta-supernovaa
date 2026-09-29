@@ -3,12 +3,13 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
+import "./SmoothScroll.css";
 import { SMOOTH_SCROLL_OPTIONS } from "./smoothScrollOptions";
 
 /**
  * Smooths page (window) scrolling everywhere. Mounted once in the root
- * layout; renders nothing. Pages that scroll inside a fixed-height box use
- * `SmoothScrollArea` for that box.
+ * layout; renders nothing. Anything that scrolls inside its own box —
+ * fixed-height pages, carousels, wide tables — uses `SmoothScrollArea`.
  */
 export default function SmoothScroll() {
     useEffect(() => {
