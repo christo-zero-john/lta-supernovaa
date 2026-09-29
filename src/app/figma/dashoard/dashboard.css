@@ -82,7 +82,8 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .calendar-day { position: relative; border: 0; border-right: 1px solid rgba(0,0,0,.07); border-bottom: 1px solid rgba(0,0,0,.07); background: transparent; font: 500 16px/normal var(--figma-inter), sans-serif; color: #6a6e74; display: flex; justify-content: center; align-items: center; min-width: 0; padding: 10px; }
 .calendar-day:nth-child(7n) { border-right: 0; }
 .calendar-day:nth-last-child(-n+7) { border-bottom: 0; }
-.calendar-day.weekend { background: rgba(232,235,239,.4); }
+/* Blank cells that belong to the previous or next month. */
+.calendar-day.empty { background: rgba(232,235,239,.4); }
 .calendar-day.has-session { background: rgba(135,100,222,.27); border-radius: 7px; display: flex; align-items: flex-start; justify-content: space-between; gap: 2px; padding: 10px 9px; }
 .calendar-day.has-session > span { font-size: 22px; color: #1a191a; font-weight: 600; }
 .calendar-day small { font: 400 12px/16px var(--figma-geist), sans-serif; text-align: right; align-self: flex-end; color: #242a33; position: absolute; right: 9px; bottom: 10px; max-width: calc(100% - 18px); }

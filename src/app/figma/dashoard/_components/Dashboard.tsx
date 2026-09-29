@@ -257,7 +257,7 @@ function Events({
               return day ? (
                 <button
                   key={index}
-                  className={`calendar-day ${index % 7 > 4 ? "weekend" : ""} ${active ? "has-session" : ""}`}
+                  className={`calendar-day ${active ? "has-session" : ""}`}
                   onClick={() =>
                     onSelect({
                       title: active
