@@ -1,10 +1,12 @@
+> Scope correction (2026-09-29): the first Figma reference owns the Dashboard view, including its original elements and layout. The HTML governs only the remaining pages. The original plan below is historical wherever it proposed replacing the Dashboard with HTML content. Pill buttons now animate their existing inset edge reflection with a translucent glass finish, stable geometry and reduced-motion support. No separate light overlay is added.
+
 # Supernova concept rebuilt in LTA's design language
 
 Status: implemented and locally verified on 2026-09-29. The user authorized execution without further approval questions.
 
 ## Intent and source precedence
 
-Rebuild the supplied `supernova_concept_v3 (1).html` as a cohesive, interactive React application at `/figma/dashboard`. The HTML is the authority for page structure, visible content, controls, fixtures, persona identities and entitlement states. LTA is the authority for visual language. Preserve the HTML file unchanged as the reference.
+Rebuild the supplied `supernova_concept_v3 (1).html` as a cohesive, interactive React application at `/figma/dashboard`. For views other than Dashboard, the HTML is the authority for page structure, visible content, controls, fixtures, persona identities and entitlement states. The first Figma reference is the authority for Dashboard. LTA is the authority for visual language. Preserve the HTML file unchanged as the reference.
 
 The user approved the direction on 2026-09-29 with “continue.” Success means all source pages and states are implemented, navigation and controls work, components are reusable, and the result looks like LTA rather than the HTML's original generic styling.
 
