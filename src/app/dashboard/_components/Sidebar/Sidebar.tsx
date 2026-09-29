@@ -2,62 +2,57 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import "./Sidebar.css";
 import LtaIcon from "@/app/dashboard/_components/LtaIcon/LtaIcon";
 import useStore from "@/store/useStore";
 import { clearCookie } from "@/lib/cookies";
-
-interface SidebarItem {
-    id: number;
-    label: string;
-    icon: string;
-}
-
-interface SidebarOptionProps {
-    icon: string;
-    label: string;
-    isActive: boolean;
-    onClick: () => void;
-}
+import { useApp } from "@/app/dashboard/_supernova/components/AppProvider";
+import { Icon } from "@/app/dashboard/_supernova/components/ui";
+import { useUnreadCount } from "@/app/dashboard/_supernova/hooks/useUnreadCount";
+import { hasAccess } from "@/app/dashboard/_supernova/lib/model";
+import {
+    VIEW_ROUTES,
+    viewHref,
+    viewsIn,
+} from "@/app/dashboard/_supernova/lib/routes";
+import type { ViewId } from "@/app/dashboard/_supernova/lib/types";
 
 interface SidebarProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-const MENU_ITEMS: SidebarItem[] = [
-    { id: 1, label: "Dashboard", icon: "/assets/icons/HomeIcon.svg" },
-];
+// Icon files drawn as masks (so the active item can recolour them). Views
+// without a file use the matching line icon.
+const ICON_FILES: Partial<Record<ViewId | "settings" | "logout", string>> = {
+    dashboard: "/assets/icons/HomeIcon.svg",
+    documents: "/assets/icons/DocumentsIcon.svg",
+    notifications: "/assets/icons/NotificationIcon.svg",
+    support: "/assets/icons/SupportIcon.svg",
+    settings: "/assets/icons/SettingsIcon.svg",
+    logout: "/assets/icons/LogoutIcon.svg",
+};
 
-const BOTTOM_ITEMS: SidebarItem[] = [
-    { id: 7, label: "Logout", icon: "/assets/icons/LogoutIcon.svg" },
-];
-
-const SidebarOption: React.FC<SidebarOptionProps> = ({
-                                                         icon,
-                                                         label,
-                                                         isActive,
-                                                         onClick,
-                                                     }) => {
+const SidebarIcon: React.FC<{ name: ViewId | "settings" | "logout" }> = ({
+                                                                            name,
+                                                                        }) => {
+    const file = ICON_FILES[name];
     return (
-        <button
-            type="button"
-            className={`sidebar--menu-item ${isActive ? "active" : ""}`}
-            aria-current={isActive ? "page" : undefined}
-            onClick={onClick}
-        >
-            <span className="sidebar--icon-wrapper" aria-hidden="true">
+        <span className="sidebar--icon-wrapper" aria-hidden="true">
+            {file ? (
                 <span
                     className="sidebar--icon"
                     style={{
-                        maskImage: `url(${icon})`,
-                        WebkitMaskImage: `url(${icon})`,
+                        maskImage: `url(${file})`,
+                        WebkitMaskImage: `url(${file})`,
                     } as React.CSSProperties}
                 />
-            </span>
-            <span className="sidebar--menu-text">{label}</span>
-        </button>
+            ) : (
+                <Icon name={name} />
+            )}
+        </span>
     );
 };
 
@@ -98,67 +93,106 @@ const ProfileMenuItem: React.FC<{
 };
 
 const SidebarContent: React.FC<{
-    activeId: number;
-    onItemClick: (id: number) => void;
+    profileActive: boolean;
+    onNavigate: () => void;
+    onProfile: () => void;
+    onSettings: () => void;
     onLogout: () => void;
     isMobile?: boolean;
-}> = ({ activeId, onItemClick, onLogout, isMobile = false }) => (
-    <>
-        <div className="sidebar--logo-section">
-            <LtaIcon />
-        </div>
+}> = ({
+          profileActive,
+          onNavigate,
+          onProfile,
+          onSettings,
+          onLogout,
+          isMobile = false,
+      }) => {
+    const { persona, view } = useApp();
+    const unread = useUnreadCount();
 
-        <div className="sidebar--menu">
-            <div>
-                <p className="sidebar--menu-label">MAIN MENU</p>
-                <nav className="sidebar--menu-list" aria-label="Main menu">
-                    {MENU_ITEMS.map((item) => (
-                        <SidebarOption
-                            key={item.id}
-                            icon={item.icon}
-                            label={item.label}
-                            isActive={activeId === item.id}
-                            onClick={() => onItemClick(item.id)}
-                        />
-                    ))}
-
-                    {isMobile && (
-                        <ProfileMenuItem
-                            isActive={activeId === 5}
-                            onClick={() => onItemClick(5)}
-                        />
+    const links = (views: ViewId[]) =>
+        views.map((id) => {
+            const isActive = !profileActive && view === id;
+            const locked = !hasAccess(persona, id);
+            return (
+                <Link
+                    key={id}
+                    href={viewHref(id, persona)}
+                    className={`sidebar--menu-item ${isActive ? "active" : ""} ${locked ? "locked" : ""}`}
+                    aria-current={isActive ? "page" : undefined}
+                    onClick={onNavigate}
+                >
+                    <SidebarIcon name={id} />
+                    <span className="sidebar--menu-text">
+                        {VIEW_ROUTES[id].label}
+                    </span>
+                    {id === "notifications" && unread > 0 && (
+                        <span className="sidebar--count">{unread}</span>
                     )}
-                </nav>
+                    {locked && (
+                        <span className="sidebar--lock" aria-label="Locked">
+                            <Icon name="lock" size={13} />
+                        </span>
+                    )}
+                </Link>
+            );
+        });
+
+    return (
+        <>
+            <div className="sidebar--logo-section">
+                <LtaIcon />
             </div>
 
-            <div className="sidebar--menu-list sidebar--bottom">
-                {BOTTOM_ITEMS.map((item) =>
-                    item.label === "Logout" ? (
-                        <SidebarOption
-                            key={item.id}
-                            icon={item.icon}
-                            label={item.label}
-                            isActive={false}
-                            onClick={onLogout}
-                        />
-                    ) : (
-                        <SidebarOption
-                            key={item.id}
-                            icon={item.icon}
-                            label={item.label}
-                            isActive={activeId === item.id}
-                            onClick={() => onItemClick(item.id)}
-                        />
-                    )
-                )}
+            <div className="sidebar--menu">
+                <div>
+                    <p className="sidebar--menu-label">MAIN MENU</p>
+                    <nav className="sidebar--menu-list" aria-label="Main menu">
+                        {links(viewsIn("main"))}
+
+                        {isMobile && (
+                            <ProfileMenuItem
+                                isActive={profileActive}
+                                onClick={onProfile}
+                            />
+                        )}
+                    </nav>
+                    <p className="sidebar--menu-label">MY SUITE</p>
+                    <nav className="sidebar--menu-list" aria-label="My suite">
+                        {links(viewsIn("suite"))}
+                    </nav>
+                </div>
+
+                <div className="sidebar--menu-list sidebar--bottom">
+                    <button
+                        type="button"
+                        className="sidebar--menu-item"
+                        onClick={onSettings}
+                    >
+                        <SidebarIcon name="settings" />
+                        <span className="sidebar--menu-text">Settings</span>
+                    </button>
+                    <button
+                        type="button"
+                        className="sidebar--menu-item"
+                        onClick={onLogout}
+                    >
+                        <SidebarIcon name="logout" />
+                        <span className="sidebar--menu-text">Logout</span>
+                    </button>
+                </div>
             </div>
-        </div>
-    </>
-);
+        </>
+    );
+};
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-    const [activeId, setActiveId] = useState<number>(1);
     const router = useRouter();
+    const pathname = usePathname();
+    const { openDialog } = useApp();
+    // The mobile Profile item stays highlighted until the next navigation.
+    const [profileActiveOn, setProfileActiveOn] = useState<string | null>(null);
+    const profileActive = profileActiveOn === pathname;
 
     const handleLogout = () => {
         clearCookie("token");
@@ -166,8 +200,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         router.push("/auth/login");
     };
 
-    const handleItemClick = (id: number) => {
-        setActiveId(id);
+    const handleSettings = () => {
+        openDialog({ kind: "settings" });
+        onClose();
+    };
+
+    const handleProfile = () => {
+        setProfileActiveOn(pathname);
         onClose();
     };
 
@@ -179,8 +218,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 aria-label="Main navigation"
             >
                 <SidebarContent
-                    activeId={activeId}
-                    onItemClick={setActiveId}
+                    profileActive={profileActive}
+                    onNavigate={() => undefined}
+                    onProfile={handleProfile}
+                    onSettings={handleSettings}
                     onLogout={handleLogout}
                 />
             </aside>
@@ -194,8 +235,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 inert={!isOpen}
             >
                 <SidebarContent
-                    activeId={activeId}
-                    onItemClick={handleItemClick}
+                    profileActive={profileActive}
+                    onNavigate={onClose}
+                    onProfile={handleProfile}
+                    onSettings={handleSettings}
                     onLogout={handleLogout}
                     isMobile
                 />

@@ -81,6 +81,36 @@
   transition: background-color 150ms ease-out;
 }
 
+a.sidebar--menu-item {
+  text-decoration: none;
+}
+
+.sidebar--menu-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Gated sections for the current persona. */
+.sidebar--menu-item.locked {
+  color: #8b8690;
+}
+
+.sidebar--count {
+  min-width: 20px;
+  padding: 0 5px;
+  border-radius: 20px;
+  background: #d8cde7;
+  color: #68558a;
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.sidebar--lock {
+  display: flex;
+  color: inherit;
+}
+
 .sidebar--menu-item:hover:not(.active) {
   background: #ffffff60;
 }
@@ -104,6 +134,16 @@
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+  color: #404040;
+}
+
+.sidebar--menu-item.active .sidebar--icon-wrapper {
+  color: #8764de;
+}
+
+/* Line icons (sections without an icon file), ~1.33px like the files. */
+.sidebar--icon-wrapper svg {
+  stroke-width: 1.6;
 }
 
 /* The icon files are drawn as masks at their intrinsic size, so the
