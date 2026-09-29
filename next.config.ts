@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+    // Allows isolated production verification beside an existing dev server.
+    distDir: process.env.NEXT_DIST_DIR || ".next",
     images: {
         remotePatterns: [
             {
