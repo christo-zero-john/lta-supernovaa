@@ -3,6 +3,7 @@
 import { useApp } from "./AppProvider";
 import DashboardSearch from "./DashboardSearch";
 import UserAvatar from "./UserAvatar";
+import DemoDataSwitch from "../demo/DemoDataSwitch";
 import { Icon } from "./ui";
 import { useUnreadCount } from "../hooks/useUnreadCount";
 
@@ -22,6 +23,7 @@ export default function Topbar({ onMenu }: { onMenu: () => void }) {
       </button>
       <DashboardSearch />
       <div className="sn-topbar-right">
+        <DemoDataSwitch />
         <button
           className={`sn-whatsapp ${whatsapp ? "" : "off"}`}
           onClick={() => openDialog({ kind: "settings" })}

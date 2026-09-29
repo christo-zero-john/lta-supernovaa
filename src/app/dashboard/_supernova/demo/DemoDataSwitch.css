@@ -1,0 +1,155 @@
+/* The navbar's dummy-data switch and its options dropdown. */
+.sn-demo {
+  position: relative;
+  flex-shrink: 0;
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+}
+.sn-demo-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px 0 10px;
+  border: 0;
+  border-radius: 44px;
+  background: white;
+  color: #242a33;
+  font: 600 12px/1 var(--font-plus-jakarta-sans), sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 150ms ease-out;
+}
+.sn-demo-trigger:hover,
+.sn-demo-trigger[aria-expanded="true"] {
+  background: #f3f1f6;
+}
+.sn-demo-trigger:focus-visible {
+  outline: 2px solid #8764de;
+  outline-offset: 2px;
+}
+.sn-demo-track {
+  position: relative;
+  width: 28px;
+  height: 16px;
+  border-radius: 16px;
+  background: #d8d2e0;
+  transition: background-color 150ms ease-out;
+}
+.sn-demo-track > span {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 150ms ease-out;
+}
+.sn-demo-track.on {
+  background: #735daa;
+}
+.sn-demo-track.on > span {
+  transform: translateX(12px);
+}
+.sn-demo-count {
+  display: grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #ede6f3;
+  color: #735daa;
+  font-size: 10px;
+}
+.sn-demo-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 60;
+  width: 272px;
+  max-width: calc(100vw - 32px);
+  padding: 8px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 12px 32px rgb(58 42 92 / 0.16);
+  color: #242a33;
+}
+.sn-demo-title {
+  margin: 4px 8px 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.sn-demo-title small,
+.sn-demo-option small {
+  display: block;
+  margin-top: 2px;
+  color: #8b7c9c;
+  font-size: 10px;
+  font-weight: 500;
+}
+.sn-demo-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms ease-out;
+}
+.sn-demo-option:hover {
+  background: #f3f1f6;
+}
+.sn-demo-option input {
+  width: 15px;
+  height: 15px;
+  margin: 1px 0 0;
+  accent-color: #735daa;
+  cursor: pointer;
+}
+.sn-demo-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 8px 8px 4px;
+  border-top: 1px solid #f0ecf4;
+}
+.sn-demo-actions button {
+  flex: 1;
+  height: 30px;
+  border: 0;
+  border-radius: 30px;
+  background: #f3f1f6;
+  color: #5b4b7a;
+  font: 600 11px/1 var(--font-plus-jakarta-sans), sans-serif;
+  cursor: pointer;
+  transition: background-color 150ms ease-out;
+}
+.sn-demo-actions button:hover:not(:disabled) {
+  background: #ebe6f1;
+}
+.sn-demo-actions button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+@media (max-width: 640px) {
+  /* Only the track shows on phones; the dropdown still explains itself. */
+  .sn-demo-trigger {
+    padding: 0 10px;
+    font-size: 0;
+  }
+  .sn-demo-count {
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sn-demo-trigger,
+  .sn-demo-track,
+  .sn-demo-track > span,
+  .sn-demo-option,
+  .sn-demo-actions button {
+    transition: none;
+  }
+}

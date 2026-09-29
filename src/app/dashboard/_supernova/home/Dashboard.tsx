@@ -14,6 +14,7 @@ import { TESTIMONIALS } from "./testimonials";
 import { useApp } from "../components/AppProvider";
 import { useShellNavigation } from "../components/AppShell";
 import UserAvatar from "../components/UserAvatar";
+import DemoDataSwitch from "../demo/DemoDataSwitch";
 import type { ViewId } from "../lib/types";
 import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import TruncatedText from "@/components/TruncatedText/TruncatedText";
@@ -399,13 +400,16 @@ export default function Dashboard({
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
-            <button
-              className="profile-button"
-              aria-label="View profile"
-              onClick={() => openDialog({ kind: "settings" })}
-            >
-              <UserAvatar />
-            </button>
+            <div className="reference-header-actions">
+              <DemoDataSwitch />
+              <button
+                className="profile-button"
+                aria-label="View profile"
+                onClick={() => openDialog({ kind: "settings" })}
+              >
+                <UserAvatar />
+              </button>
+            </div>
           </header>
           <div className="reference-content">
             <h1>{greeting}</h1>
