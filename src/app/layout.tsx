@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Anek_Bangla } from "next/font/google";
+import { Plus_Jakarta_Sans, Anek_Bangla, Inter, Geist, Rubik, Manrope } from "next/font/google";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -11,6 +11,11 @@ const anekBangla = Anek_Bangla({
     variable: "--font-anek-bangla",
 });
 
+const inter = Inter({ subsets: ["latin"], variable: "--figma-inter" });
+const geist = Geist({ subsets: ["latin"], variable: "--figma-geist" });
+const rubik = Rubik({ subsets: ["latin"], style: ["normal", "italic"], variable: "--figma-rubik" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--figma-manrope" });
+
 export const metadata: Metadata = {
     title: "Letters to Abroad",
     description: "Letters to Abroad",
@@ -21,7 +26,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={`${plusJakartaSans.variable} ${anekBangla.variable}`}>
+        <html lang="en" className={`${plusJakartaSans.variable} ${anekBangla.variable} ${inter.variable} ${geist.variable} ${rubik.variable} ${manrope.variable}`}>
         <body>{children}</body>
         </html>
     );
