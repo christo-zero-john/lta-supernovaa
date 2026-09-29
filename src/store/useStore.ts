@@ -8,6 +8,8 @@ export interface User {
     first_name: string;
     last_name: string;
     profile_picture: string;
+    /** Not sent by the API yet; picks the avatar group when it is. */
+    gender?: string | null;
     signup_platform_type: string;
     is_onboarding_completed: boolean;
     is_approved: boolean;
