@@ -7,10 +7,11 @@
     height: 100%;
 }
 
+/* Same section heading as the rest of the dashboard. */
 .mentor-session--heading {
-    font-family: "Plus Jakarta Sans", sans-serif;
+    font-family: var(--font-plus-jakarta-sans), sans-serif;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     color: #242a33;
     margin: 0;
