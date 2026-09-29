@@ -154,4 +154,20 @@ Browser tests use `pnpm.cmd test:figma -- --suite shell` (or products/interactio
 
 All spec view/interaction rows map to Tasks2–6; persona/domain constraints map to Task1; visual/accessibility/responsive verification maps to Tasks2 and7. The five Review Focus conditions each have explicit regression tests. Interface names/types are shared consistently; pure modules avoid Node runtime import resolution issues. No new backend subsystem or package installation is planned. Native execution is recommended because the tasks share reducer and component interfaces and the existing worktree is dirty; one owner can preserve those changes consistently, with a fresh final review.
 
-Status: plan prepared and self-reviewed; awaiting user review and execution-method selection. No product implementation has started.
+Status: implementation and local acceptance completed on 2026-09-29. Execution deviations and evidence are recorded below.
+
+
+## Execution outcome - 2026-09-29
+
+The numbered task descriptions above preserve the original plan. Their compound checkboxes include proposed intermediate commits and test-module splits; they are not an assertion that every proposed process step occurred. This completion record supersedes the original progress state.
+
+- [x] Tasks 1-3: exact source fixtures, pure model, canonical/legacy routing, reusable shell and all eight views across three personas.
+- [x] Tasks 4-6: local bookings/rescheduling, gates, preferences, AI actions, mentor requests, chance calculation, exports, document lifecycle, notifications, support and keyboard search.
+- [x] Task 7: full browser acceptance, model tests, scoped ESLint, TypeScript and isolated production build passed. Build-generated TypeScript configuration was restored.
+- [x] Browser coverage: all 24 view/persona combinations; eight widths from 480 to 1920 CSS pixels; eight zoom equivalents from 50% to 200%; contained text/assets, desktop three-card layout, sticky sidebar, borderless search, specified button/calendar hovers and reduced motion.
+- [x] Final review findings corrected: team session identity/access for free users, selected document focus, recognized duplicate query values and persona-local upload errors. Independent review ended early due to tool quota; the remaining checks were performed locally, so this is not a claim of a complete independent review.
+- [x] Project guidance and route documentation updated. Task-created test browsers closed; no task-started server was needed. The preexisting user server remains untouched.
+
+Execution rulings: retained the user's existing workspace/branch and running preview; used native Windows commands and an ignored ledger; consolidated exact fixtures in one typed module and browser suites in one named-suite runner; used equivalent reducer action unions; restored generated route types after the isolated build. External commits appeared during execution and were preserved. No push, merge, deployment or unrelated lockfile staging was performed.
+
+Evidence: `scripts/test-supernova-model.mjs`, `scripts/test-figma-dashboard.mjs` and ignored screenshots in `.codex/artifacts/supernova/`. Screenshots were visually inspected separately from geometry tests. Interaction state and uploaded files remain browser-memory concept data; no backend persistence is implied.
