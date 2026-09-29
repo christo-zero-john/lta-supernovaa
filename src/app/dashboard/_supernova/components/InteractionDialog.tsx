@@ -7,7 +7,10 @@ import Modal from "./Modal";
 import BookingDialog from "./BookingDialog";
 import { downloadText } from "../lib/download";
 import type { GateContent } from "./Gate";
+import UserAvatar from "./UserAvatar";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 export default function InteractionDialog() {
+  const { user } = useCurrentUser();
   const {
       dialog,
       persona,
@@ -59,9 +62,17 @@ export default function InteractionDialog() {
   if (dialog.kind === "settings")
     return (
       <Modal title="Your LTA Account" onClose={closeDialog}>
+        <span className="sn-avatar sn-profile-avatar">
+          <UserAvatar />
+        </span>
         <div className="sn-detail-grid">
           <div>
-            <small>Name</small>Tino Sunny
+            <small>First name</small>
+            {user?.first_name?.trim() || "Not added yet"}
+          </div>
+          <div>
+            <small>Last name</small>
+            {user?.last_name?.trim() || "Not added yet"}
           </div>
           <div>
             <small>Current role</small>

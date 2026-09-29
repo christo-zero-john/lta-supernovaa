@@ -1428,6 +1428,13 @@ body:has(.sn-root) {
 .sn-modal .sn-actions {
   margin-top: 18px;
 }
+/* The profile photo at the top of the account dialog. */
+.sn-profile-avatar {
+  width: 72px;
+  height: 72px;
+  margin-top: 16px;
+  font-size: 22px !important;
+}
 .sn-detail-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
