@@ -1,11 +1,65 @@
-export type PersonaId = 'free' | 'paid' | 'p004';
-export type ViewId = 'dashboard' | 'zenna' | 'connect' | 'cst' | 'p004' | 'documents' | 'notifications' | 'support';
-export type ChanceProfile = { degree: string; cgpa: number; ielts: number; german: string; field: string };
-export type ChanceUniversity = { mono: string; university: string; course: string; difficulty: number };
+export type PersonaId = "free" | "paid" | "p004";
+export type ViewId =
+  | "dashboard"
+  | "zenna"
+  | "connect"
+  | "cst"
+  | "p004"
+  | "documents"
+  | "notifications"
+  | "support";
+export type ChanceProfile = {
+  degree: string;
+  cgpa: number;
+  ielts: number;
+  german: string;
+  field: string;
+};
+export type ChanceUniversity = {
+  mono: string;
+  university: string;
+  course: string;
+  difficulty: number;
+};
 export type ChanceResult = ChanceUniversity & { pct: number };
-export type Session = { id: string; mentorId: string; date: string; slot: string };
+export type Session = {
+  id: string;
+  mentorId: string;
+  date: string;
+  slot: string;
+};
 export type Notice = { id: string; text: string; time: string; view: ViewId };
-export type PersonaState = { sessions: Session[]; read: string[]; notices: Notice[]; whatsapp: boolean; ai: 'watching' | 'confirmed' | 'dismissed'; choices: string[]; requests: number[] };
+export type PersonaState = {
+  sessions: Session[];
+  read: string[];
+  notices: Notice[];
+  whatsapp: boolean;
+  ai: "watching" | "confirmed" | "dismissed";
+  choices: string[];
+  requests: number[];
+};
 export type AppState = Record<PersonaId, PersonaState>;
-export type AppAction = { type: 'reset' } | { type: 'book'; persona: PersonaId; session: Session } | { type: 'read'; persona: PersonaId; id: string } | { type: 'preference'; persona: PersonaId; value: boolean } | { type: 'ai'; persona: PersonaId; value: 'confirmed' | 'dismissed' } | { type: 'choice'; persona: PersonaId; id: string } | { type: 'request'; persona: PersonaId; id: number };
-export type DialogState = { kind: 'application' | 'booking' | 'session' | 'gate' | 'requests' | 'job' | 'share' | 'contact' | 'settings' | 'logout'; id?: string; detail?: string; reschedule?: boolean } | null;
+export type AppAction =
+  | { type: "reset" }
+  | { type: "book"; persona: PersonaId; session: Session }
+  | { type: "read"; persona: PersonaId; id: string }
+  | { type: "preference"; persona: PersonaId; value: boolean }
+  | { type: "ai"; persona: PersonaId; value: "confirmed" | "dismissed" }
+  | { type: "choice"; persona: PersonaId; id: string }
+  | { type: "request"; persona: PersonaId; id: number };
+export type DialogState = {
+  kind:
+    | "application"
+    | "booking"
+    | "session"
+    | "gate"
+    | "requests"
+    | "job"
+    | "share"
+    | "contact"
+    | "settings"
+    | "logout";
+  id?: string;
+  detail?: string;
+  reschedule?: boolean;
+} | null;
