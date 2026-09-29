@@ -80,6 +80,52 @@ body,
     padding: 12px;
 }
 
+/* The current page; the only part that animates between pages. */
+.dashboard--page {
+    min-width: 0;
+}
+
+/* Page changes (see <ViewTransition> in dashboard/layout.tsx): the old page
+   fades out quickly while the new one fades in and settles upward. The
+   sidebar and header stay still; the rest cross-fades briefly (e.g. the
+   active sidebar item). */
+::view-transition-group(.dashboard-page) {
+    animation: none;
+}
+
+::view-transition-old(.dashboard-page) {
+    animation: 140ms ease-in both dashboard-page-out;
+}
+
+::view-transition-new(.dashboard-page) {
+    animation: 280ms cubic-bezier(0.2, 0.8, 0.2, 1) 40ms both dashboard-page-in;
+}
+
+::view-transition-group(root) {
+    animation-duration: 180ms;
+}
+
+@keyframes dashboard-page-out {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes dashboard-page-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
+}
+
 .layout-container-login {
     display: flex;
     justify-content: center;
