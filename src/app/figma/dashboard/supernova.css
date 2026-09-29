@@ -1,10 +1,13 @@
-.supernova {
+/* Shared by every view, including the original Figma dashboard. */
+.lta-reference-root {
   --sn-purple: #6b5a89;
   --sn-hover: #5b4b7a;
   --sn-ink: #242a33;
   --sn-muted: #73747b;
   --sn-page: #e8e6e9;
   --sn-line: #efedf1;
+}
+.supernova {
   min-height: 100dvh;
   background: var(--sn-page);
   color: var(--sn-ink);
