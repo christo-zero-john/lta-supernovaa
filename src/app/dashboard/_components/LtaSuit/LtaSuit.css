@@ -127,11 +127,13 @@
           linear-gradient(rgba(77, 55, 131, 0.2) 0%, rgba(238, 227, 255, 0.2) 51.44%),
           linear-gradient(90deg, rgb(107, 90, 137) 0%, rgb(107, 90, 137) 100%);
   box-shadow: inset 0px 2.459px 0.82px 0px #a392c7;
-  transition: transform 0.2s ease;
+  transition: background-color 0.2s ease-out;
 }
 
 .lta-suit--cta-button:hover {
-  transform: scale(1.05);
+  background-image:
+          linear-gradient(rgba(77, 55, 131, 0.2) 0%, rgba(238, 227, 255, 0.2) 51.44%),
+          linear-gradient(90deg, rgb(91, 75, 122) 0%, rgb(91, 75, 122) 100%);
 }
 
 .lta-suit--cta-text {
