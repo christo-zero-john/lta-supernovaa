@@ -11,7 +11,6 @@ import { hasAccess } from "../lib/model";
 import { VIEW_ROUTES, viewHref, viewsIn } from "../lib/routes";
 import type { ViewId } from "../lib/types";
 import { useCurrentUser } from "../hooks/useCurrentUser";
-import { useUnreadCount } from "../hooks/useUnreadCount";
 import { Icon } from "./ui";
 import UserAvatar from "./UserAvatar";
 import { useSmoothScroll } from "@/components/SmoothScroll/useSmoothScroll";
@@ -25,11 +24,6 @@ const figmaIcons: Partial<
 > = {
   dashboard: { src: "/assets/icons/HomeIcon.svg", width: 20, height: 20 },
   documents: { src: "/assets/icons/DocumentsIcon.svg", width: 16, height: 16 },
-  notifications: {
-    src: "/assets/icons/NotificationIcon.svg",
-    width: 20,
-    height: 20,
-  },
   support: { src: "/assets/icons/SupportIcon.svg", width: 16, height: 16 },
   settings: { src: "/assets/icons/SettingsIcon.svg", width: 16, height: 16 },
   logout: { src: "/assets/icons/LogoutIcon.svg", width: 17, height: 16 },
@@ -70,7 +64,6 @@ export default function Sidebar({
   const scrollRef = useSmoothScroll<HTMLElement>();
   const { persona, view, openDialog } = useApp();
   const { name } = useCurrentUser();
-  const unread = useUnreadCount();
 
   const handleLogout = () => {
     clearCookie("token");
@@ -89,9 +82,6 @@ export default function Sidebar({
       >
         <NavIcon name={id} />
         <span className="sn-nav-text">{VIEW_ROUTES[id].label}</span>
-        {id === "notifications" && unread > 0 && (
-          <span className="sn-count">{unread}</span>
-        )}
         {!hasAccess(persona, id) && <Icon name="lock" size={13} />}
       </Link>
     ));
@@ -129,7 +119,10 @@ export default function Sidebar({
           </span>
         </Link>
         <p className="sn-nav-label">Main menu</p>
-        <nav aria-label="Main menu">{list(viewsIn("main"))}</nav>
+        <nav aria-label="Main menu">
+          {/* Notifications open from the navbar's bell instead. */}
+          {list(viewsIn("main").filter((id) => id !== "notifications"))}
+        </nav>
         <p className="sn-nav-label">My suite</p>
         <nav aria-label="My suite">{list(viewsIn("suite"))}</nav>
         <div className="sn-sidebar-bottom">

@@ -212,17 +212,6 @@ body:has(.sn-root) {
 .sn-nav-icon svg {
   stroke-width: 1.6;
 }
-.sn-count {
-  margin-left: auto;
-  background: #d8cde7;
-  color: #68558a;
-  border-radius: 20px;
-  min-width: 20px;
-  text-align: center;
-  font-size: 10px;
-  line-height: 16px;
-  padding: 0 5px;
-}
 .sn-sidebar-bottom {
   display: flex;
   flex-direction: column;
