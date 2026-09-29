@@ -1,5 +1,6 @@
 "use client";
 
+import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import "./TestimonialCarousel.css";
 
 export interface TestimonialCard {
@@ -143,7 +144,7 @@ const TestimonialCard: React.FC<{ card: TestimonialCard }> = ({ card }) => (
 const TestimonialCarousel: React.FC = () => {
     return (
         <div className="tc--root">
-            <div className="tc--viewport">
+            <SmoothScrollArea className="tc--viewport" orientation="horizontal">
                 <div className="tc--track">
                     {CARDS.map((card, i) => (
                         <div key={i} className="tc--card-wrapper">
@@ -151,7 +152,7 @@ const TestimonialCarousel: React.FC = () => {
                         </div>
                     ))}
                 </div>
-            </div>
+            </SmoothScrollArea>
         </div>
     );
 };
