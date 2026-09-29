@@ -18,7 +18,10 @@ const rubik = Rubik({ subsets: ["latin"], style: ["normal", "italic"], variable:
 const manrope = Manrope({ subsets: ["latin"], variable: "--figma-manrope" });
 
 export const metadata: Metadata = {
-    title: "Letters to Abroad",
+    title: {
+        default: "Letters to Abroad",
+        template: "%s · Letters to Abroad",
+    },
     description: "Letters to Abroad",
 };
 export default function RootLayout({
