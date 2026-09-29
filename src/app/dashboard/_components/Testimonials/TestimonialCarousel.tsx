@@ -1,6 +1,7 @@
 "use client";
 
 import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
+import TruncatedText from "@/components/TruncatedText/TruncatedText";
 import "./TestimonialCarousel.css";
 
 export interface TestimonialCard {
@@ -114,12 +115,6 @@ const TestimonialCard: React.FC<{ card: TestimonialCard }> = ({ card }) => (
         {/* Gradient overlay */}
         <div className="tc--gradient-overlay" />
 
-        {/* Radial bottom glow */}
-        <div className="tc--bottom-glow" />
-
-        {/* Border overlay */}
-        <div className="tc--border-overlay" />
-
         {/*/!* Profile image *!/*/}
         {/*<div className="tc--profile-wrapper">*/}
         {/*    <img src={card.profileImage} alt={card.name} className="tc--profile-image" />*/}
@@ -132,9 +127,11 @@ const TestimonialCard: React.FC<{ card: TestimonialCard }> = ({ card }) => (
                 <p className="tc--degree">{card.degree}</p>
             </div>
 
-            <div className="tc--university-badge">
-                <span className="tc--university-name">{card.university}</span>
-            </div>
+            <TruncatedText
+                as="p"
+                className="tc--university-badge"
+                text={card.university}
+            />
 
             <p className="tc--quote">&#34;{card.quote}&#34;</p>
         </div>
