@@ -268,7 +268,9 @@ function Events({
                   onClick={() =>
                     onSelect({
                       title:
-                        dayEvents.length === 1 ? dayEvents[0].title : selectedDate,
+                        dayEvents.length === 1
+                          ? dayEvents[0].title
+                          : selectedDate,
                       detail: active
                         ? `${selectedDate} · ${dayEvents.map((e) => `${e.title}, ${e.time}`).join(" · ")}`
                         : `${selectedDate} · No sessions scheduled for this date.`,
@@ -325,6 +327,65 @@ export default function Dashboard({
     ? `Here are your ${courses.length} university chance${courses.length === 1 ? "" : "s"} for your chosen course`
     : "No offers for you for now. We're working on it!";
 
+  // The LTA suite. With no course matches it fills Zenna's row instead
+  // of having a section of its own.
+  const suiteCards = (
+    <div className="products-grid">
+      {products.map((product) => (
+        <article
+          className={`product-card ${product.comingSoon ? "coming-soon" : ""}`}
+          key={product.title}
+        >
+          <h3>
+            <button
+              className="product-view-link"
+              aria-label={`Open ${product.title}`}
+              onClick={() => navigate(product.view)}
+            >
+              {product.title}
+            </button>
+          </h3>
+          <div className="product-media">
+            <img
+              className="product-photo"
+              src={asset(product.image)}
+              alt={product.title}
+            />
+            <span className="access-tag">
+              {product.access}
+              {product.locked && (
+                <img src={asset("1-799-imgVector.svg")} alt="Locked" />
+              )}
+            </span>
+            {product.videoUrl ? (
+              <button
+                className="product-action"
+                aria-label={`Watch ${product.title} video`}
+                onClick={() =>
+                  setDialog({
+                    title: product.title,
+                    video: product.videoUrl,
+                  })
+                }
+              >
+                <img src={asset("1-799-imgMaskGroup.svg")} alt="" />
+                {product.action}
+              </button>
+            ) : (
+              <button
+                className="product-action"
+                disabled={product.comingSoon}
+                onClick={() => navigate(product.view)}
+              >
+                {product.action}
+              </button>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+
   return (
     <div className="figma-dashboard">
       <div className="reference-shell">
@@ -369,7 +430,7 @@ export default function Dashboard({
                   <ZennaIntro message={zennaMessage} />
                 </div>
               </div>
-              {courses.length > 0 && (
+              {courses.length > 0 ? (
                 <SmoothScrollArea
                   className="university-carousel"
                   orientation="horizontal"
@@ -410,69 +471,20 @@ export default function Dashboard({
                     </p>
                   )}
                 </SmoothScrollArea>
+              ) : (
+                suiteCards
               )}
             </section>
-            <section
-              className="products-section"
-              data-section="products"
-              aria-labelledby="products-title"
-            >
-              <h2 id="products-title">Explore LTA Suit</h2>
-              <div className="products-grid">
-                {products.map((product) => (
-                  <article
-                    className={`product-card ${product.comingSoon ? "coming-soon" : ""}`}
-                    key={product.title}
-                  >
-                    <h3>
-                      <button
-                        className="product-view-link"
-                        aria-label={`Open ${product.title}`}
-                        onClick={() => navigate(product.view)}
-                      >
-                        {product.title}
-                      </button>
-                    </h3>
-                    <div className="product-media">
-                      <img
-                        className="product-photo"
-                        src={asset(product.image)}
-                        alt={product.title}
-                      />
-                      <span className="access-tag">
-                        {product.access}
-                        {product.locked && (
-                          <img src={asset("1-799-imgVector.svg")} alt="Locked" />
-                        )}
-                      </span>
-                      {product.videoUrl ? (
-                        <button
-                          className="product-action"
-                          aria-label={`Watch ${product.title} video`}
-                          onClick={() =>
-                            setDialog({
-                              title: product.title,
-                              video: product.videoUrl,
-                            })
-                          }
-                        >
-                          <img src={asset("1-799-imgMaskGroup.svg")} alt="" />
-                          {product.action}
-                        </button>
-                      ) : (
-                        <button
-                          className="product-action"
-                          disabled={product.comingSoon}
-                          onClick={() => navigate(product.view)}
-                        >
-                          {product.action}
-                        </button>
-                      )}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
+            {courses.length > 0 && (
+              <section
+                className="products-section"
+                data-section="products"
+                aria-labelledby="products-title"
+              >
+                <h2 id="products-title">Explore LTA Suit</h2>
+                {suiteCards}
+              </section>
+            )}
             <Events onSelect={setDialog} />
             <section
               className="testimonials-section"

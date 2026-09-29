@@ -108,6 +108,22 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .university-badge { margin: 20.053px 0 28.647px; padding: 0 20.769px; background: linear-gradient(90deg, rgba(255,255,255,.2),rgba(153,153,153,0)); border-radius: 35.093px; font-size: 12.891px; line-height: 32.228px; font-weight: 700; text-transform: uppercase; width: fit-content; max-width: 100%; }
 .testimonial blockquote { font: 500 17.188px/27.215px var(--figma-manrope), sans-serif; letter-spacing: .1719px; color: #fafafa; opacity: .8; margin: 0; width: 100%; overflow-wrap: anywhere; }
 .figma-dashboard .primary-cta, .figma-dashboard .product-action { transition: background-color 200ms ease-out; }
+/* With no course matches the suite fills Zenna's row: three equal, larger
+   cards whose bottom edge lines up with the middle of Zenna's legs
+   (--zenna-leg, about a tenth of her column width above her feet). */
+.recommendations { --zenna-leg: 25px; }
+.recommendations > .products-grid { grid-template-columns: repeat(3, minmax(0, 250px)); align-self: end; gap: 24px; margin-bottom: var(--zenna-leg); }
+.recommendations > .products-grid .product-media { height: 172px; }
+/* Readable, tappable actions at this card size (Figma's are 8px text). */
+.figma-dashboard .recommendations > .products-grid .product-action { bottom: 10px; right: 10px; height: 36px; gap: 8px; padding: 8px 18px; border-width: 1.5px; font-size: 13px; line-height: 18px; letter-spacing: -.2px; box-shadow: inset 0 2.5px 1px #a392c7; }
+.figma-dashboard .recommendations > .products-grid .product-action img { width: 18px; height: 18px; }
+@container (max-width: 1060px) { .recommendations { --zenna-leg: 21px; } }
+/* Narrower: the cards move under Zenna, three across. */
+@container (max-width: 850px) {
+  .recommendations > .products-grid { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 0; }
+  .recommendations > .products-grid .product-media { height: 150px; }
+  .figma-dashboard .recommendations > .products-grid .product-action { height: 32px; padding: 6px 12px; font-size: 12px; }
+}
 /* Coming soon (like Project004): muted artwork, action not clickable. */
 .figma-dashboard .product-card.coming-soon .product-photo { filter: grayscale(.55) brightness(.92); }
 .figma-dashboard .product-action:disabled, .figma-dashboard .product-action:disabled:hover { cursor: not-allowed; background: linear-gradient(180deg, rgba(77,55,131,.2), rgba(238,227,255,.2) 51.442%), #8b7fa0; opacity: .85; animation: none; }
@@ -195,6 +211,9 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
   .section-heading { flex-wrap: wrap; }
   .calendar-day { padding: 6px; }
   .calendar-day small { font-size: 9px; line-height: 12px; bottom: 6px; right: 4px; max-width: calc(100% - 8px); }
+}
+@media (max-width: 520px) {
+  .recommendations > .products-grid { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   .figma-dashboard * { scroll-behavior: auto !important; transition: none !important; }
