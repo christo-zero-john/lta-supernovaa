@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { validateUpload } from "../_lib/model";
-import type { PersonaId } from "../_lib/types";
+import { validateUpload } from "../lib/model";
+import type { PersonaId } from "../lib/types";
 export type UploadedDocument = {
   id: string;
   name: string;

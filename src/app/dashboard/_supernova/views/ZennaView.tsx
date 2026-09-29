@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useApp } from "../_components/AppProvider";
-import { APPLICATIONS } from "../_lib/fixtures";
-import Gate from "../_components/Gate";
-import ApplicationRow from "../_components/ApplicationRow";
-import { Button, Card, Icon, StatusBadge } from "../_components/ui";
-import { downloadText } from "../_lib/download";
+import { useApp } from "../components/AppProvider";
+import { APPLICATIONS } from "../lib/fixtures";
+import Gate from "../components/Gate";
+import ApplicationRow from "../components/ApplicationRow";
+import { Button, Card, Icon, StatusBadge } from "../components/ui";
+import { downloadText } from "../lib/download";
 export default function ZennaView() {
   const { persona, state, dispatch, notify } = useApp(),
     [filter, setFilter] = useState("all");

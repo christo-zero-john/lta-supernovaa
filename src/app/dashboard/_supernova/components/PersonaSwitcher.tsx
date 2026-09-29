@@ -1,5 +1,5 @@
-import { PERSONAS } from "../_lib/fixtures";
-import type { PersonaId } from "../_lib/types";
+import { PERSONAS } from "../lib/fixtures";
+import type { PersonaId } from "../lib/types";
 import { useApp } from "./AppProvider";
 export default function PersonaSwitcher() {
   const { persona, setPersona } = useApp();

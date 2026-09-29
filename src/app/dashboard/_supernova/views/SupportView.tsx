@@ -1,6 +1,6 @@
-import { FAQS, HELP_CARDS } from "../_lib/fixtures";
-import { useApp } from "../_components/AppProvider";
-import { Button, Card, Icon } from "../_components/ui";
+import { FAQS, HELP_CARDS } from "../lib/fixtures";
+import { useApp } from "../components/AppProvider";
+import { Button, Card, Icon } from "../components/ui";
 export default function SupportView() {
   const { persona, state, openDialog } = useApp();
   return (

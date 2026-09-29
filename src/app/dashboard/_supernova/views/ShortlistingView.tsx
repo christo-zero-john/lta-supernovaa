@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { useApp } from "../_components/AppProvider";
-import { CHANCE_UNIVERSITIES } from "../_lib/fixtures";
+import { useApp } from "../components/AppProvider";
+import { CHANCE_UNIVERSITIES } from "../lib/fixtures";
 import {
   calculateChances,
   validateProfile,
   DEGREES,
   FIELDS,
-} from "../_lib/model";
-import type { ChanceProfile, ChanceResult } from "../_lib/types";
-import { Button, Card, ProgressBar, StatusBadge } from "../_components/ui";
+} from "../lib/model";
+import type { ChanceProfile, ChanceResult } from "../lib/types";
+import { Button, Card, ProgressBar, StatusBadge } from "../components/ui";
 export default function ShortlistingView() {
   const { openDialog } = useApp(),
     [profile, setProfile] = useState<ChanceProfile>({

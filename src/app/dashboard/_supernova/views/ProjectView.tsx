@@ -1,7 +1,7 @@
-import { useApp } from "../_components/AppProvider";
-import { JOBS } from "../_lib/jobs";
-import Gate from "../_components/Gate";
-import { Card, Button, StatusBadge } from "../_components/ui";
+import { useApp } from "../components/AppProvider";
+import { JOBS } from "../lib/jobs";
+import Gate from "../components/Gate";
+import { Card, Button, StatusBadge } from "../components/ui";
 export default function ProjectView() {
   const { persona, openDialog } = useApp();
   if (persona !== "p004") return <Gate />;

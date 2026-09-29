@@ -1,4 +1,4 @@
-import { APPLICATIONS } from "../_lib/fixtures";
+import { APPLICATIONS } from "../lib/fixtures";
 import { useApp } from "./AppProvider";
 import { StatusBadge, ProgressBar } from "./ui";
 export default function ApplicationRow({

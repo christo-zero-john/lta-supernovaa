@@ -1,8 +1,8 @@
-import { useApp } from "../_components/AppProvider";
-import { MENTORS } from "../_lib/fixtures";
-import { Button, Card, Icon } from "../_components/ui";
-import Gate from "../_components/Gate";
-import MentorCard from "../_components/MentorCard";
+import { useApp } from "../components/AppProvider";
+import { MENTORS } from "../lib/fixtures";
+import { Button, Card, Icon } from "../components/ui";
+import Gate from "../components/Gate";
+import MentorCard from "../components/MentorCard";
 export default function ConnectView() {
   const { persona, state, openDialog } = useApp();
   if (persona === "free") return <Gate />;

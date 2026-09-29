@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useApp } from "./AppProvider";
-import { APPLICATIONS, MENTORS, GATES, PERSONAS } from "../_lib/fixtures";
-import { JOBS } from "../_lib/jobs";
+import { APPLICATIONS, MENTORS, GATES, PERSONAS } from "../lib/fixtures";
+import { JOBS } from "../lib/jobs";
 import { Button, StatusBadge, ProgressBar } from "./ui";
 import Modal from "./Modal";
 import BookingDialog from "./BookingDialog";
-import { downloadText } from "../_lib/download";
+import { downloadText } from "../lib/download";
 import type { GateContent } from "./Gate";
 export default function InteractionDialog() {
   const {

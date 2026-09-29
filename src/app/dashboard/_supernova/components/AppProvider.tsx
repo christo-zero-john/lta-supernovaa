@@ -9,17 +9,17 @@ import {
   type Dispatch,
 } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { parseNavigation, hasAccess } from "../_lib/model";
-import { APPLICATIONS, MENTORS } from "../_lib/fixtures";
-import { appReducer, initialState } from "../_lib/reducer";
+import { parseNavigation, hasAccess } from "../lib/model";
+import { APPLICATIONS, MENTORS } from "../lib/fixtures";
+import { appReducer, initialState } from "../lib/reducer";
 import type {
   AppState,
   AppAction,
   PersonaId,
   ViewId,
   DialogState,
-} from "../_lib/types";
-import { useUploads } from "../_hooks/useUploads";
+} from "../lib/types";
+import { useUploads } from "../hooks/useUploads";
 type Context = {
   uploads: ReturnType<typeof useUploads>;
   persona: PersonaId;

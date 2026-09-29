@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useApp } from "./AppProvider";
-import { MENTORS } from "../_lib/fixtures";
-import { localDate, validateBooking } from "../_lib/model";
+import { MENTORS } from "../lib/fixtures";
+import { localDate, validateBooking } from "../lib/model";
 import { Button, Icon } from "./ui";
 import Modal from "./Modal";
 export default function BookingDialog({

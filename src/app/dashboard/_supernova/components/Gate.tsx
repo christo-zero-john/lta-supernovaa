@@ -1,4 +1,4 @@
-import { GATES } from "../_lib/fixtures";
+import { GATES } from "../lib/fixtures";
 import { useApp } from "./AppProvider";
 import { Button, Icon, StatusBadge } from "./ui";
 export type GateContent = {

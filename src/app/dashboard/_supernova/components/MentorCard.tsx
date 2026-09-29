@@ -1,4 +1,4 @@
-import { MENTORS } from "../_lib/fixtures";
+import { MENTORS } from "../lib/fixtures";
 import { useApp } from "./AppProvider";
 import { Button, Card, StatusBadge } from "./ui";
 export default function MentorCard({

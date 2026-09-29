@@ -1,6 +1,6 @@
-import { useApp } from "../_components/AppProvider";
-import { NOTIFICATIONS } from "../_lib/fixtures";
-import { Card, Icon } from "../_components/ui";
+import { useApp } from "../components/AppProvider";
+import { NOTIFICATIONS } from "../lib/fixtures";
+import { Card, Icon } from "../components/ui";
 export default function NotificationsView() {
   const { persona, state, dispatch, navigate } = useApp(),
     s = state[persona];

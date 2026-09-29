@@ -1,17 +1,17 @@
 "use client";
 import { AppProvider, useApp } from "./AppProvider";
 import AppShell from "./AppShell";
-import { PAGE_COPY } from "../_lib/fixtures";
+import { PAGE_COPY } from "../lib/fixtures";
 import { PageHeader, Button, Card } from "./ui";
 import InteractionDialog from "./InteractionDialog";
-import DashboardView from "../_views/DashboardView";
-import ZennaView from "../_views/ZennaView";
-import ConnectView from "../_views/ConnectView";
-import ShortlistingView from "../_views/ShortlistingView";
-import ProjectView from "../_views/ProjectView";
-import DocumentsView from "../_views/DocumentsView";
-import NotificationsView from "../_views/NotificationsView";
-import SupportView from "../_views/SupportView";
+import DashboardView from "../views/DashboardView";
+import ZennaView from "../views/ZennaView";
+import ConnectView from "../views/ConnectView";
+import ShortlistingView from "../views/ShortlistingView";
+import ProjectView from "../views/ProjectView";
+import DocumentsView from "../views/DocumentsView";
+import NotificationsView from "../views/NotificationsView";
+import SupportView from "../views/SupportView";
 const views = {
   dashboard: DashboardView,
   zenna: ZennaView,

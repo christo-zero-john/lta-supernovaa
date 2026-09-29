@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element -- Local design assets retain their reference geometry. */
 import type { CSSProperties } from "react";
 import { useApp } from "./AppProvider";
-import { PERSONAS, NOTIFICATIONS } from "../_lib/fixtures";
-import { hasAccess } from "../_lib/model";
-import type { ViewId } from "../_lib/types";
+import { PERSONAS, NOTIFICATIONS } from "../lib/fixtures";
+import { hasAccess } from "../lib/model";
+import type { ViewId } from "../lib/types";
 import { Icon } from "./ui";
 
 type NavIconName = ViewId | "settings" | "logout";

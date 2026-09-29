@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { useApp } from "../_components/AppProvider";
-import { DOCUMENTS } from "../_lib/fixtures";
-import { Button, Card, Icon, StatusBadge, EmptyState } from "../_components/ui";
+import { useApp } from "../components/AppProvider";
+import { DOCUMENTS } from "../lib/fixtures";
+import { Button, Card, Icon, StatusBadge, EmptyState } from "../components/ui";
 export default function DocumentsView() {
   const { persona, uploads, notify } = useApp(),
     item = useSearchParams().get("item");

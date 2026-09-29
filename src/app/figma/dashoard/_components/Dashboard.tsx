@@ -8,7 +8,7 @@ import SorbonneCard from "./SorbonneCard";
 import DarmstadtCard from "./DarmstadtCard";
 import FourthCard from "./FourthCard";
 import ZennaIntro from "./ZennaIntro";
-import type { ViewId } from "../../dashboard/_lib/types";
+import type { ViewId } from "../../../dashboard/_supernova/lib/types";
 import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import TruncatedText from "@/components/TruncatedText/TruncatedText";
 

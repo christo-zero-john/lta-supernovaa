@@ -5,10 +5,10 @@ import {
   MENTORS,
   DOCUMENTS,
   NOTIFICATIONS,
-} from "../_lib/fixtures";
-import { hasAccess } from "../_lib/model";
+} from "../lib/fixtures";
+import { hasAccess } from "../lib/model";
 import { Icon } from "./ui";
-import type { ViewId } from "../_lib/types";
+import type { ViewId } from "../lib/types";
 export default function Topbar({ onMenu }: { onMenu: () => void }) {
   const { persona, state, uploads, navigate, openDialog } = useApp(),
     [query, setQuery] = useState(""),
