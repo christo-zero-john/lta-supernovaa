@@ -1,2 +1,32 @@
-import {APPLICATIONS} from '../_lib/fixtures';import {useApp} from './AppProvider';import {StatusBadge,ProgressBar} from './ui';
-export default function ApplicationRow({application:a}:{application:typeof APPLICATIONS[number]}){const{openDialog}=useApp();return <button className="sn-application" data-application onClick={()=>openDialog({kind:'application',id:a.id})}><span className="sn-mono">{a.mono}</span><span className="sn-application-main"><b>{a.uni}</b><small>{a.course}</small></span><StatusBadge tone={a.status}>{a.stTxt}</StatusBadge><span className="sn-application-progress"><small>Completion · {a.prog}%</small><ProgressBar value={a.prog}/></span><span className="sn-application-deadline"><b>{a.dl}</b><small>{a.dld}</small></span></button>;}
+import { APPLICATIONS } from "../_lib/fixtures";
+import { useApp } from "./AppProvider";
+import { StatusBadge, ProgressBar } from "./ui";
+export default function ApplicationRow({
+  application: a,
+}: {
+  application: (typeof APPLICATIONS)[number];
+}) {
+  const { openDialog } = useApp();
+  return (
+    <button
+      className="sn-application"
+      data-application
+      onClick={() => openDialog({ kind: "application", id: a.id })}
+    >
+      <span className="sn-mono">{a.mono}</span>
+      <span className="sn-application-main">
+        <b>{a.uni}</b>
+        <small>{a.course}</small>
+      </span>
+      <StatusBadge tone={a.status}>{a.stTxt}</StatusBadge>
+      <span className="sn-application-progress">
+        <small>Completion · {a.prog}%</small>
+        <ProgressBar value={a.prog} />
+      </span>
+      <span className="sn-application-deadline">
+        <b>{a.dl}</b>
+        <small>{a.dld}</small>
+      </span>
+    </button>
+  );
+}
