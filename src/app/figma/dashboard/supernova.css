@@ -89,6 +89,9 @@ body:has(.supernova) {
   margin: auto;
   min-height: 100dvh;
 }
+/* One sidebar for every view, with the first Figma dashboard's metrics.
+   Its typography is self-contained because the dashboard view renders
+   outside the .supernova scope. */
 .sn-sidebar {
   position: sticky;
   top: 0;
@@ -96,44 +99,58 @@ body:has(.supernova) {
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 25px 22px 16px;
-  scrollbar-width: thin;
+  padding: 21px 27px;
+  font:
+    400 14px/21px var(--sn-body),
+    sans-serif;
+  color: #0e0e10;
+  -webkit-font-smoothing: antialiased;
+}
+.sn-sidebar :is(button, a) {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.sn-sidebar :focus-visible {
+  outline: 2px solid #8764de;
+  outline-offset: 4px;
 }
 .sn-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  text-align: left;
-  background: none;
-  border: 0;
-  padding: 8px 8px 16px;
+  justify-content: center;
+  gap: 14.518px;
+  width: 176.125px;
+  height: 84px;
   flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
 }
+/* Exported SVGs keep their intrinsic Figma dimensions. */
 .sn-brand img {
-  width: 48px;
+  width: auto;
   height: auto;
+  max-width: none;
 }
 .sn-brand > span {
   font:
-    600 23px/0.9 var(--sn-heading),
+    600 21.073px/0.871 var(--sn-heading),
     sans-serif;
+  letter-spacing: 0.4215px;
   color: #654e9f;
-}
-.sn-brand small {
-  display: block;
-  font: 500 8px/1.5 var(--sn-body);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-top: 10px;
   white-space: nowrap;
-  color: #8b8297;
 }
-.sn-nav-label {
-  font-size: 10px;
-  letter-spacing: 1.8px;
+/* Scoped so the .supernova paragraph reset cannot remove its spacing. */
+.sn-sidebar .sn-nav-label {
+  margin: 24px 0 16px;
+  font-size: 12.65px;
+  line-height: 16px;
+  letter-spacing: 2.1083px;
   text-transform: uppercase;
-  color: #817d87;
-  padding: 19px 12px 9px;
+  color: #737476;
 }
 .sn-sidebar nav {
   display: flex;
@@ -145,30 +162,56 @@ body:has(.supernova) {
   gap: 12px;
   align-items: center;
   width: 100%;
-  min-height: 43px;
+  min-height: 45px;
   border: 0;
   border-radius: 12px;
   background: transparent;
-  padding: 10px 12px;
+  padding: 12px;
   text-align: left;
-  line-height: 1.35;
-  transition: background-color 150ms ease-out;
+  line-height: 21px;
 }
-.sn-nav-item > span:first-of-type {
+.sn-nav-text {
   flex: 1;
+  min-width: 0;
 }
 .sn-nav-item.active {
+  min-height: 44px;
   background: #fff;
   font-weight: 700;
+  line-height: 20px;
 }
-.sn-nav-item.active svg {
-  color: #8764de;
+/* Colors follow the Supernova navigation. */
+.sn-nav-item {
+  transition: background-color 150ms ease-out;
 }
 .sn-nav-item:hover:not(.active) {
   background: #ffffff60;
 }
 .sn-nav-item.locked {
   color: #8b8690;
+}
+/* Icons use the Figma sidebar's files as masks so any item can be active. */
+.sn-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #404040;
+}
+.sn-nav-item.active .sn-nav-icon {
+  color: #8764de;
+}
+.sn-nav-glyph {
+  display: block;
+  background-color: currentColor;
+  -webkit-mask: var(--sn-glyph) center / contain no-repeat;
+  mask: var(--sn-glyph) center / contain no-repeat;
+}
+/* Matches the Figma icons' ~1.33px rendered stroke (24-unit icons drawn at 20px). */
+.sn-nav-icon svg {
+  stroke-width: 1.6;
 }
 .sn-count {
   margin-left: auto;
@@ -178,11 +221,15 @@ body:has(.supernova) {
   min-width: 20px;
   text-align: center;
   font-size: 10px;
-  padding: 2px 5px;
+  line-height: 16px;
+  padding: 0 5px;
 }
 .sn-sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   margin-top: auto;
-  padding-top: 18px;
+  padding-top: 20px;
 }
 .sn-user {
   display: flex;
@@ -1553,12 +1600,6 @@ body:has(.supernova) {
   }
 }
 @media (max-width: 1150px) {
-  .sn-shell {
-    grid-template-columns: 215px minmax(0, 1fr);
-  }
-  .sn-sidebar {
-    padding-inline: 15px;
-  }
   .sn-content {
     padding: 20px;
   }
@@ -1627,24 +1668,23 @@ body:has(.supernova) {
     margin-left: 80px;
   }
 }
-@media (max-width: 850px) {
+/* Same narrow-desktop sidebar as the first Figma dashboard. */
+@media (max-width: 900px) {
   .sn-shell {
     grid-template-columns: 190px minmax(0, 1fr);
   }
-  .sn-brand > span {
-    font-size: 20px;
-  }
-  .sn-brand img {
-    width: 35px;
+  .sn-sidebar {
+    padding-inline: 16px;
   }
   .sn-brand {
-    gap: 8px;
-    padding-inline: 3px;
-  }
-  .sn-nav-item {
-    font-size: 11px;
+    width: 158px;
     gap: 8px;
   }
+  .sn-brand > span {
+    font-size: 19px;
+  }
+}
+@media (max-width: 850px) {
   .sn-content {
     padding: 18px;
   }
@@ -1701,7 +1741,7 @@ body:has(.supernova) {
     display: flex;
     position: fixed;
     inset: 0 auto 0 0;
-    width: 247px;
+    width: 220px;
     z-index: 70;
     background: #e8e4ec;
     box-shadow: 10px 0 40px #35243c30;
@@ -1730,7 +1770,7 @@ body:has(.supernova) {
     z-index: 60;
   }
   .sn-sidebar .sn-brand {
-    padding-top: 20px;
+    margin-top: 20px;
   }
   .sn-topbar .sn-whatsapp {
     display: none;
