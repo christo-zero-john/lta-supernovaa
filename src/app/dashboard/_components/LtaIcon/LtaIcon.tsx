@@ -4,19 +4,19 @@ import "./LtaIcon.css";
 
 const LtaIcon: React.FC = () => {
   return (
-    <div className="common--flex-row common--align-center ltaicon--container">
+    <div className="ltaicon--container">
       <Image
         src="/assets/icons/LTALogoIcon.svg"
-        alt="LTA Icon"
-        width={55}
-        height={55}
+        alt=""
+        width={53.49}
+        height={36.67}
         className="ltaicon--logo"
       />
       <span className="ltaicon--text">
-        <p className="common--margin-0">Letters</p>
-        <p className="common--margin-0">to Abroad</p>
+        Letters
+        <br />
+        to Abroad
       </span>
-      <span className="ltaicon--text-mobile">LTA</span>
     </div>
   );
 };

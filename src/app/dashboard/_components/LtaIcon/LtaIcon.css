@@ -1,68 +1,52 @@
+/* Logo block from the Figma dashboard reference. */
 .ltaicon--container {
-  width: 100%;
-  justify-content: flex-start;
-  gap: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14.518px;
+  width: 176.125px;
+  height: 84px;
+  flex-shrink: 0;
+}
+
+.ltaicon--logo {
+  width: 53.49px;
+  height: auto;
+  flex-shrink: 0;
 }
 
 .ltaicon--text {
   color: #654e9f;
-  font-family: var(--font-anek-bangla);
-  font-size: 20px;
-  font-style: normal;
+  font-family: var(--font-anek-bangla), sans-serif;
+  font-size: 21.073px;
   font-weight: 600;
-  line-height: 87%;
-  letter-spacing: 0.421px;
+  line-height: 0.871;
+  letter-spacing: 0.4215px;
+  white-space: nowrap;
 }
 
-.ltaicon--logo {
-  width: 55px;
-  height: auto;
-}
-
-.ltaicon--text-mobile {
-  display: none;
-}
-
-@media (min-width: 768px) and (max-width: 1280px) {
-  .ltaicon--text {
-    display: none;
-  }
-  .ltaicon--logo {
-    width: 40px;
-    height: auto;
-  }
-  .ltaicon--text-mobile {
-    display: block;
-    color: #654e9f;
-    font-family: var(--font-anek-bangla);
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 87%;
-    letter-spacing: 0.421px;
-  }
+@media (max-width: 900px) {
   .ltaicon--container {
-    justify-content: center;
-    width: 100%;
-    gap: 0.5rem;
+    width: 158px;
+    gap: 8px;
+  }
+  .ltaicon--text {
+    font-size: 19px;
   }
 }
 
-@media (max-width: 499px) {
-  .ltaicon--text {
+/* Compact version in the narrow-screen header. */
+@media (max-width: 700px) {
+  .header--main-container-mobile-screen .ltaicon--container {
+    width: auto;
+    height: auto;
+    gap: 8px;
+  }
+  .header--main-container-mobile-screen .ltaicon--logo {
+    width: 35px;
+  }
+  .header--main-container-mobile-screen .ltaicon--text {
     font-size: 13px;
     letter-spacing: 0.276px;
-    text-wrap: nowrap;
-  }
-  .ltaicon--text-mobile {
-    display: none;
-  }
-  .ltaicon--logo {
-    width: 35px;
-    height: auto;
-  }
-  .ltaicon--container {
-    justify-content: flex-start;
-    gap: 0.5rem;
-    width: 100%;
   }
 }
