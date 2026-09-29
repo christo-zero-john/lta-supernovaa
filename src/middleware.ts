@@ -10,6 +10,13 @@ const publicRoutes = [
 ];
 
 export async function middleware(request: NextRequest) {
+  // A deterministic design reference; it never reads or mutates account data.
+  if (
+    request.nextUrl.pathname === "/figma/dashoard" ||
+    request.nextUrl.pathname === "/figma/dashboard"
+  ) {
+    return NextResponse.next();
+  }
   const token = request.cookies.get("token")?.value || "";
   const { pathname } = request.nextUrl;
 
