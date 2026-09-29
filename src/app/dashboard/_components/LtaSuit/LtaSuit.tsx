@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import "./LtaSuit.css";
 import VideoModal from "@/app/dashboard/_components/VideoModal/VideoModal";
 
@@ -61,7 +62,7 @@ const LtaSuit: React.FC = () => {
       <>
         <div className="lta-suit--wrapper">
           <p className="lta-suit--heading">Explore LTA Suit</p>
-          <div className="lta-suit--container">
+          <SmoothScrollArea className="lta-suit--container" orientation="horizontal">
             {LTA_SUIT_ARRAY.map((item) => (
                 <div key={item.id} className="lta-suit--card">
                   <div className="lta-suit--header">
@@ -102,7 +103,7 @@ const LtaSuit: React.FC = () => {
                   </div>
                 </div>
             ))}
-          </div>
+          </SmoothScrollArea>
         </div>
 
         <VideoModal
