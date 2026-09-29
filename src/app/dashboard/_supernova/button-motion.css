@@ -1,5 +1,5 @@
 /* Move the existing inset reflection around the edge, without another overlay. */
-.lta-reference-root :is(.sn-button.primary, .primary-cta, .product-action) {
+.supernova :is(.sn-button.primary, .primary-cta, .product-action) {
   --lta-edge-shade: rgba(202, 183, 236, 0.78);
   background:
     linear-gradient(
@@ -13,7 +13,7 @@
   backdrop-filter: blur(10px) saturate(1.15);
   box-shadow: inset 0 3px 1px var(--lta-edge-shade);
 }
-.lta-reference-root :is(.sn-button.secondary, .chat-cta) {
+.supernova :is(.sn-button.secondary, .chat-cta) {
   --lta-edge-shade: rgba(255, 255, 255, 0.95);
   background:
     linear-gradient(
@@ -27,7 +27,7 @@
   box-shadow: inset 0 3px 1px var(--lta-edge-shade);
 }
 @media (hover: hover) {
-  .lta-reference-root
+  .supernova
     :is(
       .sn-button.primary,
       .sn-button.secondary,
@@ -38,7 +38,7 @@
     animation: lta-edge-reflection 2.6s linear infinite;
   }
 }
-.lta-reference-root
+.supernova
   :is(
     .sn-button.primary,
     .sn-button.secondary,
@@ -64,18 +64,18 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .lta-reference-root
+  .supernova
     :is(.sn-button, .primary-cta, .product-action, .chat-cta) {
     animation: none !important;
   }
 }
 
 /* Keep the glass fill constant while its existing edge reflection moves. */
-.lta-reference-root
+.supernova
   :is(.sn-button.primary, .primary-cta, .product-action):hover {
   background-color: rgba(107, 90, 137, 0.86);
 }
-.lta-reference-root :is(.sn-button.secondary, .chat-cta):hover {
+.supernova :is(.sn-button.secondary, .chat-cta):hover {
   background:
     linear-gradient(
       180deg,
