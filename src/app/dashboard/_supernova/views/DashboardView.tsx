@@ -1,3 +1,5 @@
+"use client";
+
 import OriginalDashboard from "../../../figma/dashoard/_components/Dashboard";
 import { useApp } from "../components/AppProvider";
 import { useShellNavigation } from "../components/AppShell";

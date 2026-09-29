@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { useApp } from "../components/AppProvider";
 import { CHANCE_UNIVERSITIES } from "../lib/fixtures";

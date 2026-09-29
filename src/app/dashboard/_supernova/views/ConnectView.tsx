@@ -1,3 +1,5 @@
+"use client";
+
 import { useApp } from "../components/AppProvider";
 import { MENTORS } from "../lib/fixtures";
 import { Button, Card, Icon } from "../components/ui";

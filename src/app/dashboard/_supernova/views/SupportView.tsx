@@ -1,3 +1,5 @@
+"use client";
+
 import { FAQS, HELP_CARDS } from "../lib/fixtures";
 import { useApp } from "../components/AppProvider";
 import { Button, Card, Icon } from "../components/ui";

@@ -1,3 +1,5 @@
+"use client";
+
 import { useApp } from "../components/AppProvider";
 import { JOBS } from "../lib/jobs";
 import Gate from "../components/Gate";

@@ -1,3 +1,5 @@
+"use client";
+
 import { useApp } from "../components/AppProvider";
 import { NOTIFICATIONS } from "../lib/fixtures";
 import { Card, Icon } from "../components/ui";
