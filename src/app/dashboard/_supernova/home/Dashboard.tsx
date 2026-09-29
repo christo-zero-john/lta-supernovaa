@@ -140,8 +140,13 @@ function Events({
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState<number>(today.getMonth());
   const [currentYear, setCurrentYear] = useState<number>(today.getFullYear());
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [bookedEvents, setEvents] = useState<CalendarEvent[]>([]);
+  const [fetching, setLoading] = useState<boolean>(true);
+  // Chosen dummy events (four this month) stand in for the booked sessions.
+  const demo = useDemoData();
+  const showDemo = demo.has("events");
+  const events = showDemo ? demo.events : bookedEvents;
+  const loading = !showDemo && fetching;
 
   useEffect(() => {
     const fetchSlots = async () => {
