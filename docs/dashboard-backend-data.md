@@ -2,7 +2,7 @@
 
 What the backend needs to answer, and in what format, to replace the dummy data on the student dashboard and every page in its menu.
 
-Source: the Supernova reference at `/figma/dashboard` (`src/app/dashboard/_supernova`, `src/app/figma/dashoard`) and the live `/dashboard`. Today every value on those pages is hardcoded in `src/app/dashboard/_supernova/lib/fixtures.ts`, `lib/jobs.ts`, or inline in components. The "Free user / Paid client / Project004 era" persona switcher is a demo control; the **Global → user tier / product access** section replaces it.
+Source: the Supernova reference at `/figma/dashboard` (`src/app/dashboard/_supernova`, `src/app/figma/dashoard`) and the live `/dashboard`. Today every value on those pages is hardcoded in `src/app/dashboard/_supernova/lib/fixtures.ts`, `lib/jobs.ts`, or inline in components. The "Free user / Paid client / Project004 era" persona switcher is a demo control; the **Global → user tier** and **product launch status** sections replace it.
 
 ## Conventions
 
@@ -50,22 +50,28 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 - Remove photo: 🆕 `DELETE users/me/profile-picture/` (the frontend then shows the placeholder avatar again).
 - Dismiss prompt: 🆕 `POST users/me/profile-prompt/dismiss/`, or a `profile_prompt_dismissed_at` field set with the `PATCH`.
 
-## Feature: user tier / product access (replaces the persona switcher)
-- Is the user a free user or a paid/verified LTA client?
-- For each product, what access does this user have? This drives the sidebar lock icons, the lock screens, and the "Free For All" / "LTA Members Only" tags.
-- Is Zenna active for them, or archived because their admission is done?
-- Is the user on Connect as a student or as a mentor?
-- Is LTA Connect open to everyone yet? The Home page currently shows it as "Coming Soon" and locked, hardcoded.
-- Is Project004 live? (Not answered by the backend yet; the project team decides this later, so a config flag is enough for now.)
-    - Format needed (added to `users/me/` or 🆕 `GET users/me/entitlements/`):
+## Feature: user tier (replaces the persona switcher)
+There is one tier question: is the user a paid LTA client or not.
+- **Free:** Course Shortlisting.
+- **Paid:** Course Shortlisting, Zenna, and Project004 as an extension of the paid plan once it launches.
+- This drives the sidebar lock icons, the lock screens, and the "Free For All" / "LTA Members Only" tags.
+- Is the user a paid client?
+- Once LTA Connect is live, is it for everyone or only for paid users? (Its first Figma tag said "Free For All".)
+    - Format needed (added to `users/me/`):
+    ```json
+    { "is_paid": true }
+    ```
+
+## Feature: product launch status (the same for every user)
+Not a per-user answer: a setting the project team flips when a product launches.
+- Is LTA Connect open yet? Home currently shows it as "Coming Soon" and locked, hardcoded.
+- Is Project004 live? (The project team decides this later, so a config flag is enough for now.)
+    - Format needed (🆕 `GET config/`, or included in `users/me/`):
     ```json
     {
-        "tier": "free | paid",
-        "products": {
-            "course_shortlisting": { "access": "active" },
-            "zenna": { "access": "locked | active | archived" },
-            "connect": { "access": "locked | waitlisted | student | mentor", "is_live": false, "launch_label": "Coming Soon" },
-            "project004": { "access": "locked | active", "is_live": false, "launch_label": "Coming 2027" }
+        "launches": {
+            "connect": { "is_live": false, "label": "Coming Soon" },
+            "project004": { "is_live": false, "label": "Coming 2027" }
         }
     }
     ```
@@ -136,7 +142,7 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
     The frontend calculates "10 days left" from `application_deadline`. Is `course_fee` tuition or cost of living? The current API only has `cost_of_living`.
 
 ### Feature: Explore LTA Suite cards
-- Access tag per product (Free For All / LTA Members Only, with lock): comes from the entitlements above.
+- Access tag per product (Free For All / LTA Members Only / Coming Soon, with lock): comes from `is_paid` and the launch status above.
 - Are the intro videos fixed, or managed by the backend or CMS? Right now one S3 URL is hardcoded.
     - Format (only if backend-managed): `[ { "product": "zenna", "video_url": "string", "thumbnail_url": "string" } ]`
 
@@ -274,7 +280,7 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 # Page: Zenna (application tracker)
 
 ### Feature: access / lock screen
-- Zenna access (`locked | active | archived`) comes from the entitlements.
+- Zenna is unlocked when `is_paid` is true.
 - Locked users see "Apply with LTA" (opens team booking) and "Talk to us first" (opens contact). Nothing new needed from the backend.
 
 ### Feature: summary stats
@@ -341,18 +347,13 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 - Who is the user's assigned application mentor (currently "Jisha")?
     - Format: `{ "counsellor": { "name": "string", "photo_url": "string | null", "whatsapp_url": "string" } }`
 
-### Feature: archived view (after admission)
-- Which university and course was the user admitted to, and when did they enrol?
-- Download the full admissions record: will the backend generate a PDF?
-    - Format: `{ "admitted_university": "string", "course_name": "string", "enrolled_at": "2026-08-01", "total_applications": 9, "offers": 2, "record_pdf_url": "string" }`
-
 ---
 
 # Page: LTA Connect
 
 ### Feature: access / waitlist
-- Connect access (`locked | waitlisted | student | mentor`) comes from the entitlements.
-- Join the waitlist: 🆕 `POST connect/waitlist/`. Is "you're on the list" part of the entitlement state?
+- Connect stays locked for everyone until it launches (launch status above). After launch, free users see it locked only if it is paid-only (see the tier question).
+- Join the waitlist: 🆕 `POST connect/waitlist/`. Can `users/me/` return `"connect_waitlisted": true`, so the button shows "You're on the list"?
 
 ### Feature: next session + booked sessions
 - ✅ `booked-slot/upcoming/` and `booked-slot/` exist. Missing: session topic and meeting link.
@@ -381,24 +382,6 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
     - Which slots does this mentor have free in a given month? 🆕 `GET connect/mentors/{id}/availability/?month=` returns `[ { "slot_id", "start_at", "end_at" } ]`
     - Is booking paid? `order_status` and `amount` suggest Razorpay. If so, what is the order and payment flow?
     - Book: `POST booked-slot/` `{ "slot_id" }`. Reschedule: 🆕 `PATCH booked-slot/{id}/` `{ "slot_id" }`. What is the cancellation or reschedule policy?
-
-### Feature: mentor mode (alumni who now mentor)
-- How many aspirants requested a session with this mentor, and who are they?
-- Accept or decline a request.
-- Payout info ("sessions pay out monthly").
-    - Format: 🆕 `GET connect/mentor/requests/`
-    ```json
-    [
-        {
-            "request_id": "string",
-            "aspirant_name": "string",
-            "topic": "string",
-            "requested_at": "ISO",
-            "state": "pending | accepted | declined"
-        }
-    ]
-    ```
-    - Actions: `POST connect/mentor/requests/{id}/accept/` and `.../decline/`
 
 ---
 
@@ -444,7 +427,7 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 # Page: Project004 (jobs, competitions)
 
 ### Feature: access
-- Is Project004 live, and does this user have access? From `project004.is_live` and `access` above. The project team decides launch; no backend answer yet.
+- Project004 opens for paid users (`is_paid`) once it is live (launch status above). The project team decides launch; no backend answer yet.
 - "Notify me at launch": 🆕 `POST project004/notify-me/`
 
 ### Feature: stats row
@@ -494,10 +477,10 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 
 # Summary
 
-**Already there, needs extra fields:** `users/me/` (journey stage, entitlements, gender, missing profile fields; plus new endpoints to update the name and upload the photo), `booked-slot/` (mentor name and photo, topic), `shortlisted-courses/` (logo, image, location, duration, fee, deadline), `applications/` (status group, deadline, next action, short code), `students/me/stats/` (Zenna summary shape), and `booked-slot/` / `booked-slot/upcoming/` (topic, join link, month filter).
+**Already there, needs extra fields:** `users/me/` (journey stage, `is_paid`, gender, missing profile fields; plus new endpoints to update the name and upload the photo), `booked-slot/` (mentor name and photo, topic), `shortlisted-courses/` (logo, image, location, duration, fee, deadline), `applications/` (status group, deadline, next action, short code), `students/me/stats/` (Zenna summary shape), and `booked-slot/` / `booked-slot/upcoming/` (topic, join link, month filter).
 
 **Entirely new, roughly in priority order:**
-1. Entitlements. Every lock, gate and tag depends on it, so it unblocks the most.
+1. `is_paid` and the launch status. Every lock, gate and tag depends on them, so they unblock the most.
 2. Profile update: name and photo upload. It's small, and every page shows the name and photo.
 3. Notifications.
 4. Documents.
@@ -506,8 +489,7 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 7. Team-call booking.
 8. Course Shortlisting check.
 9. Zenna AI findings.
-10. Mentor requests.
-11. Project004. Last, because it is not live.
+10. Project004. Last, because it is not live.
 
 **Could stay as fixed frontend text if the team prefers:** testimonials, FAQs, help channels, product intro videos and social links. Each is listed as a question above so the team can decide rather than build them by default.
 
@@ -517,4 +499,4 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 - Who decides when Project004 goes live? (Project team; a config flag is enough for now.)
 - Do notifications update live, or on page load?
 
-**Not covered:** the demo copy in `fixtures.ts` for the "what matters today" focus banner, the hero cards and the journey steps (`FOCUS`, `HERO`, `JOURNEY`). No page renders them today.
+**Not covered:** Zenna's "archived after admission" view and Connect's "mentor mode" (alumni answering requests). Both came from the concept demo's personas, not from a real tier, so they are not asked for. Also not covered: the demo copy in `fixtures.ts` for the "what matters today" focus banner, the hero cards and the journey steps (`FOCUS`, `HERO`, `JOURNEY`). No page renders them today.
