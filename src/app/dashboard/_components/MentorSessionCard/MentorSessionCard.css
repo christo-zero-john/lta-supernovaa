@@ -273,11 +273,15 @@
     line-height: 18px;
     color: #ffffff;
     white-space: nowrap;
-    transition: opacity 0.2s ease;
+    transition: background-color 0.2s ease-out;
 }
 
 .mentor-session--days-left-btn:hover {
-    opacity: 0.85;
+    background: linear-gradient(
+        180deg,
+        rgba(77, 55, 131, 0.2) 0%,
+        rgba(238, 227, 255, 0.2) 51.44%
+    ), #5b4b7a;
 }
 
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */
