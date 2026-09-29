@@ -32,7 +32,6 @@
 ## Local tools, skills and security
 
 - Use `pnpx skills` (on Windows `pnpm.cmd dlx skills`) to manage any additional outside skills. Keep installed skills, lock files, tool caches and transient exports ignored; do not ignore production assets or project guidance.
-- Existing provided skills are sufficient for the Figma reference workflow; no outside skills need to be installed by default.
 - Preserve `.env.local`. Never output cookies, tokens, passwords or secret values. Public configuration belongs in `.env.example`.
 - Do not write to the shared live backend just to verify a visual reference. Do not deploy, push or change remote accounts without explicit authorization.
 
