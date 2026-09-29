@@ -1,35 +1,47 @@
+/* Footer from the Figma dashboard reference: a mentor card on the left,
+   the brand column on the right. */
 .footer--container {
   display: flex;
+  align-items: stretch;
   justify-content: space-between;
-  align-items: center;
+  gap: 24px;
   width: 100%;
-  margin: 0 auto;
-  padding: 12px 26px;
-  background-color: rgba(235, 230, 227, 0.36);
-  border-radius: 17px;
-  font-family: var(--font-plus-jakarta-sans, sans-serif);
+  min-height: 170px;
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
 }
 
 .footer--left-section {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-width: 600px;
+  width: 476px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 24px;
+  border-radius: 17px;
+  background: rgba(235, 230, 227, 0.36);
 }
 
 .footer--caption {
+  max-width: 372px;
+  margin: 0;
+  font-family: var(--figma-geist), sans-serif;
   font-size: 18px;
   font-weight: 500;
-  color: #242a33;
   line-height: 27px;
   letter-spacing: -0.54px;
-  margin: 0;
+  color: #242a33;
 }
 
 .footer--cta-row {
   display: flex;
   gap: 12px;
   align-items: center;
+}
+
+/* The call-to-action buttons are currently commented out in Footer.tsx. */
+.footer--cta-row:empty {
+  display: none;
 }
 
 .footer--btn-primary {
@@ -42,7 +54,7 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
   letter-spacing: -0.28px;
   line-height: 20px;
   transition: background-color 0.2s ease-out;
@@ -83,7 +95,7 @@
   font-size: 14px;
   font-weight: 600;
   color: #000000;
-  font-family: "Manrope", sans-serif;
+  font-family: var(--figma-manrope), sans-serif;
   letter-spacing: 0.14px;
   line-height: 35px;
 }
@@ -92,23 +104,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  width: 340.791px;
+  min-width: 0;
+  padding: 17px 0;
   text-align: center;
-  padding: 10px 0;
 }
 
 .footer--brand-group {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 13px;
 }
 
 .footer--lta-logo {
   display: flex;
   justify-content: center;
-  width: 30px;
-  height: 20px;
+  width: 30.084px;
+  height: 20.622px;
 }
 
 .footer--lta-icon {
@@ -118,20 +131,22 @@
 }
 
 .footer--social-proof-text {
-  font-family: "Manrope", sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  color: #000000;
+  font-family: var(--figma-manrope), sans-serif;
+  font-size: 14px;
+  font-weight: 500;
   line-height: 18px;
-  letter-spacing: 0.13px;
+  letter-spacing: 0.14px;
+  color: #000000;
   text-align: center;
-  max-width: 151px;
 }
 
 .footer--social-icons {
   display: flex;
-  gap: 17px;
   align-items: center;
+  justify-content: center;
+  gap: 16.875px;
+  margin-top: auto;
+  padding-top: 20px;
 }
 
 .footer--social-link {
@@ -145,36 +160,30 @@
   opacity: 0.8;
 }
 
-@media (max-width: 768px) {
+.footer--social-link:focus-visible {
+  outline: 2px solid #8764de;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@container panel (max-width: 1060px) {
+  .footer--right-section {
+    width: 230px;
+  }
+}
+
+@container panel (max-width: 850px) {
   .footer--container {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 40px;
-    padding: 40px 16px;
-    border-radius: 0;
   }
-  .footer--left-section {
-    align-items: center;
-    width: 100%;
-  }
-  .footer--caption {
-    font-size: 14px;
-    text-align: center;
-  }
-  .footer--cta-row {
-    flex-direction: column;
-    width: 100%;
-    gap: 16px;
-  }
-  .footer--btn-primary,
-  .footer--btn-secondary {
-    width: 100%;
-    justify-content: center;
-  }
+  .footer--left-section,
   .footer--right-section {
-    align-items: center;
-    text-align: center;
     width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .footer--cta-row {
+    flex-wrap: wrap;
   }
 }
