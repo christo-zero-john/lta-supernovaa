@@ -55,6 +55,7 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 - For each product, what access does this user have? This drives the sidebar lock icons, the lock screens, and the "Free For All" / "LTA Members Only" tags.
 - Is Zenna active for them, or archived because their admission is done?
 - Is the user on Connect as a student or as a mentor?
+- Is LTA Connect open to everyone yet? The Home page currently shows it as "Coming Soon" and locked, hardcoded.
 - Is Project004 live? (Not answered by the backend yet; the project team decides this later, so a config flag is enough for now.)
     - Format needed (added to `users/me/` or 🆕 `GET users/me/entitlements/`):
     ```json
@@ -63,7 +64,7 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
         "products": {
             "course_shortlisting": { "access": "active" },
             "zenna": { "access": "locked | active | archived" },
-            "connect": { "access": "locked | waitlisted | student | mentor" },
+            "connect": { "access": "locked | waitlisted | student | mentor", "is_live": false, "launch_label": "Coming Soon" },
             "project004": { "access": "locked | active", "is_live": false, "launch_label": "Coming 2027" }
         }
     }
@@ -142,6 +143,10 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 ### Feature: Upcoming events + calendar
 - Does the user have any upcoming events (LTA webinars, workshops)?
 - Which of the user's own booked sessions fall in the selected month? These mark calendar days. ✅ `GET booked-slot/` exists. Can it take a `?from=&to=` month filter?
+- Who is each booked session with? `booked-slot/` only returns `name`, which is the student's own name, so the calendar can only say "Session with <your name>". It needs the mentor's name and photo, and the session topic, like `booked-slot/upcoming/` has:
+    ```json
+    { "mentor_profile": { "full_name": "string", "profile_picture": "string | null" }, "topic": "string", "join_url": "string | null" }
+    ```
 - Are events the same for everyone, or targeted by intake or field?
 - Can the user register for an event? If so, what is the register endpoint, and what is the join link?
     - Format needed: 🆕 `GET events/?from=2026-02-01&to=2026-02-28`
@@ -183,8 +188,9 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 - "Book a session" opens the booking flow (see Connect and Support).
 - "Chat with a Mentor": what is the WhatsApp number or link? One fixed LTA number, or the user's assigned counsellor?
 
-### Live-dashboard-only blocks (already on the API)
-- Stats row ✅ `students/me/stats/`, applications table ✅ `applications/`, next mentor session card ✅ `booked-slot/upcoming/`, course shortlist ✅ `shortlisted-courses/`. When the Supernova design moves to the live dashboard, these should use the formats in the Zenna and Connect sections below.
+### What the live dashboard calls today
+- The redesigned dashboard calls only ✅ `users/me/`, ✅ `shortlisted-courses/` (Home cards) and ✅ `booked-slot/` (Home calendar). Every other page shows empty states, or the dummy data chosen from the navbar's "Choose options" switch (`src/app/dashboard/_supernova/demo/demo-data.json`). That file's field names follow the current UI, not the formats in this doc.
+- ✅ `students/me/stats/`, ✅ `applications/` and ✅ `booked-slot/upcoming/` exist but are no longer called. They should come back through the Zenna and Connect formats below.
 
 ---
 
@@ -416,6 +422,7 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 ### Feature: calculate chances
 - **Key decision:** does the backend calculate the percentages? The frontend currently runs a made-up formula with invented "difficulty" values, so the numbers are not real.
 - Are the results saved? Do they become the user's `shortlisted-courses` (the dashboard carousel)?
+- If saved, can the page load the last report when it opens? 🆕 `GET cst/report/` returns `{ "checked_at": "ISO", "profile": { ... }, "results": [ ...same as below ] }`, or `null` if the user never ran a check.
     - Format: 🆕 `POST cst/check/` `{ "degree", "cgpa", "ielts", "german_level", "field" }` returns
     ```json
     [
@@ -487,7 +494,7 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 
 # Summary
 
-**Already there, needs extra fields:** `users/me/` (journey stage, entitlements, gender, missing profile fields; plus new endpoints to update the name and upload the photo), `shortlisted-courses/` (logo, image, location, duration, fee, deadline), `applications/` (status group, deadline, next action, short code), `students/me/stats/` (Zenna summary shape), and `booked-slot/` / `booked-slot/upcoming/` (topic, join link, month filter).
+**Already there, needs extra fields:** `users/me/` (journey stage, entitlements, gender, missing profile fields; plus new endpoints to update the name and upload the photo), `booked-slot/` (mentor name and photo, topic), `shortlisted-courses/` (logo, image, location, duration, fee, deadline), `applications/` (status group, deadline, next action, short code), `students/me/stats/` (Zenna summary shape), and `booked-slot/` / `booked-slot/upcoming/` (topic, join link, month filter).
 
 **Entirely new, roughly in priority order:**
 1. Entitlements. Every lock, gate and tag depends on it, so it unblocks the most.
