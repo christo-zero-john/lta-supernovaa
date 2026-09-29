@@ -14,4 +14,6 @@ export const SMOOTH_SCROLL_OPTIONS: LenisOptions = {
     allowNestedScroll: true,
     stopInertiaOnNavigate: true,
     autoRaf: true,
+    // Shift+wheel means "scroll sideways"; leave it to horizontal areas.
+    virtualScroll: ({ event }) => !event.shiftKey,
 };
