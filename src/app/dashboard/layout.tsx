@@ -5,6 +5,7 @@ import Sidebar from "@/app/dashboard/_components/Sidebar/Sidebar";
 import Header from "@/app/dashboard/_components/Header/Header";
 import axiosInstance from "@/lib/axios";
 import useStore from "@/store/useStore";
+import "./dashboard-motion.css";
 
 export default function DashboardLayout({
                                             children,
