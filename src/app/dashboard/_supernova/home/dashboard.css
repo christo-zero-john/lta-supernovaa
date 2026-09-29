@@ -90,8 +90,10 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .calendar-day { transition: background-color 150ms ease-out; }
 .calendar-day:not(.empty):hover { background-color: rgba(232,235,239,.4); }
 .testimonials-section { display: flex; flex-direction: column; gap: 18px; }
-/* Stays inside the panel so every card shows its full rounded edge. */
-.testimonials-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; padding-top: 1px; }
+/* Three whole cards per view, scrolling sideways; stays inside the panel so every card shows its full rounded edge. */
+.testimonials-grid { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 48px) / 3); gap: 24px; padding-top: 1px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.testimonials-grid::-webkit-scrollbar { display: none; }
+.testimonial { scroll-snap-align: start; }
 .testimonial { position: relative; min-height: 277.682px; overflow: hidden; border: 2.865px solid rgba(103,97,116,.1); border-radius: 30.796px; background: rgba(255,255,255,.1); box-shadow: inset 0 1.432px 2.865px rgba(255,255,255,.25); }
 .testimonial-background { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; }
 .testimonial-background img { position: absolute; height: 76.4%; left: 37.5%; top: -11.12%; width: 62.5%; max-width: none; }
@@ -148,7 +150,7 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
   .event-row { grid-template-columns: 76px 51.795px minmax(0,1fr); gap: 12px; }
   .event-photo { width: 76px; }
   .calendar-day small { font-size: 12px; line-height: 16px; }
-  .testimonials-grid { grid-template-columns: 1fr; width: 100%; }
+  .testimonials-grid { grid-auto-columns: 100%; width: 100%; }
   .testimonial { min-height: 277.682px; height: auto; }
   .testimonial-copy { padding-left: 24.35px; padding-right: 24.35px; }
   .university-badge { line-height: 32.228px; padding: 0 20.769px; width: fit-content; max-width: 100%; }
