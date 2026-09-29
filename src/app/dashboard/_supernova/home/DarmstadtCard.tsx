@@ -1,5 +1,7 @@
 /* Figma 1:720: local assets retain the exported crop and compositing geometry. */
 /* eslint-disable @next/next/no-img-element */
+import type { UniversityCardProps } from "./universityCard";
+
 const imgFrame2147228722 = "/assets/dashboard/1-720-imgFrame2147228722.png";
 const imgRectangle2601 = "/assets/dashboard/1-720-imgRectangle2601.png";
 const imgRectangle2602 = "/assets/dashboard/1-720-imgRectangle2602.png";
@@ -9,7 +11,15 @@ const imgEllipse6014 = "/assets/dashboard/1-720-imgEllipse6014.svg";
 const imgLucideCalendar = "/assets/dashboard/1-720-imgLucideCalendar.svg";
 const imgLucideBadgeEuro = "/assets/dashboard/1-720-imgLucideBadgeEuro.svg";
 
-export default function DarmstadtCard() {
+export default function DarmstadtCard({
+  chance,
+  badge,
+  name,
+  location,
+  course,
+  intake,
+  cost,
+}: UniversityCardProps) {
   return (
     <div className="content-stretch flex flex-col items-start justify-end overflow-clip relative rounded-[32px] size-full" data-node-id="1:720">
       <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[32px]">
@@ -23,7 +33,7 @@ export default function DarmstadtCard() {
         <div className="content-stretch flex items-start justify-between relative shrink-0 w-full" data-node-id="1:722">
           <div className="content-stretch flex h-[28px] items-center overflow-clip relative shrink-0" data-node-id="1:723">
             <div className="[word-break:break-word] bg-clip-text bg-gradient-to-b capitalize flex flex-col font-rubik font-semibold from-[9.135%] from-white italic justify-center leading-[0] relative shrink-0 text-[42.432px] text-[transparent] text-center to-[rgba(255,255,255,0)] tracking-[-1.6973px] whitespace-nowrap" data-node-id="1:724">
-              <p className="leading-[111px]">12%</p>
+              <p className="leading-[111px]">{chance}</p>
             </div>
           </div>
           <div className="bg-[rgba(255,255,255,0.15)] content-stretch flex gap-[5px] items-center justify-center px-[10px] py-[6px] relative rounded-[40px] shrink-0" data-node-id="1:725">
@@ -31,7 +41,7 @@ export default function DarmstadtCard() {
               <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgHourglassMedium} />
             </div>
             <div className="[word-break:break-word] flex flex-col font-jakarta font-bold justify-center leading-[0] relative shrink-0 text-[#eaecef] text-[12px] tracking-[0.24px] whitespace-nowrap" data-node-id="1:728">
-              <p className="leading-[15px]">10 days left</p>
+              <p className="leading-[15px]">{badge}</p>
             </div>
             <div className="absolute left-[-31.67px] size-[61.277px] top-[-145.78px]" data-node-id="1:729">
               <div className="absolute left-0 size-[61.277px] top-0" data-node-id="1:730">
@@ -43,7 +53,7 @@ export default function DarmstadtCard() {
                 </div>
               </div>
               <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute capitalize flex flex-col font-rubik font-extrabold italic justify-center leading-[0] left-[calc(50%-0.14px)] text-[16px] text-center text-white top-1/2 tracking-[-0.64px] whitespace-nowrap" data-node-id="1:732">
-                <p className="leading-[24px]">80%</p>
+                <p className="leading-[24px]">{chance}</p>
               </div>
             </div>
           </div>
@@ -66,10 +76,10 @@ export default function DarmstadtCard() {
           <div className="content-stretch flex flex-[1_0_0] gap-[12px] items-start min-w-px relative" data-node-id="1:735">
             <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start justify-center leading-[0] min-w-px relative" data-node-id="1:736">
               <div className="flex flex-col font-jakarta font-bold justify-center relative shrink-0 text-[15px] text-white w-full" data-node-id="1:737">
-                <p className="leading-[24px]">TU Darmstadt</p>
+                <p className="leading-[24px]">{name}</p>
               </div>
               <div className="flex flex-col font-jakarta font-normal justify-center relative shrink-0 text-[#eaecef] text-[14px] w-full" data-node-id="1:738">
-                <p className="leading-[18px]">Munich, Germany</p>
+                <p className="leading-[18px]">{location}</p>
               </div>
             </div>
           </div>
@@ -77,7 +87,7 @@ export default function DarmstadtCard() {
         <div className="content-stretch flex flex-col gap-[8px] items-start justify-end relative shrink-0 w-[241px]" data-node-id="1:740">
           <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-node-id="1:741">
             <div className="[word-break:break-word] flex flex-col font-jakarta font-bold justify-center leading-[0] relative shrink-0 text-[13px] text-white tracking-[0.26px] w-full" data-node-id="1:742">
-              <p className="leading-[22px]">{`Msc Technology of Biogenic `}</p>
+              <p className="leading-[22px]">{course}</p>
             </div>
           </div>
           <div className="content-stretch flex items-center justify-between relative shrink-0 w-full" data-node-id="1:743">
@@ -86,7 +96,7 @@ export default function DarmstadtCard() {
                 <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgLucideCalendar} />
               </div>
               <div className="[word-break:break-word] capitalize flex flex-col font-inter font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#eaecef] text-[12px] whitespace-nowrap" data-node-id="1:750">
-                <p className="leading-[18px]">4 yr course</p>
+                <p className="leading-[18px]">{intake}</p>
               </div>
             </div>
             <div className="content-stretch flex gap-[6px] items-center relative shrink-0" data-node-id="1:751">
@@ -94,7 +104,7 @@ export default function DarmstadtCard() {
                 <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgLucideBadgeEuro} />
               </div>
               <div className="[word-break:break-word] capitalize flex flex-col font-inter font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#eaecef] text-[12px] whitespace-nowrap" data-node-id="1:756">
-                <p className="leading-[18px]">Starting: 40k</p>
+                <p className="leading-[18px]">{cost}</p>
               </div>
             </div>
           </div>

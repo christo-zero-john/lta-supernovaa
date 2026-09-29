@@ -378,7 +378,15 @@ export default function Dashboard({
                     }
                   >
                     <div className="university-card-canvas">
-                      <Card />
+                      <Card
+                        chance={`${chance}%`}
+                        badge={`${days} days left`}
+                        name={name}
+                        location="Munich, Germany"
+                        course="Msc Technology of Biogenic "
+                        intake="4 yr course"
+                        cost="Starting: 40k"
+                      />
                     </div>
                   </button>
                   <span id={`${id}-details`} className="sr-only">

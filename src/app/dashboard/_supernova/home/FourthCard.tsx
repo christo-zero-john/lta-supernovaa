@@ -1,5 +1,7 @@
 /* Figma 1:757: local assets retain the exported crop and compositing geometry. */
 /* eslint-disable @next/next/no-img-element */
+import type { UniversityCardProps } from "./universityCard";
+
 const imgFrame2147228723 = "/assets/dashboard/1-757-imgFrame2147228723.png";
 const imgRectangle2601 = "/assets/dashboard/1-757-imgRectangle2601.png";
 const imgLucideCalendar = "/assets/dashboard/1-757-imgLucideCalendar.svg";
@@ -7,7 +9,15 @@ const imgLucideBadgeEuro = "/assets/dashboard/1-757-imgLucideBadgeEuro.svg";
 const imgEllipse6013 = "/assets/dashboard/1-757-imgEllipse6013.svg";
 const imgEllipse6014 = "/assets/dashboard/1-757-imgEllipse6014.svg";
 
-export default function FourthCard() {
+export default function FourthCard({
+  chance,
+  badge,
+  name,
+  location,
+  course,
+  intake,
+  cost,
+}: UniversityCardProps) {
   return (
     <div className="content-stretch flex flex-col gap-[10px] items-start justify-end overflow-clip relative rounded-[32px] size-full" data-node-id="1:757">
       <div aria-hidden className="absolute inset-0 pointer-events-none rounded-[32px]">
@@ -28,10 +38,10 @@ export default function FourthCard() {
           <div className="content-stretch flex flex-[1_0_0] gap-[12px] items-start min-w-px relative" data-node-id="1:761">
             <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start justify-center leading-[0] min-w-px relative" data-node-id="1:762">
               <div className="flex flex-col font-jakarta font-bold justify-center relative shrink-0 text-[15px] text-white w-full" data-node-id="1:763">
-                <p className="leading-[24px]">Technical University of Munich (TUM)</p>
+                <p className="leading-[24px]">{name}</p>
               </div>
               <div className="flex flex-col font-jakarta font-normal justify-center relative shrink-0 text-[#eaecef] text-[14px] w-full" data-node-id="1:764">
-                <p className="leading-[18px]">Munich, Germany</p>
+                <p className="leading-[18px]">{location}</p>
               </div>
             </div>
           </div>
@@ -40,10 +50,10 @@ export default function FourthCard() {
           <div className="content-stretch flex flex-[1_0_0] flex-col gap-[12px] items-start justify-end min-w-px relative" data-node-id="1:767">
             <div className="[word-break:break-word] content-stretch flex flex-col items-start leading-[0] relative shrink-0 w-full" data-node-id="1:768">
               <div className="flex flex-col font-jakarta font-bold justify-center relative shrink-0 text-[13px] text-white tracking-[0.26px] w-full" data-node-id="1:769">
-                <p className="leading-[22px]">{`Msc Technology of Biogenic `}</p>
+                <p className="leading-[22px]">{course}</p>
               </div>
               <div className="flex flex-col font-jakarta font-normal h-[18px] justify-center relative shrink-0 text-[#eaecef] text-[12px] tracking-[0.24px] w-full" data-node-id="1:770">
-                <p className="leading-[15px]">Application ends in 10 more days</p>
+                <p className="leading-[15px]">{badge}</p>
               </div>
             </div>
             <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="1:771">
@@ -52,7 +62,7 @@ export default function FourthCard() {
                   <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgLucideCalendar} />
                 </div>
                 <div className="[word-break:break-word] capitalize flex flex-col font-inter font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#eaecef] text-[12px] whitespace-nowrap" data-node-id="1:778">
-                  <p className="leading-[18px]">4 yr course</p>
+                  <p className="leading-[18px]">{intake}</p>
                 </div>
               </div>
               <div className="content-stretch flex gap-[6px] items-center relative shrink-0" data-node-id="1:779">
@@ -60,7 +70,7 @@ export default function FourthCard() {
                   <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgLucideBadgeEuro} />
                 </div>
                 <div className="[word-break:break-word] capitalize flex flex-col font-inter font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#eaecef] text-[12px] whitespace-nowrap" data-node-id="1:784">
-                  <p className="leading-[18px]">Starting: 40k</p>
+                  <p className="leading-[18px]">{cost}</p>
                 </div>
               </div>
             </div>
@@ -77,7 +87,7 @@ export default function FourthCard() {
           </div>
         </div>
         <div className="-translate-x-1/2 -translate-y-1/2 [word-break:break-word] absolute capitalize flex flex-col font-serif h-[18.033px] italic justify-center leading-[0] left-[calc(50%-0.25px)] text-[14.426px] text-center text-white top-[calc(50%+0.18px)] tracking-[-0.577px] w-[26.598px]" data-node-id="1:788">
-          <p className="leading-[29.303px]">12%</p>
+          <p className="leading-[29.303px]">{chance}</p>
         </div>
       </div>
     </div>
