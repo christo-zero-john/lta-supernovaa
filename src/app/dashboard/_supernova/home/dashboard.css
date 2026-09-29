@@ -60,7 +60,7 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .access-tag { position: absolute; top: 5.738px; left: 0; display: flex; align-items: center; gap: 6px; backdrop-filter: blur(13.361px); background: rgba(255,255,255,.2); padding: 4.918px 9.836px; border-radius: 0 42.623px 42.623px 0; font: 500 11.475px/13.115px var(--figma-geist), sans-serif; color: #ebe8ef; }
 .figma-dashboard .product-action, .figma-dashboard .primary-cta { position: relative; display: inline-flex; align-items: center; justify-content: center; border: 2px solid rgba(78,73,89,.65); border-radius: 63px; background: linear-gradient(180deg, rgba(77,55,131,.2), rgba(238,227,255,.2) 51.442%), #6b5a89; color: white; box-shadow: inset 0 3px 1px #a392c7; font-weight: 600; }
 .figma-dashboard .product-action { position: absolute; bottom: 6px; right: 6px; gap: 7px; height: 28px; padding: 5.6px 6.3px; border-width: 1.4px; font-size: 8.4px; line-height: 12.6px; letter-spacing: -.168px; box-shadow: inset 0 2.1px .7px #a392c7; }
-.figma-dashboard .product-card:first-child .product-action { padding: 6.557px 13.115px; font-size: 8.06px; letter-spacing: -.1612px; }
+.figma-dashboard .product-action:not(:has(img)) { padding: 6.557px 13.115px; font-size: 8.06px; letter-spacing: -.1612px; }
 .events-section { display: flex; flex-direction: column; gap: 16px; }
 .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 27px; }
 .month-controls { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
@@ -108,6 +108,9 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .figma-dashboard .primary-cta, .figma-dashboard .product-action { transition: background-color 200ms ease-out; }
 .figma-dashboard .primary-cta:hover, .figma-dashboard .product-action:hover { background-color: #5b4b7a; }
 .reference-footer { display: flex; flex-direction: column; gap: 8px; width: calc(100% + 24px); }
+/* Coming soon (like Project004): muted artwork, action not clickable. */
+.figma-dashboard .product-card.coming-soon .product-photo { filter: grayscale(.55) brightness(.92); }
+.figma-dashboard .product-action:disabled, .figma-dashboard .product-action:disabled:hover { cursor: not-allowed; background: linear-gradient(180deg, rgba(77,55,131,.2), rgba(238,227,255,.2) 51.442%), #8b7fa0; opacity: .85; animation: none; }
 .footer-row { display: flex; align-items: stretch; justify-content: space-between; gap: 24px; min-height: 170px; }
 .mentor-card { padding: 24px; border-radius: 17px; background: rgba(235,230,227,.36); width: 476px; min-width: 0; }
 .mentor-card > p { font: 500 18px/27px var(--figma-geist), sans-serif; letter-spacing: -.54px; margin: 0 0 24px; max-width: 371.997px; }
