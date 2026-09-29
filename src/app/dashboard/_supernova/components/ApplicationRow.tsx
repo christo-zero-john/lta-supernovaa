@@ -1,10 +1,10 @@
-import { APPLICATIONS } from "../lib/fixtures";
+import type { DemoApplication } from "../demo/DemoDataProvider";
 import { useApp } from "./AppProvider";
 import { StatusBadge, ProgressBar } from "./ui";
 export default function ApplicationRow({
   application: a,
 }: {
-  application: (typeof APPLICATIONS)[number];
+  application: DemoApplication;
 }) {
   const { openDialog } = useApp();
   return (

@@ -2,17 +2,30 @@
 
 import { useState } from "react";
 import { useApp } from "../components/AppProvider";
-import { APPLICATIONS } from "../lib/fixtures";
+import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import Gate from "../components/Gate";
 import ApplicationRow from "../components/ApplicationRow";
-import { Button, Card, Icon, StatusBadge } from "../components/ui";
+import { Button, Card, EmptyState, Icon, StatusBadge } from "../components/ui";
 import { downloadText } from "../lib/download";
 export default function ZennaView() {
   const { persona, state, dispatch, notify } = useApp(),
-    [filter, setFilter] = useState("all");
+    [filter, setFilter] = useState("all"),
+    applications = useDemoData().has("applications")
+      ? DEMO_DATA.applications
+      : [];
   if (persona === "free") return <Gate />;
   const archived = persona === "p004",
-    s = state[persona];
+    s = state[persona],
+    count = (status: string) =>
+      applications.filter((a) => a.status === status).length,
+    offers = count("ok"),
+    average = applications.length
+      ? `${Math.round(applications.reduce((sum, a) => sum + a.prog, 0) / applications.length)}%`
+      : "—",
+    next = applications.find(
+      (a) => (a.status === "warn" || a.status === "info") && a.dl !== "—",
+    ),
+    summary = `${applications.length} applications · ${offers} offers`;
   return (
     <>
       {archived ? (
@@ -23,8 +36,7 @@ export default function ZennaView() {
           <div>
             <b>Admitted — Deggendorf Institute of Technology</b>
             <small>
-              International Management · enrolled Aug 2026 · 9 applications · 2
-              offers
+              International Management · enrolled Aug 2026 · {summary}
             </small>
           </div>
           <Button
@@ -32,8 +44,8 @@ export default function ZennaView() {
             onClick={() => {
               downloadText(
                 "LTA-admissions-record.txt",
-                "Admissions concept record\nAdmitted — Deggendorf Institute of Technology\nInternational Management · enrolled Aug 2026 · 9 applications · 2 offers\n\n" +
-                  APPLICATIONS.map(
+                `Admissions concept record\nAdmitted — Deggendorf Institute of Technology\nInternational Management · enrolled Aug 2026 · ${summary}\n\n` +
+                  applications.map(
                     (a) =>
                       `${a.uni}\n${a.course}\n${a.stTxt} · ${a.prog}% · ${a.dl} · ${a.dld}`,
                   ).join("\n\n"),
@@ -47,10 +59,13 @@ export default function ZennaView() {
       ) : (
         <div className="sn-stats">
           {[
-            ["9", "Total applications"],
-            ["2", "Offers received 🎉"],
-            ["74%", "Average completion"],
-            ["8d", "Next deadline · DIT"],
+            [String(applications.length), "Total applications"],
+            [String(offers), offers ? "Offers received 🎉" : "Offers received"],
+            [average, "Average completion"],
+            [
+              next?.dl || "—",
+              next ? `Next deadline · ${next.mono}` : "Next deadline",
+            ],
           ].map(([v, l]) => (
             <div className="sn-stat" key={l}>
               <strong>{v}</strong>
@@ -70,11 +85,11 @@ export default function ZennaView() {
               aria-label="Application status"
             >
               {[
-                ["all", "All (9)"],
-                ["ok", "Offers (2)"],
-                ["warn", "In progress (2)"],
-                ["info", "Waiting (2)"],
-                ["bad", "Closed (3)"],
+                ["all", `All (${applications.length})`],
+                ["ok", `Offers (${offers})`],
+                ["warn", `In progress (${count("warn")})`],
+                ["info", `Waiting (${count("info")})`],
+                ["bad", `Closed (${count("bad")})`],
               ].map(([key, label]) => (
                 <button
                   aria-pressed={filter === key}
@@ -86,11 +101,17 @@ export default function ZennaView() {
               ))}
             </div>
           )}
-          {APPLICATIONS.filter(
-            (a) => archived || filter === "all" || a.status === filter,
-          ).map((a) => (
-            <ApplicationRow key={a.id} application={a} />
-          ))}
+          {!applications.length && (
+            <EmptyState>
+              No applications yet. Once you apply through LTA, every
+              application, its status and its deadlines show up here.
+            </EmptyState>
+          )}
+          {applications
+            .filter((a) => archived || filter === "all" || a.status === filter)
+            .map((a) => (
+              <ApplicationRow key={a.id} application={a} />
+            ))}
         </div>
         {!archived && (
           <div className="sn-stack">

@@ -11,7 +11,8 @@ import {
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { hasAccess } from "../lib/model";
 import { personaFromParams, viewFromPathname, viewHref } from "../lib/routes";
-import { APPLICATIONS, MENTORS } from "../lib/fixtures";
+import { MENTORS } from "../lib/fixtures";
+import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import { appReducer, initialState } from "../lib/reducer";
 import type {
   AppState,
@@ -46,6 +47,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     view = viewFromPathname(usePathname()),
     persona = personaFromParams(params);
   const [state, dispatch] = useReducer(appReducer, undefined, initialState);
+  const demo = useDemoData();
   const uploads = useUploads(persona);
   const [manualDialog, setDialog] = useState<DialogState>(null),
     [dismissedItem, setDismissedItem] = useState(""),
@@ -56,7 +58,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     selectionKey = `${persona}-${view}-${item || ""}`;
   let selectionDialog: DialogState = null;
   if (item && dismissedItem !== selectionKey && hasAccess(persona, view)) {
-    if (view === "zenna" && APPLICATIONS.some((a) => a.id === item))
+    if (
+      view === "zenna" &&
+      demo.has("applications") &&
+      DEMO_DATA.applications.some((a) => a.id === item)
+    )
       selectionDialog = { kind: "application", id: item };
     if (view === "connect" && MENTORS.some((m) => m.id === item))
       selectionDialog = { kind: "booking", id: item };

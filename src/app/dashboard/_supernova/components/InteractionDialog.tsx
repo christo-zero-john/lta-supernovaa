@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useApp } from "./AppProvider";
-import { APPLICATIONS, MENTORS, GATES, PERSONAS } from "../lib/fixtures";
+import { MENTORS, GATES, PERSONAS } from "../lib/fixtures";
+import { DEMO_DATA } from "../demo/DemoDataProvider";
 import { JOBS } from "../lib/jobs";
 import { Button, StatusBadge, ProgressBar } from "./ui";
 import Modal from "./Modal";
@@ -33,7 +34,7 @@ export default function InteractionDialog() {
       />
     );
   if (dialog.kind === "application") {
-    const a = APPLICATIONS.find((a) => a.id === dialog.id);
+    const a = DEMO_DATA.applications.find((a) => a.id === dialog.id);
     if (!a) return null;
     return (
       <Modal title={a.uni} onClose={closeDialog}>
