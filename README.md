@@ -247,16 +247,12 @@ successful frontend build.
 
 ## Supernova LTA concept
 
-Open [http://localhost:3000/figma/dashboard](http://localhost:3000/figma/dashboard)
-for the interactive Supernova concept. `/figma/dashoard` redirects here. The supplied
-HTML defines all eight views and three personas; local LTA assets and styles give
-it the shared design language. Local bookings, uploads and preferences do not
-change real accounts or send data to the backend.
+The standalone `/figma/dashboard` and `/figma/dashoard` design-reference routes
+have been retired. Their Supernova visual design (purple accents, rounded pale
+panels, glass-pill CTAs, calendar and search polish) now lives directly in
+`/dashboard`'s own components and CSS — see [AGENTS.md](AGENTS.md) for the
+specific hover/animation details. `/dashboard`'s data fetching and access
+gating are unchanged by this; only its styling moved.
 
-Run `pnpm.cmd test:figma:model` and `pnpm.cmd test:figma` against a running server.
-Set `FIGMA_TEST_URL` for another address. Install Chromium with
-`pnpm.cmd exec playwright install chromium` if needed.
-
-See [implementation notes](docs/figma-dashboard.md) for source, architecture,
-interactions and verification. [AGENTS.md](AGENTS.md) contains project guidance.
-Local skills, caches and browser evidence remain ignored by Git.
+[AGENTS.md](AGENTS.md) contains project guidance. Local skills, caches and
+browser evidence remain ignored by Git.
