@@ -13,9 +13,6 @@
 
 - Windows: use `pnpm.cmd` if PowerShell blocks `pnpm.ps1`.
 - `pnpm.cmd dev` starts development; `pnpm.cmd build` builds production; `pnpm.cmd lint` runs ESLint.
-- `pnpm.cmd test:figma:model` validates domain fixtures, entitlements and input bounds.
-- `pnpm.cmd test:figma` exercises the reference in Playwright against a running localhost:3000 server. Set `FIGMA_TEST_URL` for another server. Install browsers with `pnpm.cmd exec playwright install chromium` if needed.
-- Browser evidence is stored in ignored `.codex/artifacts/figma-dashboard`.
 
 ## Design implementation
 
