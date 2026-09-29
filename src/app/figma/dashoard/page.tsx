@@ -1,3 +1,5 @@
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 
-export default function Page(){redirect('/figma/dashboard');}
+export default function Page() {
+  redirect("/figma/dashboard");
+}
