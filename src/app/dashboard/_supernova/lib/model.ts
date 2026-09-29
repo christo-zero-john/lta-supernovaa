@@ -5,6 +5,8 @@ import type {
   PersonaId,
   ViewId,
 } from "./types";
+/** The persona used when the URL doesn't name one. */
+export const DEFAULT_PERSONA: PersonaId = "free";
 const views = [
   "dashboard",
   "zenna",
@@ -27,7 +29,7 @@ export function parseNavigation(params: URLSearchParams): {
     view: views.includes(view || "") ? (view as ViewId) : "dashboard",
     persona: ["free", "paid", "p004"].includes(persona || "")
       ? (persona as PersonaId)
-      : "paid",
+      : DEFAULT_PERSONA,
   };
 }
 export function hasAccess(persona: PersonaId, view: ViewId) {

@@ -1,11 +1,8 @@
-import { parseNavigation } from "./model";
+import { DEFAULT_PERSONA, parseNavigation } from "./model";
 import type { PersonaId, ViewId } from "./types";
 
 /** The dashboard; every view is a page under it. */
 export const BASE_PATH = "/dashboard";
-
-/** The persona used when the URL doesn't name one. */
-const DEFAULT_PERSONA: PersonaId = "paid";
 
 export type ViewRoute = {
   /** URL segment under BASE_PATH ("" is the dashboard itself). */

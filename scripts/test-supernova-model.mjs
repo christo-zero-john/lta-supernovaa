@@ -21,7 +21,7 @@ assert.equal(hasAccess("free", "zenna"), false);
 assert.equal(hasAccess("p004", "zenna"), true);
 assert.deepEqual(parseNavigation(new URLSearchParams("view=bad&persona=bad")), {
   view: "dashboard",
-  persona: "paid",
+  persona: "free",
 });
 assert.deepEqual(
   parseNavigation(
