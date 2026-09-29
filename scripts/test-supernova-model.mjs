@@ -6,13 +6,13 @@ import {
   validateBooking,
   parseNavigation,
   hasAccess,
-} from "../src/app/figma/dashboard/_lib/model.ts";
+} from "../src/app/dashboard/_supernova/lib/model.ts";
 import {
   APPLICATIONS,
   MENTORS,
   CHANCE_UNIVERSITIES,
   PERSONAS,
-} from "../src/app/figma/dashboard/_lib/fixtures.ts";
+} from "../src/app/dashboard/_supernova/lib/fixtures.ts";
 assert.equal(APPLICATIONS.length, 9);
 assert.equal(MENTORS.length, 6);
 assert.equal(CHANCE_UNIVERSITIES.length, 5);
@@ -64,7 +64,7 @@ assert.equal(
   null,
 );
 const { initialState, appReducer } = await import(
-  "../src/app/figma/dashboard/_lib/reducer.ts"
+  "../src/app/dashboard/_supernova/lib/reducer.ts"
 );
 const initial = initialState();
 const next = appReducer(initial, {
