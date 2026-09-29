@@ -1,25 +1,20 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element -- Local design assets retain their reference geometry. */
 import type { CSSProperties } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { clearCookie } from "@/lib/cookies";
 import { useApp } from "./AppProvider";
-import { PERSONAS, NOTIFICATIONS } from "../lib/fixtures";
+import { PERSONAS } from "../lib/fixtures";
 import { hasAccess } from "../lib/model";
+import { VIEW_ROUTES, viewHref, viewsIn } from "../lib/routes";
 import type { ViewId } from "../lib/types";
+import { useCurrentUser } from "../hooks/useCurrentUser";
+import { useUnreadCount } from "../hooks/useUnreadCount";
 import { Icon } from "./ui";
 
 type NavIconName = ViewId | "settings" | "logout";
-
-const main: [ViewId, string][] = [
-  ["dashboard", "Dashboard"],
-  ["documents", "Documents"],
-  ["notifications", "Notifications"],
-  ["support", "Support"],
-];
-const suite: [ViewId, string][] = [
-  ["zenna", "Zenna"],
-  ["connect", "LTA Connect"],
-  ["cst", "Course Shortlisting"],
-  ["p004", "Project004"],
-];
 
 // The first Figma dashboard's sidebar icons, at their intrinsic sizes.
 // Items without a Figma icon fall back to the matching line icon.
@@ -67,29 +62,33 @@ export default function Sidebar({
   open: boolean;
   onClose: () => void;
 }) {
-  const { persona, view, state, navigate, openDialog } = useApp();
-  const p = state[persona];
-  const unread = [...NOTIFICATIONS[persona], ...p.notices].filter(
-    (n) => !p.read.includes(n.id),
-  ).length;
-  const list = (items: [ViewId, string][]) =>
-    items.map(([id, label]) => (
-      <button
+  const router = useRouter();
+  const { persona, view, openDialog } = useApp();
+  const { name, initials } = useCurrentUser();
+  const unread = useUnreadCount();
+
+  const handleLogout = () => {
+    clearCookie("token");
+    clearCookie("refresh_token");
+    router.push("/auth/login");
+  };
+
+  const list = (items: ViewId[]) =>
+    items.map((id) => (
+      <Link
         key={id}
+        href={viewHref(id, persona)}
         aria-current={view === id ? "page" : undefined}
         className={`sn-nav-item ${view === id ? "active" : ""} ${hasAccess(persona, id) ? "" : "locked"}`}
-        onClick={() => {
-          navigate(id);
-          onClose();
-        }}
+        onClick={onClose}
       >
         <NavIcon name={id} />
-        <span className="sn-nav-text">{label}</span>
+        <span className="sn-nav-text">{VIEW_ROUTES[id].label}</span>
         {id === "notifications" && unread > 0 && (
           <span className="sn-count">{unread}</span>
         )}
         {!hasAccess(persona, id) && <Icon name="lock" size={13} />}
-      </button>
+      </Link>
     ));
   return (
     <>
@@ -109,13 +108,11 @@ export default function Sidebar({
         >
           <Icon name="close" />
         </button>
-        <button
+        <Link
           className="sn-brand"
           aria-label="Letters to Abroad dashboard"
-          onClick={() => {
-            navigate("dashboard");
-            onClose();
-          }}
+          href={viewHref("dashboard", persona)}
+          onClick={onClose}
         >
           <img src="/assets/dashboard/1-515-imgFrame.svg" alt="" />
           <span>
@@ -123,11 +120,11 @@ export default function Sidebar({
             <br />
             to Abroad
           </span>
-        </button>
+        </Link>
         <p className="sn-nav-label">Main menu</p>
-        <nav aria-label="Main menu">{list(main)}</nav>
+        <nav aria-label="Main menu">{list(viewsIn("main"))}</nav>
         <p className="sn-nav-label">My suite</p>
-        <nav aria-label="My suite">{list(suite)}</nav>
+        <nav aria-label="My suite">{list(viewsIn("suite"))}</nav>
         <div className="sn-sidebar-bottom">
           <button
             className="sn-nav-item"
@@ -139,13 +136,7 @@ export default function Sidebar({
             <NavIcon name="settings" />
             <span className="sn-nav-text">Settings</span>
           </button>
-          <button
-            className="sn-nav-item"
-            onClick={() => {
-              openDialog({ kind: "logout" });
-              onClose();
-            }}
-          >
+          <button className="sn-nav-item" onClick={handleLogout}>
             <NavIcon name="logout" />
             <span className="sn-nav-text">Log out</span>
           </button>
@@ -153,9 +144,9 @@ export default function Sidebar({
             className="sn-user"
             onClick={() => openDialog({ kind: "settings" })}
           >
-            <span className="sn-avatar">TS</span>
+            <span className="sn-avatar">{initials}</span>
             <span>
-              <b>Tino Sunny</b>
+              <b>{name}</b>
               <small>{PERSONAS[persona].role}</small>
             </span>
             <span className="sn-user-arrow">↗</span>
