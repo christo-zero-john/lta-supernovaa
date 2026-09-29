@@ -1,15 +1,14 @@
+/* Zenna with her speech bubble, sized to its row column (Figma: 242.562 × 325.082). */
 .lta-mascot--image {
-  width: 243px;
-  height: 325px;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 242.562 / 325.082;
   object-fit: contain;
-  flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 520px) {
   .lta-mascot--image {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    object-position: left;
+    width: 160px;
   }
 }

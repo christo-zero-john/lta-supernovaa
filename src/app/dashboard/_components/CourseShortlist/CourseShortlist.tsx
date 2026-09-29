@@ -7,9 +7,10 @@ import "./CourseShortlist.css";
 import { handleGetShortlistedCourses } from "@/actions/course.actions";
 import { ShortlistedCourse } from "@/lib/services/course.service";
 
+// Glass-panel tints from the Figma university cards.
 const CARD_BG_COLORS: string[] = [
-  "rgba(0, 77, 144, 0.2)",
-  "rgba(0, 43, 144, 0.2)",
+  "rgba(0, 77, 144, 0.31)",
+  "rgba(0, 43, 144, 0.31)",
   "rgba(103, 26, 26, 0.2)",
 ];
 

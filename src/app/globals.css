@@ -106,8 +106,12 @@ body,
     display: none;
 }
 
-/* Content panel. */
+/* Content panel. A size container so sections can follow the panel's
+   width, as in the Figma reference; --panel-inset lets rows bleed to its
+   edge. */
 .main-section-container {
+    --panel-inset: 24px;
+    container: panel / inline-size;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -116,7 +120,7 @@ body,
     min-width: 0;
     border-radius: 24px;
     background: rgba(255, 255, 255, 0.35);
-    padding: 24px;
+    padding: var(--panel-inset);
     gap: 32px;
 }
 
@@ -145,13 +149,13 @@ body,
 
 @media (max-width: 900px) {
     .main-section-container {
-        padding: 20px;
+        --panel-inset: 20px;
     }
 }
 
 @media (max-width: 700px) {
     .main-section-container {
-        padding: 16px;
+        --panel-inset: 16px;
     }
 }
 
@@ -298,17 +302,38 @@ body,
     flex: 1;
     min-width: 0;
 }
+/* Zenna beside the university cards (Figma "recommendations" row). */
 .default--plane-shortlist-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: 242.562px minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
     width: 100%;
+    min-width: 0;
 }
 
-@media (max-width: 768px) {
+@container panel (max-width: 1060px) {
     .default--plane-shortlist-row {
-        flex-direction: column;
-        align-items: flex-start;
+        grid-template-columns: 200px minmax(0, 1fr);
+    }
+}
+
+@container panel (max-width: 850px) {
+    .default--plane-shortlist-row {
+        grid-template-columns: 180px minmax(0, 1fr);
+        gap: 16px;
+    }
+}
+
+@media (max-width: 700px) {
+    .default--plane-shortlist-row {
+        grid-template-columns: 160px minmax(0, 1fr);
+        gap: 12px;
+    }
+}
+
+@media (max-width: 520px) {
+    .default--plane-shortlist-row {
+        grid-template-columns: minmax(0, 1fr);
     }
 }
