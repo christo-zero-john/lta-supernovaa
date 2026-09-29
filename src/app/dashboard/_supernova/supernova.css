@@ -1,12 +1,17 @@
-/* Scope for the dashboard's section pages, header search and dialogs:
-   tokens, type and resets only — layout comes from the dashboard shell. */
-.supernova {
+/* Root of every dashboard page, the Figma home included: tokens and the
+   page background. */
+.sn-root {
   --sn-purple: #6b5a89;
   --sn-hover: #5b4b7a;
   --sn-ink: #242a33;
   --sn-muted: #73747b;
   --sn-page: #e8e6e9;
   --sn-line: #efedf1;
+  min-height: 100dvh;
+  background: var(--sn-page);
+}
+/* Section pages, their top bar and the dialogs: type and resets. */
+.supernova {
   color: var(--sn-ink);
   font:
     400 13px/1.6 var(--sn-body),
@@ -14,8 +19,8 @@
   color-scheme: light;
   -webkit-font-smoothing: antialiased;
 }
-html:has(.supernova),
-body:has(.supernova) {
+html:has(.sn-root),
+body:has(.sn-root) {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   background: #e8e6e9;

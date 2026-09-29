@@ -47,7 +47,7 @@ export default function DashboardLayout({
         // The app state reads the URL's query, so it renders under Suspense.
         <Suspense fallback={<PageLoader/>}>
             <AppProvider>
-                <div className="layout-container">
+                <div className="sn-root layout-container">
                     <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
                     <div className="dashboard--main">
                         <Header onMenuClick={() => setSidebarOpen(true)} />
@@ -55,8 +55,8 @@ export default function DashboardLayout({
                             <div className="dashboard--page">{children}</div>
                         </ViewTransition>
                     </div>
+                    <SupernovaOverlays/>
                 </div>
-                <SupernovaOverlays/>
             </AppProvider>
         </Suspense>
     );
