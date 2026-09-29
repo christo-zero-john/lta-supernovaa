@@ -9,6 +9,7 @@ import DarmstadtCard from "./DarmstadtCard";
 import FourthCard from "./FourthCard";
 import ZennaIntro from "./ZennaIntro";
 import type { ViewId } from "../../dashboard/_lib/types";
+import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 
 const asset = (name: string) => `/assets/figma/dashboard/${name}`;
 const universities = [
@@ -356,8 +357,9 @@ export default function Dashboard({
                 <ZennaIntro />
               </div>
             </div>
-            <div
+            <SmoothScrollArea
               className="university-carousel"
+              orientation="horizontal"
               tabIndex={0}
               aria-label="University recommendations; scroll to see more"
             >
@@ -395,7 +397,7 @@ export default function Dashboard({
                   No universities match “{query}”.
                 </p>
               )}
-            </div>
+            </SmoothScrollArea>
           </section>
           <section
             className="products-section"
