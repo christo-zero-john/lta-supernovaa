@@ -38,16 +38,21 @@ function Content() {
       </div>
     );
   const View = views[view];
+  const isDashboard = view === "dashboard";
+  // One shell for every view keeps the sidebar mounted across navigation.
+  // The Figma dashboard stays outside the .supernova scope and brings its own header.
   return (
-    <div className={view === "dashboard" ? undefined : "supernova"}>
-      {view === "dashboard" ? (
-        <DashboardView />
-      ) : (
-        <AppShell>
-          <PageHeader {...PAGE_COPY[persona][view]} />
-          <View />
-        </AppShell>
-      )}
+    <div className={isDashboard ? undefined : "supernova"}>
+      <AppShell topbar={!isDashboard}>
+        {isDashboard ? (
+          <DashboardView />
+        ) : (
+          <>
+            <PageHeader {...PAGE_COPY[persona][view]} />
+            <View />
+          </>
+        )}
+      </AppShell>
       {dialog && (
         <InteractionDialog
           key={`${persona}-${dialog.kind}-${dialog.id || ""}`}

@@ -24,21 +24,12 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .figma-dashboard :focus-visible { outline: 2px solid #8764de; outline-offset: 4px; }
 /* Exported SVGs include their native dimensions, including vector overhangs. */
 .figma-dashboard img[src$=".svg"] { width: auto; height: auto; max-width: none; }
-.reference-shell { display: grid; grid-template-columns: 247px minmax(0, 1fr); min-height: 100dvh; }
-/* Match the prototype's Fit width: scale the complete desktop frame together. */
+/* The shared Supernova sidebar (247px) sits beside this frame. */
+.reference-shell { min-height: 100dvh; }
+/* Match the prototype's Fit width: scale the frame's native 1178px content area (1425 - 247) together. */
 @media (min-width: 1024px) {
-  .reference-shell { width: 1425px; zoom: min(1, calc(100cqw / 1425px)); margin-inline: auto; }
+  .reference-shell { width: 1178px; zoom: min(1, calc(100cqw / 1178px)); }
 }
-.reference-sidebar { padding: 21px 27px; align-self: start; position: sticky; top: 0; max-height: 100dvh; overflow-y: auto; scrollbar-width: none; }
-.reference-logo { display: flex; width: 176.125px; height: 84px; align-items: center; justify-content: center; gap: 14.518px; }
-.reference-logo span { font: 600 21.073px/.871 var(--figma-anek), sans-serif; letter-spacing: .4215px; color: #654e9f; white-space: nowrap; }
-.menu-label { margin: 24px 0 16px; font-size: 12.65px; line-height: 16px; letter-spacing: 2.1083px; color: #737476; }
-.reference-sidebar nav { display: flex; flex-direction: column; gap: 4px; }
-.reference-sidebar nav button { display: flex; align-items: center; gap: 12px; padding: 12px; border: 0; border-radius: 12px; height: 45px; width: 100%; text-align: left; color: #0e0e10; background: transparent; font-size: 14px; line-height: 21px; }
-.reference-sidebar nav button.is-active { background: #fff; font-weight: 700; height: 44px; line-height: 20px; }
-.reference-sidebar nav button.system-item { margin-top: 20px; height: 44px; }
-.reference-sidebar nav button:hover:not(.is-active) { background: rgba(255,255,255,.3); }
-.nav-icon { display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex-shrink: 0; }
 .reference-main { min-width: 0; padding: 12px; container-type: inline-size; }
 .reference-header { display: flex; align-items: center; justify-content: space-between; height: 36px; padding-right: 2px; gap: 12px; }
 .reference-header input { width: 297px; min-width: 0; height: 36px; padding: 8px 20px; border: 0; border-radius: 44px; background: white; font: 400 14px/normal var(--figma-inter), sans-serif; color: #242a33; outline: none; box-shadow: none; }
@@ -47,7 +38,6 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .profile-button { background: none; border: 0; padding: 0; flex: 0 0 36px; height: 36px; border-radius: 50%; overflow: hidden; }
 .profile-button img { width: 36px; height: 36px; object-fit: cover; }
 .mobile-menu { display: none; }
-.navigation-close { position: absolute; right: 12px; top: 8px; border: 0; background: transparent; font-size: 28px; width: 32px; height: 32px; }
 .reference-content { --content-inset: 24px; margin-top: 12px; padding: var(--content-inset); border-radius: 24px; background: var(--reference-panel); display: flex; flex-direction: column; gap: 32px; }
 .reference-content h1 { font: 500 28px/36.48px var(--figma-anek), sans-serif; letter-spacing: -.84px; margin: 0; height: 37px; }
 .reference-content h2 { font-size: 14px; line-height: 24px; font-weight: 700; margin: 0; }
@@ -179,16 +169,9 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
   .calendar-day.has-session small { position: static; font-size: 11px; line-height: 14px; max-width: 100%; flex-shrink: 0; }
 }
 @media (max-width: 900px) {
-  .reference-shell { grid-template-columns: 190px minmax(0,1fr); }
-  .reference-sidebar { padding-left: 16px; padding-right: 16px; }
-  .reference-logo { width: 158px; gap: 8px; }
-  .reference-logo span { font-size: 19px; }
   .reference-content { --content-inset: 20px; }
 }
 @media (max-width: 700px) {
-  .reference-shell { grid-template-columns: minmax(0,1fr); }
-  .reference-sidebar { display: none; }
-  .reference-sidebar.is-open { display: block; position: fixed; top: 0; left: 0; height: 100dvh; width: 220px; z-index: 10; background: #d9d9d9; box-shadow: 12px 0 32px #242a3340; }
   .mobile-menu { display: block; background: #fff; border: 0; border-radius: 50%; width: 36px; height: 36px; flex-shrink: 0; }
   .reference-header input { flex: 1; }
   .reference-content { --content-inset: 16px; }

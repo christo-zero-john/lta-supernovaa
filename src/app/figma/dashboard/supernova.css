@@ -273,6 +273,10 @@ body:has(.supernova) {
   min-width: 0;
   padding: 12px 12px 24px 0;
 }
+/* Column for views that bring their own header (the Figma dashboard). */
+.sn-own-header-main {
+  min-width: 0;
+}
 .sn-topbar {
   display: flex;
   align-items: center;

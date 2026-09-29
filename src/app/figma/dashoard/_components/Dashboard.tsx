@@ -84,14 +84,6 @@ const testimonials = [
       "I'm grateful for Letters To Abroad support in securing my top university admission. It wouldn't have been possible without them.",
   },
 ];
-const menu = [
-  { label: "Dashboard", icon: "1-515-imgMenuIcons.svg" },
-  { label: "Documents", icon: "/assets/icons/DocumentsIcon.svg" },
-  { label: "Notifications", icon: "1-515-imgLucideBell.svg" },
-  { label: "Support", icon: "/assets/icons/SupportIcon.svg" },
-  { label: "Settings", icon: "/assets/icons/SettingsIcon.svg" },
-  { label: "Logout", icon: "/assets/icons/LogoutIcon.svg" },
-];
 
 type DialogState = { title: string; video?: boolean; detail?: string } | null;
 
@@ -302,89 +294,33 @@ function Events({
   );
 }
 
+/** Dashboard view content; navigation comes from the shared Supernova sidebar. */
 export default function Dashboard({
   onNavigate,
   onAction,
+  navigationOpen,
+  onOpenNavigation,
 }: {
   onNavigate: (view: ViewId) => void;
-  onAction: (action: "settings" | "logout" | "booking" | "contact") => void;
+  onAction: (action: "booking" | "contact") => void;
+  navigationOpen: boolean;
+  onOpenNavigation: () => void;
 }) {
   const [query, setQuery] = useState("");
   const [dialog, setDialog] = useState<DialogState>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => {
-    if (!menuOpen) return;
-    const dismiss = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
-    };
-    document.addEventListener("keydown", dismiss);
-    return () => document.removeEventListener("keydown", dismiss);
-  }, [menuOpen]);
   const visible = universities.filter((item) =>
     item.name.toLowerCase().includes(query.trim().toLowerCase()),
   );
   const book = () => onAction("booking");
   return (
     <div className="reference-shell">
-      <aside
-        className={`reference-sidebar ${menuOpen ? "is-open" : ""}`}
-        aria-label="Main navigation"
-      >
-        {menuOpen && (
-          <button
-            className="navigation-close"
-            aria-label="Close navigation"
-            onClick={() => setMenuOpen(false)}
-          >
-            ×
-          </button>
-        )}
-        <a
-          className="reference-logo"
-          href="/figma/dashboard"
-          aria-label="Letters to Abroad dashboard"
-        >
-          <img src={asset("1-515-imgFrame.svg")} alt="" />
-          <span>
-            Letters
-            <br />
-            to Abroad
-          </span>
-        </a>
-        <p className="menu-label">MAIN MENU</p>
-        <nav>
-          {menu.map((item, index) => (
-            <button
-              key={item.label}
-              className={`${index === 0 ? "is-active" : ""} ${index === 4 ? "system-item" : ""}`}
-              aria-current={index === 0 ? "page" : undefined}
-              onClick={() => {
-                setMenuOpen(false);
-                if (index === 0)
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                else if (item.label === "Settings") onAction("settings");
-                else if (item.label === "Logout") onAction("logout");
-                else onNavigate(item.label.toLowerCase() as ViewId);
-              }}
-            >
-              <span className="nav-icon">
-                <img
-                  src={item.icon.startsWith("/") ? item.icon : asset(item.icon)}
-                  alt=""
-                />
-              </span>
-              <span>{item.label}</span>
-            </button>
-          ))}
-        </nav>
-      </aside>
       <main className="reference-main">
         <header className="reference-header" data-section="header">
           <button
             className="mobile-menu"
             aria-label="Toggle navigation"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen(!menuOpen)}
+            aria-expanded={navigationOpen}
+            onClick={onOpenNavigation}
           >
             ☰
           </button>
