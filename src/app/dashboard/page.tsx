@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from "react";
 import useStore from "@/store/useStore";
 import PageLoader from "@/components/PageLoader/PageLoader";
+import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 
 import CourseShortlist from "@/app/dashboard/_components/CourseShortlist/CourseShortlist";
 import LtaSuit from "@/app/dashboard/_components/LtaSuit/LtaSuit";
@@ -262,8 +263,8 @@ export default function DashboardPage(): React.ReactElement {
     };
 
     return (
-        <div className="main-section-container">
+        <SmoothScrollArea className="main-section-container">
             {renderLayout()}
-        </div>
+        </SmoothScrollArea>
     );
 }

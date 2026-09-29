@@ -5,6 +5,7 @@ import Sidebar from "@/app/dashboard/_components/Sidebar/Sidebar";
 import Header from "@/app/dashboard/_components/Header/Header";
 import axiosInstance from "@/lib/axios";
 import useStore from "@/store/useStore";
+import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import "./dashboard-motion.css";
 
 export default function DashboardLayout({
@@ -33,7 +34,7 @@ export default function DashboardLayout({
     }, [setUser]);
 
     return (
-        <div className="layout-container common--width-100">
+        <SmoothScrollArea className="layout-container common--width-100">
             <div className="common--flex-row common--width-100">
                 <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
                 <div className="common--flex-col common--flex-1 common--gap-1">
@@ -41,6 +42,6 @@ export default function DashboardLayout({
                     {children}
                 </div>
             </div>
-        </div>
+        </SmoothScrollArea>
     );
 }
