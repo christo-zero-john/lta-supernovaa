@@ -91,6 +91,8 @@ body:has(.sn-root) {
   top: 0;
   height: 100dvh;
   overflow: auto;
+  /* Touch scrolling stops at the sidebar's ends instead of moving the page. */
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   padding: 21px 27px;

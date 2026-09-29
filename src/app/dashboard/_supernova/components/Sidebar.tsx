@@ -14,6 +14,7 @@ import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useUnreadCount } from "../hooks/useUnreadCount";
 import { Icon } from "./ui";
 import UserAvatar from "./UserAvatar";
+import { useSmoothScroll } from "@/components/SmoothScroll/useSmoothScroll";
 
 type NavIconName = ViewId | "settings" | "logout";
 
@@ -64,6 +65,9 @@ export default function Sidebar({
   onClose: () => void;
 }) {
   const router = useRouter();
+  // The sidebar scrolls smoothly on its own; the page's scroller ignores
+  // wheel input over it (data-lenis-prevent), so the page never moves.
+  const scrollRef = useSmoothScroll<HTMLElement>();
   const { persona, view, openDialog } = useApp();
   const { name } = useCurrentUser();
   const unread = useUnreadCount();
@@ -99,6 +103,8 @@ export default function Sidebar({
         onClick={onClose}
       />
       <aside
+        ref={scrollRef}
+        data-lenis-prevent
         className={`sn-sidebar ${open ? "open" : ""}`}
         aria-label="Main navigation"
       >
