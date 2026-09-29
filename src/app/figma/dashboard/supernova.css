@@ -6,6 +6,14 @@
   --sn-muted: #73747b;
   --sn-page: #e8e6e9;
   --sn-line: #efedf1;
+  min-height: 100dvh;
+  background: var(--sn-page);
+}
+html:has(.lta-reference-root),
+body:has(.lta-reference-root) {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: #e8e6e9;
 }
 .supernova {
   min-height: 100dvh;

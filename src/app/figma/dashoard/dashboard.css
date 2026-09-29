@@ -1,10 +1,9 @@
+/* The page background comes from the shared route root (supernova.css). */
 .figma-dashboard {
-  --reference-bg: #d9d9d9;
   --reference-panel: rgba(255, 255, 255, .35);
   --reference-text: #242a33;
   --reference-purple: #735daa;
   color-scheme: light;
-  background: var(--reference-bg);
   color: var(--reference-text);
   min-height: 100dvh;
   font: 14px var(--figma-jakarta), sans-serif;
