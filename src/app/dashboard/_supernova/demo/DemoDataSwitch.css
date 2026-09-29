@@ -69,6 +69,10 @@
   z-index: 60;
   width: 280px;
   max-width: calc(100vw - 32px);
+  /* Pinned with the navbar, so it scrolls within the screen on its own. */
+  max-height: calc(100dvh - 72px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 8px;
   border-radius: 16px;
   background: white;

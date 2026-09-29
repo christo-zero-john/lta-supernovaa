@@ -48,7 +48,13 @@ export default function DemoDataSwitch() {
         {on && <span className="sn-demo-count">{options.length}</span>}
       </button>
       {open && (
-        <div className="sn-demo-panel" id={panelId} role="group" aria-label="Dummy data">
+        <div
+          className="sn-demo-panel"
+          id={panelId}
+          role="group"
+          aria-label="Dummy data"
+          data-lenis-prevent
+        >
           <p className="sn-demo-title">
             Show dummy data for
             <small>Preview only · nothing is sent</small>
