@@ -26,8 +26,8 @@ body {
 }
 
 :root {
-    --font-plus-jakarta-sans: "Plus Jakarta Sans", sans-serif;
-    --font-anek-bangla: "Anek Bangla", sans-serif;
+    /* --font-plus-jakarta-sans and --font-anek-bangla are supplied by
+       next/font in src/app/layout.tsx, which loads the actual font files. */
     --color-primary-bg: #ffffff;
     --color-primary-text: #171717;
 }
