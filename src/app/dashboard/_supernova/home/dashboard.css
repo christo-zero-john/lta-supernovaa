@@ -59,7 +59,7 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .products-section { display: flex; flex-direction: column; gap: 16px; }
 .products-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 250px)); gap: 24px; align-items: center; }
 .product-card { background: #fff; border: 1.378px solid #f7f7f7; padding: 3px; border-radius: 18px; box-shadow: 5px 8px 24.9px rgba(237,230,214,.5); min-width: 0; }
-.product-card h3 { font-size: 16px; font-weight: 600; line-height: 24px; padding: 16px 16px 0; margin: 0 0 24px; white-space: nowrap; }
+.product-card h3 { font-size: 16px; font-weight: 600; line-height: 24px; padding: 20px 16px 0; margin: 0 0 12px; white-space: nowrap; }
 .product-media { position: relative; height: 172px; border-radius: 18.033px; overflow: hidden; background: #cfbce2; }
 .product-card:nth-child(2) .product-media { height: 143.443px; }
 .product-photo { width: 100%; height: 100%; object-fit: cover; }
