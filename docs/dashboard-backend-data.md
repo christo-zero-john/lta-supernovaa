@@ -26,6 +26,30 @@ Source: the Supernova reference at `/figma/dashboard` (`src/app/dashboard/_super
     }
     ```
 
+## Feature: profile (name and photo), with a prompt when missing
+Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, the topbar avatar and the settings dialog. When the user has no name or no photo yet, the dashboard asks for it (a "complete your profile" dialog on first visit, and editable later in settings). First and last name are separate fields.
+- ✅ `GET users/me/` already returns `first_name`, `last_name` and `profile_picture`. When one is missing, does it come back as `null` or `""`? Please pick one and keep it the same everywhere.
+- Some accounts seem to store the full name in `first_name` (the frontend splits it on the first space). Can the backend clean this up so `first_name` and `last_name` are always separate?
+- Can `users/me/` say which profile fields are missing, so the frontend doesn't have to guess when to show the prompt?
+- Does onboarding already collect the name? If so, which users can still reach the dashboard without one (for example invite-only or old accounts)?
+- Can the user skip the prompt? If so, should the backend remember that they skipped (so the prompt doesn't show on every visit)?
+- Is `gender` available? The frontend uses it to pick a placeholder 3D avatar until a photo is uploaded; without it, a neutral one is used.
+    - Format needed (in `users/me/`):
+    ```json
+    {
+        "first_name": "string | null",
+        "last_name": "string | null",
+        "profile_picture": "string | null",
+        "gender": "male | female | other | null",
+        "missing_profile_fields": ["first_name", "last_name", "profile_picture"],
+        "profile_prompt_dismissed_at": "ISO | null"
+    }
+    ```
+- Update name: 🆕 `PATCH users/me/` `{ "first_name": "string", "last_name": "string" }` returns the updated user. What are the validation rules (required, max length, allowed characters)?
+- Upload photo: 🆕 `POST users/me/profile-picture/` (multipart `file`) returns `{ "profile_picture": "URL" }`. Which types and size limit (suggest JPG/PNG/WebP, 5 MB)? Does the backend crop or resize it? Is the photo URL public or signed (and if signed, how long does it last)?
+- Remove photo: 🆕 `DELETE users/me/profile-picture/` (the frontend then shows the placeholder avatar again).
+- Dismiss prompt: 🆕 `POST users/me/profile-prompt/dismiss/`, or a `profile_prompt_dismissed_at` field set with the `PATCH`.
+
 ## Feature: user tier / product access (replaces the persona switcher)
 - Is the user a free user or a paid/verified LTA client?
 - For each product, what access does this user have? This drives the sidebar lock icons, the lock screens, and the "Free For All" / "LTA Members Only" tags.
@@ -463,19 +487,20 @@ Source: the Supernova reference at `/figma/dashboard` (`src/app/dashboard/_super
 
 # Summary
 
-**Already there, needs extra fields:** `users/me/` (journey stage, entitlements), `shortlisted-courses/` (logo, image, location, duration, fee, deadline), `applications/` (status group, deadline, next action, short code), `students/me/stats/` (Zenna summary shape), and `booked-slot/` / `booked-slot/upcoming/` (topic, join link, month filter).
+**Already there, needs extra fields:** `users/me/` (journey stage, entitlements, gender, missing profile fields; plus new endpoints to update the name and upload the photo), `shortlisted-courses/` (logo, image, location, duration, fee, deadline), `applications/` (status group, deadline, next action, short code), `students/me/stats/` (Zenna summary shape), and `booked-slot/` / `booked-slot/upcoming/` (topic, join link, month filter).
 
 **Entirely new, roughly in priority order:**
 1. Entitlements. Every lock, gate and tag depends on it, so it unblocks the most.
-2. Notifications.
-3. Documents.
-4. Events.
-5. Connect: mentors, availability and booking.
-6. Team-call booking.
-7. Course Shortlisting check.
-8. Zenna AI findings.
-9. Mentor requests.
-10. Project004. Last, because it is not live.
+2. Profile update: name and photo upload. It's small, and every page shows the name and photo.
+3. Notifications.
+4. Documents.
+5. Events.
+6. Connect: mentors, availability and booking.
+7. Team-call booking.
+8. Course Shortlisting check.
+9. Zenna AI findings.
+10. Mentor requests.
+11. Project004. Last, because it is not live.
 
 **Could stay as fixed frontend text if the team prefers:** testimonials, FAQs, help channels, product intro videos and social links. Each is listed as a question above so the team can decide rather than build them by default.
 
