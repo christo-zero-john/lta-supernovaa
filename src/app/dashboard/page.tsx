@@ -8,6 +8,7 @@ import Dashboard from "@/app/dashboard/_supernova/home/Dashboard";
 import {handleGetShortlistedCourses} from "@/actions/course.actions";
 import {ShortlistedCourse} from "@/lib/services/course.service";
 
+// Morning until noon, afternoon until 5 PM, evening from then through the night.
 function getGreeting(): string {
     const hour = new Date().getHours();
     if (hour < 12) return "Good Morning";
@@ -33,8 +34,9 @@ export default function DashboardPage(): React.ReactElement {
     const [loading, setLoading] = useState(true);
     const [courses, setCourses] = useState<ShortlistedCourse[]>([]);
 
-    const firstName = user?.first_name?.split(" ")[0] || "";
-    const greeting = `${getGreeting()}${firstName ? `, ${firstName}` : ""}!`;
+    // Without a name on the account, greet the user by their email.
+    const displayName = user?.first_name?.trim().split(" ")[0] || user?.email || "";
+    const greeting = `${getGreeting()}${displayName ? `, ${displayName}` : ""}!`;
 
     const preloadImage = (src: string): Promise<void> =>
         new Promise((resolve) => {
