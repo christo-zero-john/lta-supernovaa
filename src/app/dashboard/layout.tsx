@@ -10,7 +10,6 @@ import useStore from "@/store/useStore";
 import "./_supernova/supernova.css";
 import "./_supernova/reference-fonts.css";
 import "./_supernova/button-motion.css";
-import "./dashboard-motion.css";
 
 /**
  * The shell shared by every dashboard page: the sidebar, dialogs and app
