@@ -1,6 +1,6 @@
 # Supernova concept rebuilt in LTA's design language
 
-Status: written specification approved by the user's “continue” on 2026-09-29; implementation plan awaiting review.
+Status: implemented and locally verified on 2026-09-29. The user authorized execution without further approval questions.
 
 ## Intent and source precedence
 
