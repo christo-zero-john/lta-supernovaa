@@ -1,10 +1,9 @@
 "use client";
 
-import React, { Suspense, useEffect, useState, ViewTransition } from "react";
-import Sidebar from "@/app/dashboard/_components/Sidebar/Sidebar";
-import Header from "@/app/dashboard/_components/Header/Header";
+import React, { Suspense, useEffect } from "react";
 import PageLoader from "@/components/PageLoader/PageLoader";
 import { AppProvider } from "@/app/dashboard/_supernova/components/AppProvider";
+import AppShell from "@/app/dashboard/_supernova/components/AppShell";
 import SupernovaOverlays from "@/app/dashboard/_supernova/components/SupernovaOverlays";
 import axiosInstance from "@/lib/axios";
 import useStore from "@/store/useStore";
@@ -14,9 +13,8 @@ import "./_supernova/button-motion.css";
 import "./dashboard-motion.css";
 
 /**
- * The shell shared by every dashboard page: the sidebar, header, dialogs and
- * app state stay mounted while pages change, and only the page content
- * transitions.
+ * The shell shared by every dashboard page: the sidebar, dialogs and app
+ * state stay mounted while pages change, and only the page transitions.
  */
 export default function DashboardLayout({
                                             children,
@@ -24,7 +22,6 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }): React.ReactElement {
     const { setUser } = useStore();
-    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -47,14 +44,8 @@ export default function DashboardLayout({
         // The app state reads the URL's query, so it renders under Suspense.
         <Suspense fallback={<PageLoader/>}>
             <AppProvider>
-                <div className="sn-root layout-container">
-                    <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-                    <div className="dashboard--main">
-                        <Header onMenuClick={() => setSidebarOpen(true)} />
-                        <ViewTransition name="dashboard-page" default="dashboard-page">
-                            <div className="dashboard--page">{children}</div>
-                        </ViewTransition>
-                    </div>
+                <div className="sn-root">
+                    <AppShell>{children}</AppShell>
                     <SupernovaOverlays/>
                 </div>
             </AppProvider>
