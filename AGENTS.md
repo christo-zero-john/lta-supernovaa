@@ -4,7 +4,7 @@
 
 - Next.js 16 App Router, React 19, strict TypeScript, Tailwind 4 and scoped component CSS.
 - `src/app/(auth)` contains public onboarding routes; the route group adds no URL prefix.
-- `src/app/dashboard` is the authenticated, API-backed student dashboard. It carries the Supernova visual design (purple accents, rounded pale panels, Plus Jakarta Sans/Anek Bangla typography, glass-pill CTAs) directly in its own components; there is no separate `/figma` design-reference route. Changes to its look are CSS-only — `src/app/dashboard/page.tsx`'s data fetching, access gating (`hasAccess`/`platformType`) and layout-variant selection are not design surface.
+- `src/app/dashboard` is the authenticated, API-backed student dashboard. It carries the Supernova visual design (purple accents, rounded pale panels, Plus Jakarta Sans/Anek Bangla typography, glass-pill CTAs) directly in its own components; the restored public `/figma/dashboard` reference remains separate from it. The reference Dashboard view preserves the first Figma design, while its other pages use the HTML content and LTA styling. Navbar consistency is being handled separately; do not overwrite concurrent navbar work. Changes to its look are CSS-only — `src/app/dashboard/page.tsx`'s data fetching, access gating (`hasAccess`/`platformType`) and layout-variant selection are not design surface.
 - API boundaries live in `src/lib/services`, server actions in `src/actions`, and shared Axios/session handling in `src/lib/axios.ts`, `src/lib/cookies.ts`, and `src/middleware.ts`. Zustand user state is in `src/store/useStore.ts`.
 - Read README.md for backend/setup details when relevant. Do not overwrite existing dirty changes.
 
