@@ -238,6 +238,11 @@
   justify-content: center;
   position: relative;
   background-color: #ffffff;
+  transition: background-color 150ms ease-out;
+}
+
+.calendar--day-cell:not(.calendar--day-cell-empty):not(.calendar--day-cell-active):hover {
+  background-color: rgba(232, 235, 239, 0.4);
 }
 
 .calendar--day-cell:nth-child(7n) {
