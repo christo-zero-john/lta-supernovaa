@@ -12,7 +12,6 @@ import TestimonialCarousel from "@/app/dashboard/_components/Testimonials/Testim
 import MentorSessionCard from "@/app/dashboard/_components/MentorSessionCard/MentorSessionCard";
 import Stats from "@/app/dashboard/_components/Stats/Stats";
 import ApplicationsTable from "@/app/dashboard/_components/ApplicationsTable/ApplicationsTable";
-import LtaPlane from "@/app/dashboard/_components/LtaPlane/LtaPlane";
 import ZennaMascotShortlist from "@/app/dashboard/_components/ZennaMascotShortlist/ZennaMascotShortlist";
 
 import {handleGetShortlistedCourses} from "@/actions/course.actions";
@@ -76,10 +75,7 @@ function ZennaLayout({
                 <h2 className="main--header-style">{greeting}</h2>
                 <Stats prefetchedData={data.stats}/>
             </div>
-            <div className="zenna--suit-plane-row">
-                <LtaSuit/>
-                <LtaPlane/>
-            </div>
+            <LtaSuit/>
             <ApplicationsTable prefetchedData={data.applications}/>
             <section className="dashboard--section">
                 <h2 className="main--footer-caption">Hear from our family</h2>
@@ -109,10 +105,7 @@ function DefaultLayout({
                     <CourseShortlist prefetchedData={data.courses}/>
                 </div>
             )}
-            <div className="default--suit-plane-row">
-                <LtaSuit/>
-                <LtaPlane/>
-            </div>
+            <LtaSuit/>
             <Calendar/>
             <section className="dashboard--section">
                 <h2 className="main--footer-caption">Hear from our family</h2>
