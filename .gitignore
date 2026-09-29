@@ -137,3 +137,6 @@ http-client.private.env.json
 
 # local tool caches
 /.playwright-mcp/
+
+# Generated exports of docs (PDFs for sharing)
+/docs/exports/
