@@ -19,14 +19,8 @@
 
 ## Design implementation
 
-- Figma reference: https://www.figma.com/design/lnOH0IYXWcqSfk8e4jobzq/lta-dev-ref?node-id=1-514 (1425 × 1770.846).
-- Load the Figma design-to-code skill before requesting context. Fetch child contexts when the root response is sparse.
-- Treat screenshots as comparison targets, never as whole-page implementation assets.
-- Keep Figma images/SVGs local in `public/assets/figma/dashboard`; retain intrinsic SVG dimensions, original image crops, typography, gradients, and spacing.
-- Scope reference styles and font loading to its route. Keep reference fixtures independent of account APIs and credentials.
-- Supernova uses fluid native React layouts; do not apply whole-frame CSS zoom. Keep three dashboard hero cards at desktop widths of 1024px and above, a sticky sidebar, wrapping text and accessible narrow-screen navigation. Never hide page overflow to conceal a broken layout.
-- Keep every card's text inside its own bounds with wrapping and auto height. Search must have no border effects. Match observed calendar hover (pale gray, 150ms ease-out) and MainCTA hover (#5B4B7A, 200ms ease-out); avoid invented movement or outlines.
-- Verify actual rendered screens at 1425, 1920, 1280, 1024, 960, 768, 640, and 480 CSS pixels, plus desktop browser zoom. Check all images load, focus/keyboard controls, search, calendar navigation and dialogs.
+- Search must have no border effects. Calendar day hover is pale gray, 150ms ease-out; MainCTA hover is `#5B4B7A`, 200ms ease-out; keep button geometry still on hover. Glass-pill buttons (`.lta-suit--cta-button`, `.mentor-session--days-left-btn`, `.footer--btn-primary`) animate their existing inset edge reflection on hover/focus via `src/app/dashboard/dashboard-motion.css`; never add a separate light overlay, and disable the animation under `prefers-reduced-motion`.
+- Fonts are loaded once via `next/font/google` in `src/app/layout.tsx` (Plus Jakarta Sans, Anek Bangla), exposed as the `--font-plus-jakarta-sans` / `--font-anek-bangla` CSS variables consumed throughout `src/app/globals.css` and the dashboard component CSS. Do not redeclare those variables as literal font-family strings elsewhere.
 - Be explicit about design deviations and verification limits. Passing tests does not establish exact pixel identity.
 
 ## Local tools, skills and security
