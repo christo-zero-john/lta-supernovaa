@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import "./CourseShortlist.css";
 import { handleGetShortlistedCourses } from "@/actions/course.actions";
 import { ShortlistedCourse } from "@/lib/services/course.service";
@@ -23,7 +24,7 @@ const CourseShortlist: React.FC<CourseShortlistProps> = ({ prefetchedData }) => 
 
 
   return (
-      <div className="shortlist--container">
+      <SmoothScrollArea className="shortlist--container" orientation="horizontal">
         {courses.map((item, index) => (
             <div key={item.id} className="shortlist--card">
               <div className="shortlist--bg-wrapper">
@@ -107,7 +108,7 @@ const CourseShortlist: React.FC<CourseShortlistProps> = ({ prefetchedData }) => 
               </div>
             </div>
         ))}
-      </div>
+      </SmoothScrollArea>
   );
 };
 
