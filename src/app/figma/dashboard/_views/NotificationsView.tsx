@@ -1,2 +1,34 @@
-import {useApp} from '../_components/AppProvider';import {NOTIFICATIONS} from '../_lib/fixtures';import {Card,Icon} from '../_components/ui';
-export default function NotificationsView(){const{persona,state,dispatch,navigate}=useApp(),s=state[persona];return <Card>{[...s.notices].reverse().concat([...NOTIFICATIONS[persona]]).map(n=><button key={n.id} data-notification className={`sn-notice ${s.read.includes(n.id)?'read':''}`} onClick={()=>{dispatch({type:'read',persona,id:n.id});navigate(n.view);}}><span className="sn-notice-icon"><Icon name={n.view}/></span><span><b>{n.text}</b><small>{n.time}</small></span>{!s.read.includes(n.id)&&<i className="sn-notice-dot"/>}</button>)}</Card>;}
+import { useApp } from "../_components/AppProvider";
+import { NOTIFICATIONS } from "../_lib/fixtures";
+import { Card, Icon } from "../_components/ui";
+export default function NotificationsView() {
+  const { persona, state, dispatch, navigate } = useApp(),
+    s = state[persona];
+  return (
+    <Card>
+      {[...s.notices]
+        .reverse()
+        .concat([...NOTIFICATIONS[persona]])
+        .map((n) => (
+          <button
+            key={n.id}
+            data-notification
+            className={`sn-notice ${s.read.includes(n.id) ? "read" : ""}`}
+            onClick={() => {
+              dispatch({ type: "read", persona, id: n.id });
+              navigate(n.view);
+            }}
+          >
+            <span className="sn-notice-icon">
+              <Icon name={n.view} />
+            </span>
+            <span>
+              <b>{n.text}</b>
+              <small>{n.time}</small>
+            </span>
+            {!s.read.includes(n.id) && <i className="sn-notice-dot" />}
+          </button>
+        ))}
+    </Card>
+  );
+}
