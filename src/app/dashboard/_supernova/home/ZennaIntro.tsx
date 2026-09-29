@@ -3,7 +3,8 @@
 const imgWhatsAppImage20240426At22913 = "/assets/dashboard/1-632-imgWhatsAppImage20240426At22913.png";
 const imgRectangle188540 = "/assets/dashboard/1-632-imgRectangle188540.svg";
 
-export default function ZennaIntro() {
+/** Zenna and her speech bubble; the bubble says `message`. */
+export default function ZennaIntro({ message }: { message: string }) {
   return (
     <div className="relative size-full" data-node-id="1:632">
       <div className="absolute h-[206.238px] left-[14.64px] top-[120.07px] w-[149.737px]" data-node-id="1:633" data-name="WhatsApp Image 2024-04-26 at 2.29 13">
@@ -17,7 +18,7 @@ export default function ZennaIntro() {
             <img alt="" className="block max-w-none size-full" src={imgRectangle188540} />
           </div>
         </div>
-        <p className="[word-break:break-word] absolute font-jakarta font-medium leading-[20.987px] left-[17.96px] text-[#352c48] text-[13.991px] top-[-9.15px] tracking-[-0.1399px] w-[162.52px]" data-node-id="1:636">{`Here yours's 5 University chance for your chosen Engineering course`}</p>
+        <p className="[word-break:break-word] absolute font-jakarta font-medium leading-[20.987px] left-[17.96px] text-[#352c48] text-[13.991px] top-[-9.15px] tracking-[-0.1399px] w-[162.52px]" data-node-id="1:636">{message}</p>
       </div>
     </div>
   );

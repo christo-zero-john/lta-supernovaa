@@ -350,7 +350,7 @@ export default function Dashboard({
           >
             <div className="zenna-intro">
               <div className="zenna-canvas">
-                <ZennaIntro />
+                <ZennaIntro message="Here yours's 5 University chance for your chosen Engineering course" />
               </div>
             </div>
             <SmoothScrollArea
