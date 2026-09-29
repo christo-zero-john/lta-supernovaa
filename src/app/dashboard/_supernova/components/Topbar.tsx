@@ -4,13 +4,12 @@ import { useApp } from "./AppProvider";
 import DashboardSearch from "./DashboardSearch";
 import UserAvatar from "./UserAvatar";
 import DemoDataSwitch from "../demo/DemoDataSwitch";
+import NotificationBell from "./NotificationBell";
 import { Icon } from "./ui";
-import { useUnreadCount } from "../hooks/useUnreadCount";
 
 /** The section pages' top bar: search, dummy data, notifications, profile. */
 export default function Topbar({ onMenu }: { onMenu: () => void }) {
-  const { navigate, openDialog } = useApp();
-  const unread = useUnreadCount();
+  const { openDialog } = useApp();
   return (
     <header className="sn-topbar">
       <button
@@ -23,14 +22,7 @@ export default function Topbar({ onMenu }: { onMenu: () => void }) {
       <DashboardSearch />
       <div className="sn-topbar-right">
         <DemoDataSwitch />
-        <button
-          className="sn-icon-button"
-          aria-label={`Notifications, ${unread} unread`}
-          onClick={() => navigate("notifications")}
-        >
-          <Icon name="notifications" />
-          {unread > 0 && <i />}
-        </button>
+        <NotificationBell />
         <button
           className="sn-avatar"
           aria-label="View profile"
