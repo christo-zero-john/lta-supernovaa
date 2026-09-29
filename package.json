@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:figma": "node scripts/test-figma-dashboard.mjs",
-    "test:figma:model": "node scripts/test-supernova-model.mjs"
+    "test:model": "node scripts/test-supernova-model.mjs"
   },
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.2.8",
