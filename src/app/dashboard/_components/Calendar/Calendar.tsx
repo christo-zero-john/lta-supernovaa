@@ -83,12 +83,12 @@ const Calendar: React.FC = () => {
             <div className="calendar--header">
                 <p className="calendar--title">Upcoming Events</p>
                 <div className="calendar--controls">
-                    <button className="calendar--nav-btn" onClick={goToPrev}>
-                        <Image src="/assets/icons/LeftArrowIcon.svg" alt="Prev" width={24} height={24}/>
+                    <button type="button" className="calendar--nav-btn" aria-label="Previous month" onClick={goToPrev}>
+                        <Image src="/assets/icons/LeftArrowIcon.svg" alt="" width={24} height={24}/>
                     </button>
                     <span className="calendar--current-month">{MONTH_NAMES[currentMonth]} {currentYear}</span>
-                    <button className="calendar--nav-btn" onClick={goToNext}>
-                        <Image src="/assets/icons/RightArrowIcon.svg" alt="Next" width={24} height={24}/>
+                    <button type="button" className="calendar--nav-btn" aria-label="Next month" onClick={goToNext}>
+                        <Image src="/assets/icons/RightArrowIcon.svg" alt="" width={24} height={24}/>
                     </button>
                 </div>
             </div>
@@ -126,7 +126,6 @@ const Calendar: React.FC = () => {
                     <div className="calendar--weekday-headers">
                         {WEEK_DAYS.map((day) => <div key={day} className="calendar--weekday-header">{day}</div>)}
                     </div>
-                    <div className="calendar--separator"/>
                     <div className="calendar--grid">
                         {Array.from({length: firstDay}).map((_, i) => (
                             <div key={`empty-start-${i}`} className="calendar--day-cell calendar--day-cell-empty"/>
