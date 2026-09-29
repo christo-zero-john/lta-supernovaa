@@ -8,8 +8,9 @@ import {
   type ReactNode,
   type Dispatch,
 } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { parseNavigation, hasAccess } from "../lib/model";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { hasAccess } from "../lib/model";
+import { personaFromParams, viewFromPathname, viewHref } from "../lib/routes";
 import { APPLICATIONS, MENTORS } from "../lib/fixtures";
 import { appReducer, initialState } from "../lib/reducer";
 import type {
@@ -42,7 +43,8 @@ const AppContext = createContext<Context | null>(null);
 export function AppProvider({ children }: { children: ReactNode }) {
   const router = useRouter(),
     params = useSearchParams(),
-    { view, persona } = parseNavigation(params);
+    view = viewFromPathname(usePathname()),
+    persona = personaFromParams(params);
   const [state, dispatch] = useReducer(appReducer, undefined, initialState);
   const uploads = useUploads(persona);
   const [manualDialog, setDialog] = useState<DialogState>(null),
@@ -68,23 +70,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setDismissedItem(selectionKey);
     setDialog(value);
   };
-  // Query navigation is an external state change: transient overlays must close.
+  // Navigation is an external state change: transient overlays must close.
   useEffect(() => {
     /* eslint-disable react-hooks/set-state-in-effect */ setDialog(null);
     notify(""); /* eslint-enable react-hooks/set-state-in-effect */
   }, [persona, view]);
   const navigate = (next: ViewId, item?: string) => {
     closeDialog();
-    router.push(
-      `/figma/dashboard?view=${next}&persona=${persona}${item ? `&item=${encodeURIComponent(item)}` : ""}`,
-      { scroll: true },
-    );
+    router.push(viewHref(next, persona, item), { scroll: true });
   };
   const setPersona = (next: PersonaId) => {
     closeDialog();
-    router.push(`/figma/dashboard?view=${view}&persona=${next}`, {
-      scroll: false,
-    });
+    router.push(viewHref(view, next), { scroll: false });
   };
   const reset = () => {
     dispatch({ type: "reset" });

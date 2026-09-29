@@ -1,8 +1,11 @@
 import { parseNavigation } from "./model";
 import type { PersonaId, ViewId } from "./types";
 
-/** Where the Supernova concept lives. */
-export const BASE_PATH = "/figma/dashboard";
+/** The dashboard; every view is a page under it. */
+export const BASE_PATH = "/dashboard";
+
+/** The persona used when the URL doesn't name one. */
+const DEFAULT_PERSONA: PersonaId = "paid";
 
 export type ViewRoute = {
   /** URL segment under BASE_PATH ("" is the dashboard itself). */
@@ -50,9 +53,11 @@ export function viewPath(view: ViewId) {
 
 /** A view's URL, keeping the persona (and an optional selected item). */
 export function viewHref(view: ViewId, persona: PersonaId, item?: string) {
-  const query = new URLSearchParams({ persona });
+  const query = new URLSearchParams();
+  if (persona !== DEFAULT_PERSONA) query.set("persona", persona);
   if (item) query.set("item", item);
-  return `${viewPath(view)}?${query}`;
+  const search = query.toString();
+  return search ? `${viewPath(view)}?${search}` : viewPath(view);
 }
 
 export function viewFromPathname(pathname: string): ViewId {
@@ -66,13 +71,3 @@ export function personaFromParams(params: URLSearchParams): PersonaId {
   return parseNavigation(params).persona;
 }
 
-/**
- * Where an old tab-style link (`/figma/dashboard?view=zenna&persona=paid`)
- * now lives, or null if it already points at the dashboard.
- */
-export function legacyViewHref(params: URLSearchParams) {
-  if (!params.has("view")) return null;
-  const { view, persona } = parseNavigation(params);
-  if (view === "dashboard") return null;
-  return viewHref(view, persona, params.get("item") ?? undefined);
-}
