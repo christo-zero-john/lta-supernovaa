@@ -16,7 +16,6 @@ export async function middleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.some((route) =>
       pathname.startsWith(route)
   );
-  console.log(pathname,token, isPublicRoute);
 
   if (!token && !isPublicRoute) {
     return NextResponse.redirect(new URL("/signup", request.url));
