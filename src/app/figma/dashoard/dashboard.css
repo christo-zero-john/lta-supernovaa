@@ -90,7 +90,8 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .calendar-day { transition: background-color 150ms ease-out; }
 .calendar-day:not(.empty):hover { background-color: rgba(232,235,239,.4); }
 .testimonials-section { display: flex; flex-direction: column; gap: 18px; }
-.testimonials-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; padding-top: 1px; width: calc(100% + 13px); overflow: hidden; }
+/* Stays inside the panel so every card shows its full rounded edge. */
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; padding-top: 1px; }
 .testimonial { position: relative; min-height: 277.682px; overflow: hidden; border: 2.865px solid rgba(103,97,116,.1); border-radius: 30.796px; background: rgba(255,255,255,.1); box-shadow: inset 0 1.432px 2.865px rgba(255,255,255,.25); }
 .testimonial-background { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; }
 .testimonial-background img { position: absolute; height: 76.4%; left: 37.5%; top: -11.12%; width: 62.5%; max-width: none; }
