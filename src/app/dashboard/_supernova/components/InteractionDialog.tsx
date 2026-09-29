@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useApp } from "./AppProvider";
 import { MENTORS, GATES, PERSONAS } from "../lib/fixtures";
-import { DEMO_DATA } from "../demo/DemoDataProvider";
+import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import { JOBS } from "../lib/jobs";
 import { Button, StatusBadge, ProgressBar } from "./ui";
 import Modal from "./Modal";
@@ -12,6 +12,7 @@ import UserAvatar from "./UserAvatar";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 export default function InteractionDialog() {
   const { user } = useCurrentUser();
+  const demo = useDemoData();
   const {
       dialog,
       persona,
@@ -186,8 +187,10 @@ export default function InteractionDialog() {
       </Modal>
     );
   if (dialog.kind === "session") {
-    const s = state[persona].sessions.find((s) => s.id === dialog.id),
-      isSource = dialog.id === "source-session",
+    const isSource = dialog.id === "source-session",
+      s =
+        state[persona].sessions.find((s) => s.id === dialog.id) ||
+        (isSource ? demo.session : undefined),
       m =
         MENTORS.find((m) => m.id === s?.mentorId) ||
         (isSource ? MENTORS[0] : undefined);
@@ -199,7 +202,7 @@ export default function InteractionDialog() {
         </p>
         <p>
           {isSource
-            ? "Course selection for Technical Logistics"
+            ? demo.session?.topic || "Course selection for Technical Logistics"
             : m?.role || "Free 15-minute call with our team"}
         </p>
         <StatusBadge tone="free">Session preview ready</StatusBadge>

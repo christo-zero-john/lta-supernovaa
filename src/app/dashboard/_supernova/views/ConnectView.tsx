@@ -2,15 +2,19 @@
 
 import { useApp } from "../components/AppProvider";
 import { MENTORS } from "../lib/fixtures";
-import { Button, Card, Icon } from "../components/ui";
+import { Button, Card, EmptyState, Icon } from "../components/ui";
+import { useDemoData } from "../demo/DemoDataProvider";
 import Gate from "../components/Gate";
 import MentorCard from "../components/MentorCard";
 export default function ConnectView() {
-  const { persona, state, openDialog } = useApp();
+  const { persona, state, openDialog } = useApp(),
+    demo = useDemoData();
   if (persona === "free") return <Gate />;
+  // A rescheduled session replaces the dummy one it came from.
   const local = state[persona].sessions,
-    session = local.find((s) => s.id === "source-session"),
-    mentor = MENTORS.find((m) => m.id === session?.mentorId) || MENTORS[0];
+    session = local.find((s) => s.id === "source-session") || demo.session,
+    mentor = MENTORS.find((m) => m.id === session?.mentorId) || MENTORS[0],
+    topic = demo.session?.topic || "Course selection for Technical Logistics";
   return (
     <>
       {persona === "p004" ? (
@@ -34,16 +38,20 @@ export default function ConnectView() {
             Review requests →
           </Button>
         </section>
+      ) : !session ? (
+        <Card>
+          <EmptyState>
+            No sessions booked yet. Pick a mentor below and book a 1:1 — it
+            will show up here.
+          </EmptyState>
+        </Card>
       ) : (
         <Card className="sn-session">
           <span className="sn-avatar">{mentor.init}</span>
           <div>
             <b>Your next session — {mentor.n}</b>
             <small>
-              {session
-                ? `${session.date} · ${session.slot}`
-                : "Friday 6 July · 17:00"}{" "}
-              · Video call · “Course selection for Technical Logistics”
+              {session.date} · {session.slot} · Video call · “{topic}”
             </small>
           </div>
           <Button
