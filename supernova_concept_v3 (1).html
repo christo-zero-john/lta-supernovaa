@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supernova v3 — One LTA Account | Letters to Abroad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --purple-50:#F8F6FF; --purple-100:#EFECFE; --purple-200:#DCD5FC; --purple-300:#B7A9F8;
+  --purple-400:#9C8CF5; --purple-500:#7B65F2; --purple-600:#6450E0; --purple-700:#4E3DBE;
+  --purple-900:#241A54; --purple-950:#150F35;
+  --bg-page:#F7F5FC; --card:#FFFFFF; --border:#EAE6F6; --border-soft:#F2EFFA;
+  --text-1:#211C33; --text-2:#6A6480; --text-3:#A49EB9;
+  --amber:#AD7A16; --amber-bg:#FCF1D9;
+  --green:#177A45; --green-bg:#E1F6E9; --green-solid:#22B562;
+  --red:#C33A34; --red-bg:#FCE8E7;
+  --shadow-xs:0 1px 2px rgba(33,28,51,.05);
+  --shadow-sm:0 2px 10px rgba(33,28,51,.06);
+  --shadow-md:0 12px 30px rgba(78,61,190,.12), 0 2px 6px rgba(33,28,51,.05);
+  --shadow-lg:0 24px 60px rgba(21,15,53,.26);
+  --shadow-glow:0 10px 24px rgba(100,80,224,.32);
+  --r-xl:24px; --r-lg:18px; --r-md:14px; --r-sm:10px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg-page);color:var(--text-1);-webkit-font-smoothing:antialiased;font-feature-settings:'tnum' 1;}
+::selection{background:var(--purple-200);color:var(--purple-900);}
+button,input,select{font-family:inherit;}
+:focus-visible{outline:2px solid var(--purple-500);outline-offset:2px;border-radius:4px;}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;}}
+.num{font-variant-numeric:tabular-nums;}
+.fade{animation:fadeUp .35s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+/* ================= SHELL ================= */
+.shell{display:flex;min-height:100vh;}
+.sidebar{width:226px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;background:#fff;border-right:1px solid var(--border);padding:20px 14px 16px;display:flex;flex-direction:column;z-index:60;}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:2px 8px 20px;}
+.sb-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(150deg,var(--purple-400),var(--purple-600));display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-glow);flex-shrink:0;}
+.sb-name{font-weight:800;font-size:14px;line-height:1.2;color:var(--purple-700);}
+.sb-name span{display:block;font-size:8.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-top:3px;}
+.sb-cap{font-size:9.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--text-3);padding:10px 10px 8px;}
+.sb-nav{display:flex;flex-direction:column;gap:2px;}
+.sb-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:11px;font-size:13px;font-weight:600;color:var(--text-2);cursor:pointer;border:none;background:none;text-align:left;width:100%;transition:.15s;position:relative;}
+.sb-item .ic{width:16px;text-align:center;flex-shrink:0;opacity:.9;}
+.sb-item:hover{background:var(--purple-50);color:var(--purple-700);}
+.sb-item.active{background:var(--purple-100);color:var(--purple-700);font-weight:700;box-shadow:var(--shadow-xs);}
+.sb-item.active::before{content:'';position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:var(--purple-500);}
+.sb-item .b{margin-left:auto;background:var(--purple-200);color:var(--purple-700);font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:999px;}
+.sb-item.dim{opacity:.55;}
+.sb-spacer{flex:1;}
+.sb-user{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--border);border-radius:13px;background:var(--purple-50);}
+.sb-user .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(140deg,var(--purple-500),var(--purple-700));color:#fff;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sb-user b{font-size:12px;display:block;}
+.sb-user small{font-size:9.5px;color:var(--text-3);font-weight:600;}
+
+.main{flex:1;min-width:0;}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(247,245,252,.86);backdrop-filter:blur(12px);display:flex;align-items:center;gap:12px;padding:14px 28px;}
+.tb-search{flex:1;max-width:400px;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--border);border-radius:999px;padding:9px 16px;color:var(--text-3);font-size:12.5px;box-shadow:var(--shadow-xs);}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:9px;}
+.wa-pill{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--border);border-radius:999px;padding:8px 14px;font-size:11px;font-weight:700;color:var(--green);box-shadow:var(--shadow-xs);}
+.wa-pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green-solid);}
+.tb-icon{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:.15s;box-shadow:var(--shadow-xs);font-size:14px;color:var(--text-2);}
+.tb-icon:hover{border-color:var(--purple-300);background:var(--purple-50);}
+.tb-icon .dot{position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid #fff;}
+.tb-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(140deg,var(--purple-500),var(--purple-700));color:#fff;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+
+/* demo bar */
+.demo{margin:12px 28px 0;background:var(--purple-950);border-radius:var(--r-lg);padding:11px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:#fff;box-shadow:var(--shadow-md);position:relative;overflow:hidden;}
+.demo::after{content:'';position:absolute;right:-70px;top:-90px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(123,101,242,.35),transparent 70%);pointer-events:none;}
+.demo-label{font-size:9px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--purple-300);}
+.demo-label b{display:block;color:#fff;font-size:12px;letter-spacing:0;text-transform:none;margin-top:2px;font-weight:700;}
+.demo-tabs{display:flex;gap:5px;margin-left:auto;background:rgba(255,255,255,.07);padding:4px;border-radius:12px;position:relative;z-index:1;flex-wrap:wrap;}
+.demo-tab{border:none;background:transparent;color:rgba(255,255,255,.62);font-size:11.5px;font-weight:700;padding:7px 13px;border-radius:9px;cursor:pointer;transition:.15s;text-align:left;line-height:1.25;}
+.demo-tab small{display:block;font-size:8.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;opacity:.65;}
+.demo-tab:hover{color:#fff;}
+.demo-tab.active{background:#fff;color:var(--purple-900);box-shadow:var(--shadow-sm);}
+.demo-tab.active small{color:var(--purple-600);opacity:1;}
+
+.content{padding:22px 28px 60px;max-width:1120px;}
+
+/* page header */
+.ph{margin-bottom:20px;}
+.ph .crumb{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.ph h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:32px;margin:0 0 6px;}
+.ph h1 em{font-style:italic;color:var(--purple-600);}
+.ph p{margin:0;color:var(--text-2);font-size:13px;max-width:620px;line-height:1.55;}
+
+/* shared cards */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);padding:20px;}
+.sec{font-size:12.5px;font-weight:800;margin:26px 0 12px;display:flex;align-items:center;gap:8px;}
+.sec small{font-weight:600;color:var(--text-3);font-size:10.5px;}
+.btn{border:none;border-radius:11px;padding:10px 16px;font-size:12px;font-weight:800;cursor:pointer;transition:.15s;}
+.btn-p{background:var(--purple-600);color:#fff;box-shadow:var(--shadow-glow);}
+.btn-p:hover{background:var(--purple-700);}
+.btn-g{background:#fff;border:1px solid var(--border);color:var(--text-1);}
+.btn-g:hover{border-color:var(--purple-300);}
+.btn-wa{background:var(--green-bg);color:var(--green);border:1px solid #A7E3BE;}
+.tag{font-size:8.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap;}
+.tag.free{background:var(--green-bg);color:var(--green);}
+.tag.lock{background:var(--purple-100);color:var(--purple-700);}
+.tag.soon{background:var(--amber-bg);color:var(--amber);}
+.tag.warn{background:var(--amber-bg);color:var(--amber);}
+.tag.ok{background:var(--green-bg);color:var(--green);}
+.tag.bad{background:var(--red-bg);color:var(--red);}
+.tag.info{background:var(--purple-100);color:var(--purple-700);}
+
+/* ===== DASHBOARD ===== */
+.focus{border-radius:var(--r-xl);background:linear-gradient(120deg,var(--purple-900) 0%,var(--purple-700) 90%);color:#fff;padding:24px 26px;display:flex;align-items:center;gap:22px;box-shadow:var(--shadow-md);position:relative;overflow:hidden;flex-wrap:wrap;}
+.focus::after{content:'';position:absolute;right:-40px;bottom:-90px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(156,140,245,.45),transparent 70%);pointer-events:none;}
+.focus .z{width:74px;height:74px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--purple-200),var(--purple-500));display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0;box-shadow:0 8px 22px rgba(0,0,0,.28);}
+.focus .fx{flex:1;min-width:230px;position:relative;z-index:1;}
+.focus .cap{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--purple-300);margin-bottom:5px;}
+.focus b{font-size:18px;display:block;line-height:1.35;font-weight:800;}
+.focus p{margin:6px 0 0;font-size:12.5px;opacity:.82;line-height:1.5;max-width:520px;}
+.focus .btn{position:relative;z-index:1;background:#fff;color:var(--purple-900);}
+.journey-strip{display:flex;align-items:center;gap:0;background:#fff;border:1px solid var(--border);border-radius:999px;box-shadow:var(--shadow-xs);padding:10px 18px;margin-top:14px;overflow-x:auto;}
+.js-step{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;color:var(--text-3);white-space:nowrap;}
+.js-step .d{width:8px;height:8px;border-radius:50%;background:var(--border);}
+.js-step.done{color:var(--text-2);} .js-step.done .d{background:var(--purple-400);}
+.js-step.now{color:var(--purple-700);} .js-step.now .d{background:var(--purple-600);box-shadow:0 0 0 4px var(--purple-100);}
+.js-line{flex:1;height:1.5px;background:var(--border);min-width:22px;margin:0 10px;}
+.js-line.on{background:var(--purple-300);}
+
+.hero-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:950px){.hero-cards{grid-template-columns:1fr;}}
+.hcard{border-radius:var(--r-lg);position:relative;overflow:hidden;color:#fff;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;min-height:168px;box-shadow:var(--shadow-md);cursor:pointer;transition:.18s;}
+.hcard:hover{transform:translateY(-3px);}
+.hcard::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,15,53,.05) 25%,rgba(21,15,53,.75));}
+.hcard>*{position:relative;}
+.hc-top{position:absolute;top:13px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:flex-start;}
+.hc-big{font-size:27px;font-weight:900;letter-spacing:-.02em;text-shadow:0 2px 8px rgba(0,0,0,.25);}
+.hc-badge{background:rgba(255,255,255,.2);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.3);font-size:9px;font-weight:800;padding:4px 9px;border-radius:999px;}
+.hc-uni{display:flex;align-items:center;gap:8px;font-weight:800;font-size:12.5px;margin-bottom:3px;}
+.hc-uni .mono{width:23px;height:23px;border-radius:7px;background:#fff;color:var(--purple-700);font-size:8.5px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.hcard p{margin:0;font-size:10px;font-weight:600;opacity:.85;}
+
+.suite{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+@media(max-width:1000px){.suite{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.suite{grid-template-columns:1fr;}}
+.scard{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-xs);padding:14px;display:flex;flex-direction:column;gap:8px;transition:.18s;cursor:pointer;}
+.scard:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--purple-200);}
+.scard .top{display:flex;align-items:center;gap:9px;}
+.scard .ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.scard b{font-size:12.5px;display:block;}
+.scard .st{font-size:9px;}
+.scard p{margin:0;font-size:10.5px;color:var(--text-2);line-height:1.5;}
+.scard .cta{font-size:11px;font-weight:800;color:var(--purple-600);margin-top:auto;}
+
+/* ===== LOCKED PAGE ===== */
+.gate{border-radius:var(--r-xl);background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);padding:40px 30px;text-align:center;max-width:640px;margin:30px auto;}
+.gate .big{width:76px;height:76px;border-radius:24px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:34px;background:var(--purple-100);}
+.gate h2{font-family:'Instrument Serif',serif;font-weight:400;font-size:26px;margin:0 0 8px;}
+.gate p{color:var(--text-2);font-size:13px;line-height:1.6;max-width:440px;margin:0 auto 18px;}
+.gate .feat{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.gate .feat span{font-size:10.5px;font-weight:700;background:var(--purple-50);border:1px solid var(--border-soft);border-radius:999px;padding:6px 13px;color:var(--text-2);}
+
+/* ===== ZENNA PAGE ===== */
+.z-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+@media(max-width:900px){.z-stats{grid-template-columns:repeat(2,1fr);}}
+.z-stat{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--shadow-xs);padding:14px 16px;}
+.z-stat b{font-size:22px;display:block;letter-spacing:-.02em;}
+.z-stat small{font-size:10.5px;color:var(--text-2);font-weight:600;}
+.z-filter{display:flex;gap:6px;margin:4px 0 14px;flex-wrap:wrap;}
+.z-fbtn{border:1px solid var(--border);background:#fff;border-radius:999px;padding:7px 15px;font-size:11.5px;font-weight:700;color:var(--text-2);cursor:pointer;transition:.15s;}
+.z-fbtn:hover{border-color:var(--purple-300);}
+.z-fbtn.on{background:var(--purple-600);border-color:var(--purple-600);color:#fff;box-shadow:var(--shadow-glow);}
+.app-row{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-xs);padding:15px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;transition:.15s;flex-wrap:wrap;}
+.app-row:hover{box-shadow:var(--shadow-md);}
+.app-logo{width:44px;height:44px;border-radius:12px;color:#fff;font-weight:900;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.app-main{flex:1;min-width:180px;}
+.app-main b{font-size:13.5px;display:block;}
+.app-main small{font-size:11px;color:var(--text-2);font-weight:600;}
+.app-prog{width:150px;}
+.app-prog .bar{height:6px;border-radius:99px;background:var(--purple-100);overflow:hidden;margin-top:5px;}
+.app-prog .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--purple-400),var(--purple-600));}
+.app-prog small{font-size:9.5px;color:var(--text-3);font-weight:700;}
+.app-dl{text-align:right;min-width:86px;}
+.app-dl b{font-size:12px;display:block;}
+.app-dl small{font-size:9.5px;color:var(--text-3);font-weight:700;}
+.ai-panel{background:linear-gradient(150deg,#fff,var(--purple-50));border:1px solid var(--purple-200);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);padding:18px;}
+.ai-item{display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--border-soft);}
+.ai-item:last-child{border:none;padding-bottom:0;}
+.ai-item .conf{margin-left:auto;font-size:9px;font-weight:800;color:var(--purple-600);white-space:nowrap;}
+.ai-item b{font-size:12px;display:block;}
+.ai-item small{font-size:10.5px;color:var(--text-2);font-weight:600;}
+.two-col{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:start;}
+@media(max-width:950px){.two-col{grid-template-columns:1fr;}}
+
+/* ===== CONNECT PAGE ===== */
+.m-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:1000px){.m-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){.m-grid{grid-template-columns:1fr;}}
+.m-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-xs);padding:16px;display:flex;flex-direction:column;gap:10px;transition:.18s;}
+.m-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.m-head{display:flex;align-items:center;gap:11px;}
+.m-av{width:46px;height:46px;border-radius:14px;color:#fff;font-weight:900;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.m-head b{font-size:13.5px;display:block;}
+.m-head small{font-size:10.5px;color:var(--text-2);font-weight:600;}
+.m-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.m-tag{font-size:9px;font-weight:800;background:var(--purple-50);border:1px solid var(--border-soft);color:var(--text-2);padding:3px 9px;border-radius:999px;}
+.m-foot{display:flex;align-items:center;gap:8px;margin-top:auto;}
+.m-rate{font-size:11px;font-weight:800;color:var(--amber);}
+.m-foot .btn{margin-left:auto;font-size:11px;padding:8px 13px;}
+
+/* ===== CST PAGE ===== */
+.cst-wrap{display:grid;grid-template-columns:1fr 1.3fr;gap:16px;align-items:start;}
+@media(max-width:950px){.cst-wrap{grid-template-columns:1fr;}}
+.f-group{margin-bottom:13px;}
+.f-group label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.03em;color:var(--text-2);margin-bottom:6px;text-transform:uppercase;}
+.f-group select,.f-group input{width:100%;border:1px solid var(--border);border-radius:11px;padding:11px 13px;font-size:13px;background:var(--purple-50);color:var(--text-1);font-weight:600;}
+.f-group select:focus,.f-group input:focus{border-color:var(--purple-400);outline:none;background:#fff;}
+.cst-uni{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--border-soft);}
+.cst-uni:last-child{border:none;}
+.cst-uni .mono{width:36px;height:36px;border-radius:10px;background:var(--purple-100);color:var(--purple-700);font-size:9.5px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cst-uni b{font-size:12.5px;display:block;}
+.cst-uni small{font-size:10.5px;color:var(--text-2);font-weight:600;}
+.cst-pct{margin-left:auto;text-align:right;}
+.cst-pct b{font-size:16px;}
+.cst-pct .bar{width:90px;height:5px;border-radius:99px;background:var(--purple-100);overflow:hidden;margin-top:4px;}
+.cst-pct .bar i{display:block;height:100%;border-radius:99px;}
+.disclaimer{font-size:10px;color:var(--text-3);font-weight:600;line-height:1.55;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-soft);}
+
+/* ===== P004 PAGE ===== */
+.job-row{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-xs);padding:15px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;flex-wrap:wrap;transition:.15s;}
+.job-row:hover{box-shadow:var(--shadow-md);}
+.lb-row{display:flex;align-items:center;gap:11px;padding:9px 4px;border-bottom:1px solid var(--border-soft);font-size:12px;font-weight:600;}
+.lb-row:last-child{border:none;}
+.lb-rank{width:26px;height:26px;border-radius:8px;background:var(--purple-100);color:var(--purple-700);font-size:10.5px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lb-row.me{background:var(--purple-50);border-radius:10px;padding:9px 10px;border:1px solid var(--purple-200);}
+.lb-row.me .lb-rank{background:var(--purple-600);color:#fff;}
+.lb-pts{margin-left:auto;font-weight:800;color:var(--text-2);font-size:11px;}
+
+/* ===== DOCS PAGE ===== */
+.drop{border:2px dashed var(--purple-300);background:var(--purple-50);border-radius:var(--r-lg);padding:26px;text-align:center;color:var(--text-2);font-size:12.5px;font-weight:600;margin-bottom:16px;cursor:pointer;transition:.15s;}
+.drop:hover{background:var(--purple-100);}
+.doc{display:flex;align-items:center;gap:11px;padding:12px 4px;border-bottom:1px solid var(--border-soft);font-size:12.5px;font-weight:600;flex-wrap:wrap;}
+.doc:last-child{border:none;}
+.doc .ext{width:36px;height:36px;border-radius:10px;background:var(--red-bg);color:var(--red);font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.doc small{display:block;font-size:9.5px;color:var(--text-3);font-weight:700;}
+.doc .used{margin-left:auto;display:flex;gap:4px;align-items:center;}
+.pill{font-size:8.5px;font-weight:800;padding:3px 8px;border-radius:999px;background:var(--purple-100);color:var(--purple-700);}
+
+/* ===== NOTIFICATIONS / SUPPORT ===== */
+.ntf-row{display:flex;gap:12px;padding:14px 4px;border-bottom:1px solid var(--border-soft);font-size:13px;line-height:1.5;}
+.ntf-row:last-child{border:none;}
+.ntf-ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--purple-50);}
+.ntf-row small{display:block;color:var(--text-3);font-weight:600;font-size:10.5px;margin-top:3px;}
+.faq{border-bottom:1px solid var(--border-soft);padding:13px 2px;}
+.faq:last-child{border:none;}
+.faq b{font-size:13px;display:block;margin-bottom:4px;}
+.faq p{margin:0;font-size:12px;color:var(--text-2);line-height:1.6;}
+.help-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+@media(max-width:900px){.help-grid{grid-template-columns:1fr;}}
+.help-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-xs);padding:18px;text-align:center;cursor:pointer;transition:.18s;}
+.help-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.help-card .ic{font-size:26px;margin-bottom:8px;}
+.help-card b{font-size:13px;display:block;margin-bottom:4px;}
+.help-card p{margin:0;font-size:11px;color:var(--text-2);line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 8l9 6 9-6M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="sb-name">Letters<br>to Abroad<span>Supernova · One Account</span></div>
+    </div>
+    <div class="sb-cap">Main menu</div>
+    <nav class="sb-nav" id="navMain"></nav>
+    <div class="sb-cap" style="margin-top:14px;">My suite</div>
+    <nav class="sb-nav" id="navSuite"></nav>
+    <div class="sb-spacer"></div>
+    <nav class="sb-nav">
+      <button class="sb-item"><span class="ic">⚙️</span>Settings</button>
+      <button class="sb-item"><span class="ic">↪</span>Log out</button>
+    </nav>
+    <div class="sb-user" style="margin-top:12px;">
+      <div class="av">TS</div>
+      <div><b>Tino Sunny</b><small id="roleLabel">Applicant</small></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-search">🔍 Search applications, documents, mentors…</div>
+      <div class="tb-right">
+        <div class="wa-pill">WhatsApp ON</div>
+        <button class="tb-icon" onclick="go('notifications')"><span class="dot"></span>🔔</button>
+        <div class="tb-avatar">TS</div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-label">Concept demo<b>One account · one person · three moments</b></div>
+      <div class="demo-tabs" id="personaTabs"></div>
+    </div>
+
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================
+   IDENTITY vs ENTITLEMENTS + PAGE ROUTER
+===================================================== */
+const PERSONAS={
+  free:{tab:'Free user',sub:'2025 · Lead',role:'Explorer',
+    ent:{CST:true,ZENNA:false,CONNECT:false,P004:false},stage:0},
+  paid:{tab:'Paid client',sub:'2026 · Applicant',role:'Applicant',
+    ent:{CST:true,ZENNA:true,CONNECT:true,P004:false},stage:1},
+  p004:{tab:'Project004 era',sub:'2027 · In Germany',role:'Job seeker',
+    ent:{CST:true,ZENNA:'archived',CONNECT:'mentor',P004:true},stage:3},
+};
+const JOURNEY=['Aspirant','Applicant','Admitted','In Germany','Working'];
+let cur='paid', page='dashboard', zFilter='all';
+
+const E=()=>PERSONAS[cur].ent;
+const has=k=>{const v=E()[k];return v===true||v==='archived'||v==='mentor';};
+
+/* ---------- persona tabs ---------- */
+const tabsEl=document.getElementById('personaTabs');
+Object.entries(PERSONAS).forEach(([k,p])=>{
+  const b=document.createElement('button');b.className='demo-tab';b.dataset.key=k;
+  b.innerHTML=`<small>${p.sub}</small>${p.tab}`;
+  b.onclick=()=>{cur=k;render();};tabsEl.appendChild(b);
+});
+
+/* ---------- navigation ---------- */
+const MAIN=[['dashboard','▦','Dashboard'],['documents','📄','Documents'],['notifications','🔔','Notifications'],['support','💬','Support']];
+const SUITE=[['zenna','📋','Zenna','ZENNA'],['connect','🎥','LTA Connect','CONNECT'],['cst','🎯','Course Shortlisting','CST'],['p004','🚀','Project004','P004']];
+function go(p){page=p;render();window.scrollTo({top:0});}
+function drawNav(){
+  document.getElementById('navMain').innerHTML=MAIN.map(([k,i,n])=>`
+    <button class="sb-item ${page===k?'active':''}" onclick="go('${k}')"><span class="ic">${i}</span>${n}${k==='notifications'?'<span class="b">3</span>':''}</button>`).join('');
+  document.getElementById('navSuite').innerHTML=SUITE.map(([k,i,n,flag])=>{
+    const on = flag==='P004' ? E().P004===true : has(flag);
+    return `<button class="sb-item ${page===k?'active':''} ${on?'':'dim'}" onclick="go('${k}')"><span class="ic">${i}</span>${n}${on?'':'<span class="b">🔒</span>'}</button>`;}).join('');
+}
+
+/* ---------- shared: page header + gate ---------- */
+const ph=(crumb,title,sub)=>`<div class="ph fade"><div class="crumb">${crumb}</div><h1>${title}</h1><p>${sub}</p></div>`;
+const gate=(icon,title,text,feats,cta,cta2)=>`
+  <div class="gate fade">
+    <div class="big">${icon}</div>
+    <h2>${title}</h2><p>${text}</p>
+    <div class="feat">${feats.map(f=>`<span>${f}</span>`).join('')}</div>
+    <button class="btn btn-p">${cta}</button>
+    ${cta2?`&nbsp;<button class="btn btn-g">${cta2}</button>`:''}
+  </div>`;
+
+/* =====================================================
+   PAGE: DASHBOARD  (calm — one focus, one row, one suite)
+===================================================== */
+const FOCUS={
+  free:{cap:'Your next step',b:'Your admit-chance report for 5 universities is ready.',
+    p:'One clear number per university — so you and your family know exactly where you stand before spending a single rupee on applications.',cta:'See my chances',go:'cst'},
+  paid:{cap:'What matters today',b:'Deggendorf portal submission is due in 8 days.',
+    p:'Everything else is on track — 2 offers already confirmed. Zenna and your mentor Jisha are both watching this deadline with you.',cta:'Open in Zenna',go:'zenna'},
+  p004:{cap:'What matters today',b:'Logistics Challenge finals are in 6 days — you\'re ranked #7.',
+    p:'Two employers viewed your profile this week. Finish in the top 10 and your profile card goes directly to hiring managers.',cta:'Open Project004',go:'p004'},
+};
+const HERO={
+  free:[
+    {big:'80%',badge:'Strong chance',mono:'TUM',uni:'TU Munich',p:'M.Sc. Technical Logistics',g:'linear-gradient(140deg,#6450E0,#241A54)'},
+    {big:'71%',badge:'Strong chance',mono:'THI',uni:'TH Ingolstadt',p:'M.Sc. Industrial Engineering',g:'linear-gradient(140deg,#22B562,#0F4D33)'},
+    {big:'53%',badge:'Fair chance',mono:'UDE',uni:'Uni Duisburg-Essen',p:'M.Sc. Technical Logistics',g:'linear-gradient(140deg,#5B7FD6,#2A2470)'},
+  ],
+  paid:[
+    {big:'8d',badge:'⚠ Deadline',mono:'DIT',uni:'Deggendorf Institute of Technology',p:'Portal submission · 10 Jul',g:'linear-gradient(140deg,#E3A417,#7A4E0B)'},
+    {big:'✓',badge:'Offer received',mono:'OTH',uni:'OTH Amberg-Weiden',p:'Confirm enrolment by 15 Aug',g:'linear-gradient(140deg,#22B562,#0F4D33)'},
+    {big:'18d',badge:'Docs due',mono:'HFU',uni:'HS Furtwangen',p:'1 supporting document missing',g:'linear-gradient(140deg,#6450E0,#241A54)'},
+  ],
+  p004:[
+    {big:'86%',badge:'New match',mono:'KN',uni:'Klinikum Nordbayern gGmbH',p:'Junior Logistics Coordinator · Nürnberg',g:'linear-gradient(140deg,#6450E0,#241A54)'},
+    {big:'#7',badge:'🏆 Your rank',mono:'LC',uni:'Logistics Challenge 2027',p:'Finals in 6 days · 412 participants',g:'linear-gradient(140deg,#E3A417,#7A4E0B)'},
+    {big:'78%',badge:'New match',mono:'BW',uni:'Bayernwerk Industrie GmbH',p:'Supply Chain Analyst · Augsburg',g:'linear-gradient(140deg,#22B562,#0F4D33)'},
+  ],
+};
+const HERO_T={free:'Your top chances',paid:'Your applications at a glance',p004:'Your matches & rank'};
+const HERO_GO={free:'cst',paid:'zenna',p004:'p004'};
+
+function suiteCards(){
+  const e=E();
+  const defs=[
+    {go:'cst',n:'Course Shortlisting',i:'🎯',bg:'var(--green-bg)',st:'<span class="tag free">Free for all</span>',p:'Check real admit chances before applying.',cta:'Run a check →'},
+    {go:'connect',n:'LTA Connect',i:'🎥',bg:'#E4EDFC',st:e.CONNECT?`<span class="tag free">${e.CONNECT==='mentor'?'Mentor':'Unlocked'}</span>`:'<span class="tag soon">Soon</span>',p:e.CONNECT==='mentor'?'You mentor now — 3 requests waiting.':e.CONNECT?'Talk to people living your dream journey.':'Real mentors, launching to everyone soon.',cta:e.CONNECT?'Open →':'Join waitlist →'},
+    {go:'zenna',n:'Zenna',i:'📋',bg:'var(--purple-100)',st:e.ZENNA==='archived'?'<span class="tag lock">Archived ✓</span>':e.ZENNA?'<span class="tag free">Live</span>':'<span class="tag lock">🔒 Clients</span>',p:e.ZENNA?'Every application & deadline, tracked live.':'Unlocks when you apply through LTA.',cta:e.ZENNA?'Open →':'Learn more →'},
+    {go:'p004',n:'Project004',i:'🚀',bg:'var(--amber-bg)',st:e.P004===true?'<span class="tag free">Live</span>':'<span class="tag soon">2027</span>',p:e.P004===true?'Jobs, hackathons & your leaderboard rank.':'The future of your German job search.',cta:e.P004===true?'Open →':'Notify me →'},
+  ];
+  return defs.map(d=>`<div class="scard" onclick="go('${d.go}')">
+    <div class="top"><div class="ic" style="background:${d.bg}">${d.i}</div><div><b>${d.n}</b><span class="st">${d.st}</span></div></div>
+    <p>${d.p}</p><span class="cta">${d.cta}</span></div>`).join('');
+}
+
+function pageDashboard(){
+  const p=PERSONAS[cur],f=FOCUS[cur];
+  const hello={free:'Good morning, <em>Tino</em>!',paid:'Welcome back, <em>Tino</em>.',p004:'Servus from Bavaria, <em>Tino</em>!'}[cur];
+  const steps=JOURNEY.map((s,i)=>{
+    const cls=i<p.stage?'done':i===p.stage?'now':'';
+    return `<div class="js-step ${cls}"><span class="d"></span>${s}</div>${i<JOURNEY.length-1?`<div class="js-line ${i<p.stage?'on':''}"></div>`:''}`;}).join('');
+  return `
+    ${ph('Home','${H}','One place for everything you do with LTA — nothing to hunt for.').replace('${H}',hello)}
+    <div class="focus fade">
+      <div class="z">🧝‍♀️</div>
+      <div class="fx"><div class="cap">${f.cap}</div><b>${f.b}</b><p>${f.p}</p></div>
+      <button class="btn" onclick="go('${f.go}')">${f.cta} →</button>
+    </div>
+    <div class="journey-strip fade">${steps}</div>
+
+    <div class="sec">${HERO_T[cur]} <small>· tap any card for the full picture</small></div>
+    <div class="hero-cards fade">
+      ${HERO[cur].map(c=>`<div class="hcard" style="background:${c.g}" onclick="go('${HERO_GO[cur]}')">
+        <div class="hc-top"><span class="hc-big num">${c.big}</span><span class="hc-badge">${c.badge}</span></div>
+        <div><div class="hc-uni"><span class="mono">${c.mono}</span>${c.uni}</div><p>${c.p}</p></div></div>`).join('')}
+    </div>
+
+    <div class="sec">Your LTA Suite <small>· one login opens all of it</small></div>
+    <div class="suite fade">${suiteCards()}</div>`;
+}
+
+/* =====================================================
+   PAGE: ZENNA
+===================================================== */
+const APPS=[
+  {mono:'DIT',c:'#177A45',uni:'Deggendorf Institute of Technology',course:'International Management',status:'warn',stTxt:'In progress',prog:82,dl:'10 Jul',dld:'8 days left'},
+  {mono:'DIT',c:'#177A45',uni:'Deggendorf Institute of Technology',course:'BA Intl. Tourism Development',status:'warn',stTxt:'In progress',prog:76,dl:'10 Jul',dld:'8 days left'},
+  {mono:'OTH',c:'#E3A417',uni:'OTH Amberg-Weiden',course:'BA International Business',status:'ok',stTxt:'Offer received',prog:100,dl:'15 Aug',dld:'Confirm enrolment'},
+  {mono:'OTH',c:'#E3A417',uni:'OTH Amberg-Weiden',course:'BSc Digital Technology & Mgmt.',status:'ok',stTxt:'Offer received',prog:100,dl:'15 Aug',dld:'Confirm enrolment'},
+  {mono:'HFU',c:'#C33A34',uni:'Hochschule Furtwangen',course:'BSc Intl. Business Information Systems',status:'info',stTxt:'In review',prog:64,dl:'20 Jul',dld:'1 doc missing'},
+  {mono:'THN',c:'#6450E0',uni:'TH Nürnberg',course:'M.Sc. Logistics',status:'info',stTxt:'Submitted',prog:100,dl:'—',dld:'Decision late July'},
+  {mono:'HM',c:'#5B7FD6',uni:'Hochschule München',course:'M.Sc. Engineering & Mgmt.',status:'bad',stTxt:'Rejected',prog:100,dl:'—',dld:'Closed'},
+  {mono:'THK',c:'#5B7FD6',uni:'TH Köln',course:'M.Sc. Production Engineering',status:'bad',stTxt:'Rejected',prog:100,dl:'—',dld:'Closed'},
+  {mono:'FRA',c:'#9C8CF5',uni:'Frankfurt UAS',course:'M.Sc. Global Logistics',status:'bad',stTxt:'Rejected',prog:100,dl:'—',dld:'Closed'},
+];
+function pageZenna(){
+  const e=E();
+  if(!e.ZENNA) return ph('My Suite / Zenna','Zenna — <em>your application tracker</em>','See every application, deadline and document in one place.')+
+    gate('📋','Zenna unlocks when you apply through LTA',
+    'Most consultancies keep you in the dark. Zenna is the opposite: live status for every application, auto-tracked deadlines, WhatsApp alerts for you and your parents, and an AI agent that reads your offer letters for critical dates.',
+    ['Live application status','Deadline alerts on WhatsApp','AI reads your documents','Parents can follow along'],
+    'Apply with LTA','Talk to us first');
+  if(e.ZENNA==='archived') return ph('My Suite / Zenna','Zenna — <em>journey complete</em> 🎓','Your admissions record is archived on your account forever — for visa renewals, Anerkennung and references.')+
+    `<div class="card fade"><div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <div class="app-logo" style="background:linear-gradient(140deg,#22B562,#0F4D33);width:54px;height:54px;font-size:20px;">🎓</div>
+      <div style="flex:1;"><b style="font-size:15px;">Admitted — Deggendorf Institute of Technology</b>
+      <div style="font-size:12px;color:var(--text-2);font-weight:600;margin-top:3px;">International Management · enrolled Aug 2026 · 9 applications · 2 offers</div></div>
+      <button class="btn btn-g">Download full record</button></div></div>
+    <div class="sec">Archived applications</div>`+APPS.map(a=>appRow(a)).join('');
+  const shown=zFilter==='all'?APPS:APPS.filter(a=>({ok:'ok',warn:'warn',bad:'bad',info:'info'})[zFilter]===a.status);
+  return ph('My Suite / Zenna','Zenna — <em>your applications, live</em>','Every application, its status, and what happens next. Simple enough for your parents to follow, powerful enough to never miss a deadline.')+
+  `<div class="z-stats fade">
+    <div class="z-stat"><b class="num">9</b><small>Total applications</small></div>
+    <div class="z-stat"><b class="num" style="color:var(--green)">2</b><small>Offers received 🎉</small></div>
+    <div class="z-stat"><b class="num">74%</b><small>Average completion</small></div>
+    <div class="z-stat"><b class="num" style="color:var(--amber)">8d</b><small>Next deadline · DIT</small></div>
+  </div>
+  <div class="two-col fade">
+    <div>
+      <div class="z-filter">
+        ${[['all','All (9)'],['ok','Offers (2)'],['warn','In progress (2)'],['info','Waiting (2)'],['bad','Closed (3)']].map(([k,l])=>`<button class="z-fbtn ${zFilter===k?'on':''}" onclick="zFilter='${k}';render();">${l}</button>`).join('')}
+      </div>
+      ${shown.map(a=>appRow(a)).join('')}
+    </div>
+    <div>
+      <div class="ai-panel">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px;"><span style="font-size:17px;">🤖</span><b style="font-size:13px;">Zenna AI Agent</b><span class="tag free" style="margin-left:auto;">Watching for you</span></div>
+        <div class="ai-item"><span>📄</span><div><b>Blocked-account proof due 10 Jul</b><small>Found in: Visa Checklist — Deggendorf IT.pdf</small></div><span class="conf">91% sure</span></div>
+        <div class="ai-item"><span>📄</span><div><b>Enrolment confirmation due 15 Aug</b><small>Found in: Offer Letter — OTH Amberg-Weiden.pdf</small></div><span class="conf">96% sure</span></div>
+        <div style="display:flex;gap:8px;margin-top:12px;"><button class="btn btn-p" style="flex:1;">Confirm & notify</button><button class="btn btn-g">Dismiss</button></div>
+      </div>
+      <div class="card" style="margin-top:14px;">
+        <b style="font-size:13px;">📱 WhatsApp updates</b>
+        <p style="font-size:11.5px;color:var(--text-2);line-height:1.6;margin:8px 0 0;">Deadline reminders and status changes go to you <b>and your application mentor Jisha</b> — so nothing ever depends on one person checking an app.</p>
+      </div>
+    </div>
+  </div>`;
+}
+const appRow=a=>`<div class="app-row fade">
+  <div class="app-logo" style="background:${a.c}">${a.mono}</div>
+  <div class="app-main"><b>${a.uni}</b><small>${a.course}</small></div>
+  <span class="tag ${a.status}">${a.stTxt}</span>
+  <div class="app-prog"><small>Completion · ${a.prog}%</small><div class="bar"><i style="width:${a.prog}%"></i></div></div>
+  <div class="app-dl"><b>${a.dl}</b><small>${a.dld}</small></div>
+</div>`;
+
+/* =====================================================
+   PAGE: CONNECT
+===================================================== */
+const MENTORS=[
+  {n:'Geen Geo',init:'GG',c:'linear-gradient(140deg,#6450E0,#241A54)',role:'M.Sc. Logistics & Production · TU München',tags:['Mechanical','TUM admits','Winter intake'],rate:'★ 4.9 · 41 sessions'},
+  {n:'Gladia Thomas',init:'GT',c:'linear-gradient(140deg,#5B7FD6,#2A2470)',role:'M.Sc. Electrical Engineering · TU Dresden',tags:['Electrical','Scholarships','DAAD'],rate:'★ 4.8 · 33 sessions'},
+  {n:'Anee Mathew',init:'AM',c:'linear-gradient(140deg,#22B562,#0F4D33)',role:'M.Sc. Computer Engineering · Uni Duisburg-Essen',tags:['CS/IT','UDE','Part-time jobs'],rate:'★ 5.0 · 27 sessions'},
+  {n:'Rahul Nair',init:'RN',c:'linear-gradient(140deg,#E3A417,#7A4E0B)',role:'Working Professional · Automotive · Munich',tags:['Job market','Blue Card','Salary talk'],rate:'★ 4.9 · 52 sessions'},
+  {n:'Sneha Pillai',init:'SP',c:'linear-gradient(140deg,#9C8CF5,#4E3DBE)',role:'Ausbildung Nurse · Klinikum · Bavaria',tags:['Nursing','Ausbildung','B2 German'],rate:'★ 4.8 · 38 sessions'},
+  {n:'Kevin Joseph',init:'KJ',c:'linear-gradient(140deg,#C33A34,#5E1815)',role:'M.Sc. Data Science · RWTH Aachen',tags:['Data/AI','RWTH','Uni assist'],rate:'★ 4.7 · 19 sessions'},
+];
+function pageConnect(){
+  const e=E();
+  if(!e.CONNECT) return ph('My Suite / LTA Connect','Connect — <em>ask someone who\'s living it</em>','Why take advice about a mechanical master\'s from someone who never studied mechanical? Talk to real students and professionals in Germany.')+
+    gate('🎥','LTA Connect is launching to everyone soon',
+    'A B.Com counselor shouldn\'t decide your engineering future based on Google. On Connect, a mechanical graduate books a call with a mechanical engineer already in Germany — real course insight, real job-market truth, real life answers.',
+    ['1:1 video sessions','Mentors from your exact field','Honest answers, no sales talk','WhatsApp chat option'],
+    'Join the waitlist','See how it works');
+  const mentorBanner = e.CONNECT==='mentor' ? `
+    <div class="focus fade" style="margin-bottom:18px;">
+      <div class="z">🌟</div>
+      <div class="fx"><div class="cap">You've come full circle</div><b>3 aspirants requested your DIT story this week.</b>
+      <p>You used Connect as a student — now you're the mentor someone in Kerala is hoping to meet. Sessions pay out monthly to your account.</p></div>
+      <button class="btn">Review requests →</button>
+    </div>`:'';
+  const nextSess = e.CONNECT===true ? `
+    <div class="card fade" style="display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap;">
+      <div class="m-av" style="background:linear-gradient(140deg,#6450E0,#241A54)">GG</div>
+      <div style="flex:1;"><b style="font-size:14px;">Your next session — Geen Geo</b>
+      <div style="font-size:11.5px;color:var(--text-2);font-weight:600;margin-top:2px;">Friday 6 July · 17:00 · Video call · "Course selection for Technical Logistics"</div></div>
+      <button class="btn btn-p">Join call</button><button class="btn btn-g">Reschedule</button>
+    </div>`:'';
+  return ph('My Suite / LTA Connect','Connect — <em>real people, real answers</em>','Book a 1:1 with students and professionals who are already where you want to be.')+
+    mentorBanner+nextSess+
+    `<div class="sec">Mentors picked for your profile <small>· mechanical & logistics first</small></div>
+    <div class="m-grid fade">
+      ${MENTORS.map(m=>`<div class="m-card">
+        <div class="m-head"><div class="m-av" style="background:${m.c}">${m.init}</div><div><b>${m.n}</b><small>${m.role}</small></div></div>
+        <div class="m-tags">${m.tags.map(t=>`<span class="m-tag">${t}</span>`).join('')}</div>
+        <div class="m-foot"><span class="m-rate">${m.rate}</span><button class="btn btn-p">Book 1:1</button></div>
+      </div>`).join('')}
+    </div>`;
+}
+
+/* =====================================================
+   PAGE: CST (functional predictor)
+===================================================== */
+const CST_UNIS=[
+  ['TUM','TU Munich','M.Sc. Technical Logistics',1.20],
+  ['THI','TH Ingolstadt','M.Sc. Industrial Engineering',0.82],
+  ['UDE','Uni Duisburg-Essen','M.Sc. Technical Logistics',0.95],
+  ['TUD','TU Darmstadt','M.Sc. Logistics & SCM',1.12],
+  ['THN','TH Nürnberg','M.Sc. Logistics',0.78],
+];
+let cstResult=null;
+function runCST(){
+  const cgpa=parseFloat(document.getElementById('cgpa').value)||7;
+  const ielts=parseFloat(document.getElementById('ielts').value)||6.5;
+  const de=document.getElementById('german').value;
+  const deB={none:0,A1:2,A2:4,B1:7,B2:10}[de]||0;
+  const base=(cgpa-5)*9 + (ielts-5)*8 + deB;
+  cstResult=CST_UNIS.map(([m,u,c,diff])=>{
+    let pct=Math.round(Math.min(92,Math.max(8, base/diff + (Math.random()*6-3) )));
+    return {m,u,c,pct};
+  }).sort((a,b)=>b.pct-a.pct);
+  render();
+}
+function pageCST(){
+  const res=cstResult;
+  return ph('My Suite / Course Shortlisting','Check your <em>real</em> admit chances','No fake "100% guarantee" promises. Enter your basics and get an honest estimate — the same starting point our own application team uses.')+
+  `<div class="cst-wrap fade">
+    <div class="card">
+      <b style="font-size:13.5px;">Your profile</b>
+      <p style="font-size:11px;color:var(--text-2);margin:4px 0 16px;">Takes 30 seconds. No documents needed for the basic check.</p>
+      <div class="f-group"><label>Bachelor degree</label>
+        <select id="deg"><option>B.Tech Mechanical Engineering</option><option>B.Tech Computer Science</option><option>B.Sc Nursing</option><option>B.Com</option></select></div>
+      <div class="f-group"><label>CGPA (out of 10)</label><input id="cgpa" type="number" step="0.1" min="5" max="10" value="7.8"></div>
+      <div class="f-group"><label>IELTS score</label><input id="ielts" type="number" step="0.5" min="5" max="9" value="7.0"></div>
+      <div class="f-group"><label>German level</label>
+        <select id="german"><option value="none">None yet</option><option value="A1">A1</option><option value="A2" selected>A2</option><option value="B1">B1</option><option value="B2">B2</option></select></div>
+      <div class="f-group"><label>Target field</label>
+        <select><option>Logistics / Supply Chain</option><option>Mechanical / Production</option><option>Computer Science / Data</option><option>Healthcare / Nursing</option></select></div>
+      <button class="btn btn-p" style="width:100%;" onclick="runCST()">Check my chances →</button>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:8px;"><b style="font-size:13.5px;">${res?'Your results':'Your results will appear here'}</b>${res?'<span class="tag free">Updated just now</span>':''}</div>
+      ${res? res.map(r=>{
+        const col=r.pct>=65?'var(--green-solid)':r.pct>=40?'#E3A417':'#E4453D';
+        return `<div class="cst-uni"><div class="mono">${r.m}</div><div><b>${r.u}</b><small>${r.c}</small></div>
+        <div class="cst-pct"><b class="num" style="color:${col}">${r.pct}%</b><div class="bar"><i style="width:${r.pct}%;background:${col}"></i></div></div></div>`;}).join('')
+      : `<p style="font-size:12px;color:var(--text-2);line-height:1.6;margin:14px 0;">Fill in your profile and press the button. You'll get an honest percentage for 5 matched universities — green means apply with confidence, amber means possible, red means we'd suggest better-fit options.</p>`}
+      <div class="disclaimer">⚖️ Honesty note: this basic check is roughly 60–70% accurate — it uses only your headline numbers. For a module-level prediction (matching your actual transcripts against course handbooks), our application team does a full evaluation. No one can honestly promise a "100% admission guarantee" to German public universities — and anyone who does is someone to walk away from.</div>
+      ${res?'<button class="btn btn-p" style="margin-top:14px;width:100%;">Talk to our team about these results →</button>':''}
+    </div>
+  </div>`;
+}
+
+/* =====================================================
+   PAGE: PROJECT004
+===================================================== */
+function pageP004(){
+  const e=E();
+  if(e.P004!==true) return ph('My Suite / Project004','Project004 — <em>get hired for what you can do</em>','Job search shouldn\'t feel like throwing CVs into a void. Coming 2027.')+
+    gate('🚀','Coming 2027 — and your account already works here',
+    'Jobs, hackathons and leaderboards in one platform. Show your skills in real competitions, climb rankings employers actually watch, and get matched with German companies — instead of waiting like a duck for an ATS to read keywords.',
+    ['Verified job listings','Hackathons & competitions','Employer-watched leaderboards','Shareable profile card'],
+    'Notify me at launch','How it will work');
+  return ph('My Suite / Project004','Your <em>job search, upgraded</em>','Applications, competitions and your rank — the things German employers actually see.')+
+  `<div class="z-stats fade" style="grid-template-columns:repeat(3,1fr);">
+    <div class="z-stat"><b class="num">3</b><small>Applications in review</small></div>
+    <div class="z-stat"><b class="num">2</b><small>Hackathons entered</small></div>
+    <div class="z-stat"><b class="num" style="color:var(--green)">2</b><small>Employer profile views this week</small></div>
+  </div>
+  <div class="two-col fade">
+    <div>
+      <div class="sec" style="margin-top:4px;">Matched jobs <small>· based on your skills & German B2</small></div>
+      ${[
+        ['KN','#6450E0','Klinikum Nordbayern gGmbH','Junior Logistics Coordinator · Nürnberg','86% match','In review'],
+        ['BW','#22B562','Bayernwerk Industrie GmbH','Supply Chain Analyst · Augsburg','78% match','In review'],
+        ['MS','#E3A417','MedSupply Süd GmbH','Warehouse Process Planner · München','74% match','Applied 2d ago'],
+      ].map(j=>`<div class="job-row">
+        <div class="app-logo" style="background:${j[1]}">${j[0]}</div>
+        <div class="app-main"><b>${j[2]}</b><small>${j[3]}</small></div>
+        <span class="tag free">${j[4]}</span><span class="tag info">${j[5]}</span>
+        <button class="btn btn-g" style="margin-left:auto;">View</button></div>`).join('')}
+    </div>
+    <div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><b style="font-size:13px;">🏆 Logistics Challenge 2027</b><span class="tag warn" style="margin-left:auto;">Finals in 6d</span></div>
+        ${[['5','A. Fernandes','2,410'],['6','P. Sharma','2,395']].map(r=>`<div class="lb-row"><span class="lb-rank">${r[0]}</span>${r[1]}<span class="lb-pts num">${r[2]} pts</span></div>`).join('')}
+        <div class="lb-row me"><span class="lb-rank">7</span><b>Tino Sunny (you)</b><span class="lb-pts num">2,340 pts</span></div>
+        ${[['8','M. George','2,310'],['9','L. Krishnan','2,255']].map(r=>`<div class="lb-row"><span class="lb-rank">${r[0]}</span>${r[1]}<span class="lb-pts num">${r[2]} pts</span></div>`).join('')}
+        <p style="font-size:10.5px;color:var(--text-2);line-height:1.55;margin:10px 0 0;">Top 10 profiles go directly to participating employers after the finals.</p>
+      </div>
+      <div class="card" style="margin-top:14px;background:linear-gradient(150deg,var(--purple-900),var(--purple-700));color:#fff;border:none;">
+        <b style="font-size:13px;">Your profile card</b>
+        <p style="font-size:11px;opacity:.8;line-height:1.55;margin:6px 0 12px;">Rank #7 · Top 2% · Logistics — share it where recruiters can see it.</p>
+        <button class="btn" style="background:#fff;color:var(--purple-900);width:100%;">Share to LinkedIn →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* =====================================================
+   PAGES: DOCUMENTS / NOTIFICATIONS / SUPPORT
+===================================================== */
+function pageDocs(){
+  const e=E(),p4=e.P004===true;
+  const docs = e.ZENNA?[
+    ['Passport_TinoSunny.pdf','Uploaded Mar 2026 · verified ✓',['Zenna',...(p4?['P004']:[])]],
+    ['IELTS_TRF_7.0.pdf','Uploaded Mar 2026 · verified ✓',['Zenna',...(p4?['P004']:[])]],
+    ['B.Tech_Transcripts.pdf','Uploaded Apr 2026 · verified ✓',['Zenna','CST']],
+    ['German_A2_Goethe.pdf','Uploaded May 2026',['Zenna']],
+  ]:[];
+  return ph('Documents','One vault, <em>every product</em>','Upload a document once and it follows you everywhere — applications today, job search tomorrow. You will never email the same PDF twice.')+
+  `<div class="drop fade">📤 &nbsp;Drop a file here or click to upload — PDF, JPG or PNG up to 10 MB</div>
+  <div class="card fade">
+    ${docs.length?docs.map(d=>`<div class="doc"><span class="ext">PDF</span><div>${d[0]}<small>${d[1]}</small></div>
+      <div class="used"><span style="font-size:9px;font-weight:800;color:var(--text-3);">USED IN</span>${d[2].map(u=>`<span class="pill">${u}</span>`).join('')}</div></div>`).join('')
+    :`<p style="font-size:12.5px;color:var(--text-2);line-height:1.6;margin:4px 0;">No documents yet. Start with your passport and latest transcripts — they'll be ready the moment you need them for an application or a chance check.</p>`}
+  </div>`;
+}
+function pageNtf(){
+  const N={
+    free:[['🎯','Your admit-chance report is ready — 5 universities checked.','Today · 09:12'],['🎥','LTA Connect is opening to the public soon. You\'re on the list.','2 days ago'],['👋','Welcome to your LTA Account — the only login you\'ll ever need with us.','4 days ago']],
+    paid:[['⏰','DIT portal submission due in 8 days — Zenna is tracking it.','Today · 08:00'],['🤖','Zenna AI found an enrolment date in your OTH offer letter.','Yesterday'],['🎥','Session confirmed with Geen Geo (TUM) — Friday 17:00.','2 days ago'],['✅','Offer received from OTH Amberg-Weiden. Congratulations! 🎉','5 days ago']],
+    p004:[['🏆','You moved up to #7 on the Logistics Challenge leaderboard.','Today · 10:40'],['💼','An employer in Augsburg viewed your Project004 profile.','Yesterday'],['🎥','New mentor request from an aspirant applying to DIT.','2 days ago'],['🚀','New job match: Junior Logistics Coordinator · 86%.','3 days ago']],
+  }[cur];
+  return ph('Notifications','Everything, <em>one feed</em>','From every product on your account — so you check one place, not five apps.')+
+  `<div class="card fade">${N.map(n=>`<div class="ntf-row"><div class="ntf-ic">${n[0]}</div><div>${n[1]}<small>${n[2]}</small></div></div>`).join('')}</div>`;
+}
+function pageSupport(){
+  return ph('Support','We\'re <em>actual humans</em>','Built by people who\'ve lived this journey — ask us anything, in English, Malayalam or German.')+
+  `<div class="help-grid fade">
+    <div class="help-card"><div class="ic">💬</div><b>WhatsApp us</b><p>Fastest reply · usually within 2 hours, IST daytime</p></div>
+    <div class="help-card"><div class="ic">📅</div><b>Book a call</b><p>15-minute video call with our team — free</p></div>
+    <div class="help-card"><div class="ic">✉️</div><b>Email</b><p>info@letterstoabroad.com · replies within 1 day</p></div>
+  </div>
+  <div class="card fade">
+    <b style="font-size:13.5px;">Common questions</b>
+    <div style="margin-top:8px;">
+      <div class="faq"><b>Is my one LTA Account really enough for everything?</b><p>Yes. The same login opens Course Shortlisting, Connect, Zenna and Project004 (when live). If a product is locked, your account simply doesn't have that entitlement yet — nothing to re-register.</p></div>
+      <div class="faq"><b>Can my parents see my application progress?</b><p>Yes — WhatsApp updates can include a family member, and your Zenna overview is designed to be readable without any tech knowledge.</p></div>
+      <div class="faq"><b>Is the chance checker really honest?</b><p>It's 60–70% accurate on basic data, and we say so openly. Anyone promising a "100% admission guarantee" to German public universities is not being honest with you.</p></div>
+    </div>
+  </div>`;
+}
+
+/* ---------- router ---------- */
+const PAGES={dashboard:pageDashboard,zenna:pageZenna,connect:pageConnect,cst:pageCST,p004:pageP004,documents:pageDocs,notifications:pageNtf,support:pageSupport};
+function render(){
+  document.querySelectorAll('.demo-tab').forEach(t=>t.classList.toggle('active',t.dataset.key===cur));
+  document.getElementById('roleLabel').textContent=PERSONAS[cur].role;
+  drawNav();
+  document.getElementById('content').innerHTML=PAGES[page]();
+}
+render();
+</script>
+</body>
+</html>
