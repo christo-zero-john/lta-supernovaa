@@ -1,36 +1,33 @@
+"use client";
+
 import {
   createContext,
   useContext,
   useEffect,
   useMemo,
   useState,
+  ViewTransition,
   type ReactNode,
 } from "react";
 import Sidebar from "./Sidebar";
-import Topbar from "./Topbar";
-import PersonaSwitcher from "./PersonaSwitcher";
-import { useApp } from "./AppProvider";
 
 type ShellNavigation = { navigationOpen: boolean; openNavigation: () => void };
 const ShellNavigationContext = createContext<ShellNavigation | null>(null);
 
-/** Lets a view that brings its own header open the shared navigation drawer. */
+/** Lets a page's header open the shared navigation drawer. */
 export function useShellNavigation() {
   const ctx = useContext(ShellNavigationContext);
   if (!ctx) throw new Error("AppShell missing");
   return ctx;
 }
 
-export default function AppShell({
-  children,
-  topbar = true,
-}: {
-  children: ReactNode;
-  /** Views with their own header (the Figma dashboard) render without the topbar. */
-  topbar?: boolean;
-}) {
-  const [open, setOpen] = useState(false),
-    { feedback, persona, view } = useApp();
+/**
+ * The sidebar beside the current page. Each page brings its own header
+ * (the home page its Figma header, the others the top bar); only the page
+ * column animates when the page changes.
+ */
+export default function AppShell({ children }: { children: ReactNode }) {
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     if (!open) return;
     const close = (e: KeyboardEvent) => {
@@ -47,23 +44,9 @@ export default function AppShell({
     <ShellNavigationContext.Provider value={navigation}>
       <div className="sn-shell">
         <Sidebar open={open} onClose={() => setOpen(false)} />
-        {topbar ? (
-          <div className="sn-main">
-            <Topbar key={persona} onMenu={() => setOpen(true)} />
-            <PersonaSwitcher />
-            <main className="sn-content" key={`${persona}-${view}`}>
-              {children}
-            </main>
-          </div>
-        ) : (
+        <ViewTransition name="dashboard-page" default="dashboard-page">
           <div className="sn-own-header-main">{children}</div>
-        )}
-        <div
-          className={`sn-feedback ${feedback ? "visible" : ""}`}
-          role="status"
-        >
-          {feedback}
-        </div>
+        </ViewTransition>
       </div>
     </ShellNavigationContext.Provider>
   );
