@@ -35,6 +35,8 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .reference-header input { width: 297px; min-width: 0; height: 36px; padding: 8px 20px; border: 0; border-radius: 44px; background: white; font: 400 14px/normal var(--figma-inter), sans-serif; color: #242a33; outline: none; box-shadow: none; }
 .reference-header input:focus-visible { outline: none; box-shadow: none; }
 .reference-header input::placeholder { color: #888c92; }
+/* Pinned while scrolling: the padding sits in .reference-main's own padding, so nothing moves at the top. */
+.reference-header { position: sticky; top: 0; z-index: 30; box-sizing: content-box; margin: -12px; padding: 12px 14px 12px 12px; background: rgba(232, 230, 233, .86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
 .reference-header-actions { display: flex; align-items: center; gap: 12px; }
 .profile-button { background: #efe9f7; border: 0; padding: 0; flex: 0 0 36px; height: 36px; border-radius: 50%; overflow: hidden; }
 /* Beats the intrinsic-size rule for SVGs (the placeholder is one). */

@@ -294,6 +294,19 @@ body:has(.sn-root) {
   height: 40px;
   margin-bottom: 14px;
 }
+/* Pinned while scrolling: the padding sits in .sn-main's own padding, so
+   nothing moves at the top. */
+.sn-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  box-sizing: content-box;
+  margin: -12px -12px 2px 0;
+  padding: 12px 12px 12px 0;
+  background: rgb(232 230 233 / 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
 .sn-search-wrap {
   position: relative;
   display: flex;
