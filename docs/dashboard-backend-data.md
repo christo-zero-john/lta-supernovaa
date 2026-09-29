@@ -2,7 +2,7 @@
 
 What the backend needs to answer, and in what format, to replace the dummy data on the student dashboard and every page in its menu.
 
-Source: the Supernova reference at `/figma/dashboard` (`src/app/dashboard/_supernova`, `src/app/figma/dashoard`) and the live `/dashboard`. Today every value on those pages is hardcoded in `src/app/dashboard/_supernova/lib/fixtures.ts`, `lib/jobs.ts`, or inline in components. The "Free user / Paid client / Project004 era" persona switcher is a demo control; the **Global → user tier** and **product launch status** sections replace it.
+Only what the backend needs to provide is listed. Everything else stays fixed in the frontend.
 
 ## Conventions
 
@@ -50,58 +50,28 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 - Remove photo: 🆕 `DELETE users/me/profile-picture/` (the frontend then shows the placeholder avatar again).
 - Dismiss prompt: 🆕 `POST users/me/profile-prompt/dismiss/`, or a `profile_prompt_dismissed_at` field set with the `PATCH`.
 
-## Feature: user tier (replaces the persona switcher)
+## Feature: user tier
 There is one tier question: is the user a paid LTA client or not.
 - **Free:** Course Shortlisting.
-- **Paid:** Course Shortlisting, Zenna, and Project004 as an extension of the paid plan once it launches.
-- This drives the sidebar lock icons, the lock screens, and the "Free For All" / "LTA Members Only" tags.
+- **Paid:** Course Shortlisting and Zenna.
+- The frontend derives every lock, lock screen and access tag from this one field, so no separate entitlement endpoint is needed.
 - Is the user a paid client?
-- Once LTA Connect is live, is it for everyone or only for paid users? (Its first Figma tag said "Free For All".)
+- Once LTA Connect is live, is it for everyone or only for paid users?
     - Format needed (added to `users/me/`):
     ```json
     { "is_paid": true }
     ```
 
-## Feature: product launch status (the same for every user)
-Not a per-user answer: a setting the project team flips when a product launches.
-- Is LTA Connect open yet? Home currently shows it as "Coming Soon" and locked, hardcoded.
-- Is Project004 live? (The project team decides this later, so a config flag is enough for now.)
-    - Format needed (🆕 `GET config/`, or included in `users/me/`):
-    ```json
-    {
-        "launches": {
-            "connect": { "is_live": false, "label": "Coming Soon" },
-            "project004": { "is_live": false, "label": "Coming 2027" }
-        }
-    }
-    ```
-
-## Feature: notification badge
-- How many unread notifications does the user have? Drives the sidebar count and the topbar dot.
-    - Format: `{ "unread_count": 3 }` (🆕, or included in the notifications list response)
-
-## Feature: WhatsApp updates toggle (topbar pill and settings dialog)
+## Feature: WhatsApp updates toggle (topbar and settings dialog)
 - Are WhatsApp updates on or off for this user?
-- Can the user change it? 🆕 `PATCH users/me/preferences/`
-- Which number do messages go to? Can a family member be added? (The FAQ promises parents can follow along.)
-    - Format:
+- Which number do messages go to? The user's phone number should be part of the user data.
+- Can the user switch updates on or off? 🆕 `PATCH users/me/` `{ "whatsapp_enabled": false }` returns the updated user.
+    - Format needed (added to `users/me/`):
     ```json
     {
-        "whatsapp_enabled": true,
-        "whatsapp_number_masked": "+91 ••••• ••210",
-        "family_contacts": [
-            { "name": "string", "relation": "string", "number_masked": "string" }
-        ]
+        "phone_number": "+919876543210",
+        "whatsapp_enabled": true
     }
-    ```
-
-## Feature: global search (topbar)
-- Should search run on the backend (one endpoint across applications, mentors and documents), or should the frontend filter lists it has already loaded? Frontend filtering is fine unless the lists get large.
-    - Format if backend: 🆕 `GET search/?q=`
-    ```json
-    [
-        { "type": "application | mentor | document", "id": "string", "title": "string", "subtitle": "string" }
-    ]
     ```
 
 ## Feature: log out
@@ -140,11 +110,6 @@ Not a per-user answer: a setting the project team flips when a product launches.
     ]
     ```
     The frontend calculates "10 days left" from `application_deadline`. Is `course_fee` tuition or cost of living? The current API only has `cost_of_living`.
-
-### Feature: Explore LTA Suite cards
-- Access tag per product (Free For All / LTA Members Only / Coming Soon, with lock): comes from `is_paid` and the launch status above.
-- Are the intro videos fixed, or managed by the backend or CMS? Right now one S3 URL is hardcoded.
-    - Format (only if backend-managed): `[ { "product": "zenna", "video_url": "string", "thumbnail_url": "string" } ]`
 
 ### Feature: Upcoming events + calendar
 - Does the user have any upcoming events (LTA webinars, workshops)?
@@ -190,12 +155,8 @@ Not a per-user answer: a setting the project team flips when a product launches.
     ]
     ```
 
-### Feature: footer mentor card
-- "Book a session" opens the booking flow (see Connect and Support).
-- "Chat with a Mentor": what is the WhatsApp number or link? One fixed LTA number, or the user's assigned counsellor?
-
 ### What the live dashboard calls today
-- The redesigned dashboard calls only ✅ `users/me/`, ✅ `shortlisted-courses/` (Home cards) and ✅ `booked-slot/` (Home calendar). Every other page shows empty states, or the dummy data chosen from the navbar's "Choose options" switch (`src/app/dashboard/_supernova/demo/demo-data.json`). That file's field names follow the current UI, not the formats in this doc.
+- The dashboard calls only ✅ `users/me/`, ✅ `shortlisted-courses/` (Home cards) and ✅ `booked-slot/` (Home calendar). Every other page shows empty states until the endpoints below exist.
 - ✅ `students/me/stats/`, ✅ `applications/` and ✅ `booked-slot/upcoming/` exist but are no longer called. They should come back through the Zenna and Connect formats below.
 
 ---
@@ -219,7 +180,7 @@ Not a per-user answer: a setting the project team flips when a product launches.
             "uploaded_at": "2026-03-12T10:00:00Z",
             "verification_status": "pending | verified | rejected",
             "rejection_reason": "string | null",
-            "used_in": ["zenna", "course_shortlisting", "project004"],
+            "used_in": ["zenna", "course_shortlisting"],
             "preview_url": "signed URL",
             "download_url": "signed URL"
         }
@@ -247,13 +208,14 @@ Not a per-user answer: a setting the project team flips when a product launches.
         {
             "notification_id": "string",
             "message": "DIT portal submission due in 8 days — Zenna is tracking it.",
-            "product": "zenna | connect | course_shortlisting | project004 | documents | support | account",
+            "product": "zenna | connect | course_shortlisting | documents | support | account",
             "target_id": "application id / session id / null",
             "created_at": "2026-07-02T08:00:00Z",
             "is_read": false
         }
     ]
     ```
+- The sidebar count and the topbar dot are counted on the frontend from `is_read` in this list, so no separate unread-count endpoint is needed.
 - Mark as read: 🆕 `PATCH notifications/{id}/` `{ "is_read": true }`. Is a "mark all read" endpoint needed too?
 
 ---
@@ -279,9 +241,8 @@ Not a per-user answer: a setting the project team flips when a product launches.
 
 # Page: Zenna (application tracker)
 
-### Feature: access / lock screen
-- Zenna is unlocked when `is_paid` is true.
-- Locked users see "Apply with LTA" (opens team booking) and "Talk to us first" (opens contact). Nothing new needed from the backend.
+### Feature: access
+- Zenna is unlocked when `is_paid` is true. Nothing else is needed for the lock screen.
 
 ### Feature: summary stats
 - How many applications does the user have?
@@ -352,7 +313,7 @@ Not a per-user answer: a setting the project team flips when a product launches.
 # Page: LTA Connect
 
 ### Feature: access / waitlist
-- Connect stays locked for everyone until it launches (launch status above). After launch, free users see it locked only if it is paid-only (see the tier question).
+- Connect is not open yet. Once it opens, free users see it locked only if it is paid-only (see the tier question).
 - Join the waitlist: 🆕 `POST connect/waitlist/`. Can `users/me/` return `"connect_waitlisted": true`, so the button shows "You're on the list"?
 
 ### Feature: next session + booked sessions
@@ -424,63 +385,12 @@ Not a per-user answer: a setting the project team flips when a product launches.
 
 ---
 
-# Page: Project004 (jobs, competitions)
-
-### Feature: access
-- Project004 opens for paid users (`is_paid`) once it is live (launch status above). The project team decides launch; no backend answer yet.
-- "Notify me at launch": 🆕 `POST project004/notify-me/`
-
-### Feature: stats row
-- How many of the user's job applications are in review?
-- How many hackathons have they entered?
-- How many employers viewed their profile this week?
-    - Format: `{ "applications_in_review": 3, "hackathons_entered": 2, "employer_views_this_week": 2 }`
-
-### Feature: matched jobs
-- Format: 🆕 `GET project004/jobs/matched/`
-    ```json
-    [
-        {
-            "job_id": "string",
-            "company_name": "string",
-            "company_logo_url": "string",
-            "role": "Junior Logistics Coordinator",
-            "city": "Nürnberg",
-            "match_score": 86,
-            "application_status": "not_applied | applied | in_review | rejected | offer",
-            "applied_at": "ISO | null"
-        }
-    ]
-    ```
-
-### Feature: competition + leaderboard
-- Which competition is the user in, when are the finals, and how many participants are there?
-- Which leaderboard rows are around the user's rank?
-    - Format:
-    ```json
-    {
-        "competition_id": "string",
-        "name": "Logistics Challenge 2027",
-        "finals_at": "ISO",
-        "participants": 412,
-        "me": { "rank": 7, "points": 2340, "percentile": 2 },
-        "leaderboard": [
-            { "rank": 5, "display_name": "A. Fernandes", "points": 2410, "is_me": false }
-        ]
-    }
-    ```
-
-### Feature: shareable profile card
-- Is there a public profile URL to share on LinkedIn, or only copyable text? Format: `{ "share_text": "string", "public_url": "string | null" }`
-
----
-
 # Summary
 
-**Already there, needs extra fields:** `users/me/` (journey stage, `is_paid`, gender, missing profile fields; plus new endpoints to update the name and upload the photo), `booked-slot/` (mentor name and photo, topic), `shortlisted-courses/` (logo, image, location, duration, fee, deadline), `applications/` (status group, deadline, next action, short code), `students/me/stats/` (Zenna summary shape), and `booked-slot/` / `booked-slot/upcoming/` (topic, join link, month filter).
+**Already there, needs extra fields:** `users/me/` (journey stage, `is_paid`, gender, phone number, `whatsapp_enabled`, missing profile fields; plus new endpoints to update the name, WhatsApp setting and photo), `booked-slot/` (mentor name and photo, topic), `shortlisted-courses/` (logo, image, location, duration, fee, deadline), `applications/` (status group, deadline, next action, short code), `students/me/stats/` (Zenna summary shape), and `booked-slot/` / `booked-slot/upcoming/` (topic, join link, month filter).
 
 **Entirely new, roughly in priority order:**
-1. `is_paid` and the launch status. Every lock, gate and tag depends on them, so they unblock the most.
+1. `is_paid`. Every lock, lock screen and access tag depends on it, so it unblocks the most.
 2. Profile update: name and photo upload. It's small, and every page shows the name and photo.
 3. Notifications.
 4. Documents.
@@ -489,14 +399,10 @@ Not a per-user answer: a setting the project team flips when a product launches.
 7. Team-call booking.
 8. Course Shortlisting check.
 9. Zenna AI findings.
-10. Project004. Last, because it is not live.
 
-**Could stay as fixed frontend text if the team prefers:** testimonials, FAQs, help channels, product intro videos and social links. Each is listed as a question above so the team can decide rather than build them by default.
+**Could stay as fixed frontend text if the team prefers:** testimonials, FAQs and help channels. Each is listed as a question above so the team can decide rather than build them by default.
 
 **Decisions needed before backend work starts:**
 - Are Connect bookings made inside the dashboard, or by linking to the Connect site?
 - Does the backend calculate Course Shortlisting percentages (the current frontend formula is fake), and do the results feed the dashboard carousel?
-- Who decides when Project004 goes live? (Project team; a config flag is enough for now.)
 - Do notifications update live, or on page load?
-
-**Not covered:** Zenna's "archived after admission" view and Connect's "mentor mode" (alumni answering requests). Both came from the concept demo's personas, not from a real tier, so they are not asked for. Also not covered: the demo copy in `fixtures.ts` for the "what matters today" focus banner, the hero cards and the journey steps (`FOCUS`, `HERO`, `JOURNEY`). No page renders them today.
