@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="lucide/calendar" clip-path="url(#clip0_0_4)">
+<path id="Vector" d="M3.80664 2.55859V5.22526" stroke="#EAECEF" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M9.13867 2.55859V5.22526" stroke="#EAECEF" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M11.1393 3.88672H1.80599C1.06961 3.88672 0.472656 4.48367 0.472656 5.22005V14.5534C0.472656 15.2898 1.06961 15.8867 1.80599 15.8867H11.1393C11.8757 15.8867 12.4727 15.2898 12.4727 14.5534V5.22005C12.4727 4.48367 11.8757 3.88672 11.1393 3.88672Z" stroke="#EAECEF" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M0.472656 7.88672H12.4727" stroke="#EAECEF" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_0_4">
+<rect width="16" height="16" fill="white"/>
+</clipPath>
+</defs>
+</svg>
