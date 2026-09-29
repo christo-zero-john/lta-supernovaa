@@ -1,6 +1,6 @@
 "use client";
 
-import OriginalDashboard from "../../../figma/dashoard/_components/Dashboard";
+import OriginalDashboard from "../home/Dashboard";
 import { useApp } from "../components/AppProvider";
 import { useShellNavigation } from "../components/AppShell";
 export default function DashboardView() {

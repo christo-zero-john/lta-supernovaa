@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "../../dashboard/_supernova/supernova.css";
-import "../dashoard/dashboard.css";
-import "../dashoard/testimonial-gradients.css";
+import "../../dashboard/_supernova/home/dashboard.css";
+import "../../dashboard/_supernova/home/testimonial-gradients.css";
 import "../../dashboard/_supernova/reference-fonts.css";
 import "../../dashboard/_supernova/button-motion.css";
 export const metadata: Metadata = {
