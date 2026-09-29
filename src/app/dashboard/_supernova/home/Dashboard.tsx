@@ -8,86 +8,72 @@ import SorbonneCard from "./SorbonneCard";
 import DarmstadtCard from "./DarmstadtCard";
 import FourthCard from "./FourthCard";
 import ZennaIntro from "./ZennaIntro";
+import { universityCardProps } from "./universityCard";
+import { MONTH_NAMES, toCalendarEvent, type CalendarEvent } from "./events";
+import { TESTIMONIALS } from "./testimonials";
+import { useApp } from "../components/AppProvider";
+import { useShellNavigation } from "../components/AppShell";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 import type { ViewId } from "../lib/types";
 import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import TruncatedText from "@/components/TruncatedText/TruncatedText";
+import { handleGetBookedSlots } from "@/actions/calendar.actions";
+import type { ShortlistedCourse } from "@/lib/services/course.service";
+import type { BookedSlot } from "@/lib/services/calendar.service";
+import "./dashboard.css";
+import "./testimonial-gradients.css";
 
 const asset = (name: string) => `/assets/dashboard/${name}`;
-const universities = [
+const VIDEO_URL =
+  "https://lta-dev-kj2hs6dasja.s3.ap-south-1.amazonaws.com/LTA+WEB.mp4";
+const PROFILE_PLACEHOLDER = "/assets/images/profile-placeholder.svg";
+
+// The four Figma card designs, repeated in order.
+const CARD_DESIGNS = [MunichCard, SorbonneCard, DarmstadtCard, FourthCard];
+
+interface Product {
+  view: ViewId;
+  title: string;
+  image: string;
+  access: string;
+  action: string;
+  locked?: boolean;
+  /** Shown but not yet available: the action is disabled. */
+  comingSoon?: boolean;
+  videoUrl?: string;
+}
+
+const products: Product[] = [
   {
-    id: "tum",
-    name: "Technical University of Munich (TUM)",
-    chance: 80,
-    days: 10,
-    Card: MunichCard,
-  },
-  {
-    id: "sorbonne",
-    name: "Sorbonne University",
-    chance: 53,
-    days: 7,
-    Card: SorbonneCard,
-  },
-  {
-    id: "darmstadt",
-    name: "TU Darmstadt",
-    chance: 12,
-    days: 10,
-    Card: DarmstadtCard,
-  },
-  {
-    id: "tum-alternate",
-    name: "Technical University of Munich (TUM)",
-    chance: 12,
-    days: 10,
-    Card: FourthCard,
-  },
-];
-const products = [
-  {
+    view: "cst",
     title: "Course Shortlisting",
     image: "1-799-imgFrame2147228693.png",
     access: "Free For All",
-    action: "Try Connect",
+    action: "Try Now",
   },
+  // Not live yet: shown locked, like Project004. When it launches, drop
+  // comingSoon and locked.
   {
+    view: "connect",
     title: "LTA Connect",
     image: "1-799-imgFrame2147228692.png",
-    access: "Free For All",
-    action: "Watch video",
+    access: "Coming Soon",
+    action: "Coming Soon",
+    locked: true,
+    comingSoon: true,
   },
   {
+    view: "zenna",
     title: "LTA Zenna",
     image: "1-799-imgFrame2147225052.png",
     access: "LTA Members Only",
     action: "Watch video",
-  },
-];
-const testimonials = [
-  {
-    name: "GEEN GEO",
-    university: "Technische Universität München (TUM)",
-    image: "1-1002-imgFrame2147223995.png",
-    quote:
-      "All my doubts where cleared very patiently. All my applications were completed on time. Thank you so much for your support.",
-  },
-  {
-    name: "GLADIA THOMAS",
-    university: "echnical University Dresden",
-    image: "1-1002-imgFrame2147223996.png",
-    quote:
-      "All my doubts where cleared very patiently. All my applications were completed on time. Thank you so much for your support.",
-  },
-  {
-    name: "GEEN GEO",
-    university: "Duisburg Essen Universität",
-    image: "1-1002-imgFrame2147223920.png",
-    quote:
-      "I'm grateful for Letters To Abroad support in securing my top university admission. It wouldn't have been possible without them.",
+    locked: true,
+    videoUrl: VIDEO_URL,
   },
 ];
 
-type DialogState = { title: string; video?: boolean; detail?: string } | null;
+type DialogState = { title: string; video?: string; detail?: string } | null;
 
 function Dialog({
   state,
@@ -135,47 +121,72 @@ function Dialog({
           autoPlay
           playsInline
           aria-label={`${state.title} introduction`}
-          src="https://lta-dev-kj2hs6dasja.s3.ap-south-1.amazonaws.com/LTA+WEB.mp4"
+          src={state.video}
         />
       ) : (
-        <>
-          <p>
-            {state.detail ||
-              "Choose a time with an LTA mentor to explore which university fits you best."}
-          </p>
-          <a
-            className="primary-cta"
-            href="https://connect.letterstoabroad.com/home"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Open LTA Connect
-          </a>
-        </>
+        <p>{state.detail}</p>
       )}
     </dialog>
   );
 }
 
+/** Upcoming Events: the user's booked mentor sessions, month by month. */
 function Events({
   onSelect,
 }: {
   onSelect: (state: NonNullable<DialogState>) => void;
 }) {
-  const [offset, setOffset] = useState(0);
-  const date = new Date(2026, 1 + offset, 1);
-  const label = date.toLocaleDateString("en-US", {
-    month: "long",
-    year: "numeric",
-  });
-  // Full real month, Monday first. (The Figma frame only drew a three-week
-  // excerpt with invented weekdays; that is not a usable calendar.)
-  const start = (date.getDay() + 6) % 7;
-  const daysInMonth = new Date(2026, 2 + offset, 0).getDate();
+  const today = new Date();
+  const [currentMonth, setCurrentMonth] = useState<number>(today.getMonth());
+  const [currentYear, setCurrentYear] = useState<number>(today.getFullYear());
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchSlots = async () => {
+      const result = await handleGetBookedSlots();
+      if (result.success && result.data) {
+        setEvents(
+          result.data.results.map((slot: BookedSlot) => toCalendarEvent(slot)),
+        );
+      }
+      setLoading(false);
+    };
+    fetchSlots();
+  }, []);
+
+  const goToPrev = () => {
+    if (currentMonth === 0) {
+      setCurrentMonth(11);
+      setCurrentYear((y) => y - 1);
+    } else {
+      setCurrentMonth((m) => m - 1);
+    }
+  };
+
+  const goToNext = () => {
+    if (currentMonth === 11) {
+      setCurrentMonth(0);
+      setCurrentYear((y) => y + 1);
+    } else {
+      setCurrentMonth((m) => m + 1);
+    }
+  };
+
+  const label = `${MONTH_NAMES[currentMonth]} ${currentYear}`;
+  const monthEvents = events.filter(
+    (e) => e.month === currentMonth && e.year === currentYear,
+  );
+  const eventsOn = (day: number) => monthEvents.filter((e) => e.day === day);
+
+  // Full month, Monday first; blank cells belong to the neighbouring months.
+  const start = (new Date(currentYear, currentMonth, 1).getDay() + 6) % 7;
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const cells = Math.ceil((start + daysInMonth) / 7) * 7;
   const days = Array.from({ length: cells }, (_, i) =>
     i < start || i >= start + daysInMonth ? null : i - start + 1,
   );
+
   return (
     <section
       className="events-section"
@@ -185,59 +196,55 @@ function Events({
       <div className="section-heading">
         <h2 id="events-title">Upcoming Events</h2>
         <div className="month-controls">
-          <button
-            aria-label="Previous month"
-            onClick={() => setOffset((value) => value - 1)}
-          >
+          <button aria-label="Previous month" onClick={goToPrev}>
             <img src={asset("1-872-imgIcon.svg")} alt="" />
           </button>
           <span>{label}</span>
-          <button
-            aria-label="Next month"
-            onClick={() => setOffset((value) => value + 1)}
-          >
+          <button aria-label="Next month" onClick={goToNext}>
             <img src={asset("1-872-imgIcon.svg")} alt="" />
           </button>
         </div>
       </div>
       <div className="events-panel">
         <div className="event-list">
-          {[0, 1, 2].map((index) => (
-            <button
-              className="event-row"
-              key={index}
-              onClick={() =>
-                onSelect({
-                  title: "Smart and Personalized",
-                  detail:
-                    "Your New Upgraded AI Partner for Wealth · May 30 · Monday, 9 AM",
-                })
-              }
-              aria-label={`View event ${index + 1}: Smart and Personalized`}
-            >
-              <img
-                className="event-photo"
-                src={asset("1-872-imgFrame2147225209.png")}
-                alt="Mentor consultation"
-              />
-              <span className="event-date">
-                <span>MAY</span>
-                <strong>30</strong>
-              </span>
-              <span className="event-info">
-                <span>
-                  💼 Smart and Personalized: Your New Upgraded AI Partner for
-                  Wealth
-                </span>
-                <small>Monday, 9 AM</small>
-              </span>
-            </button>
-          ))}
+          {loading ? (
+            <p className="event-empty">Loading events...</p>
+          ) : monthEvents.length === 0 ? (
+            <p className="event-empty">No events this month.</p>
+          ) : (
+            monthEvents.map((event, index) => {
+              const month = MONTH_NAMES[event.month];
+              return (
+                <button
+                  className="event-row"
+                  key={index}
+                  onClick={() =>
+                    onSelect({
+                      title: event.title,
+                      detail: `${month} ${event.day}, ${event.year} · ${event.time}`,
+                    })
+                  }
+                  aria-label={`View event ${index + 1}: ${event.title}`}
+                >
+                  <img
+                    className="event-photo"
+                    src={asset("1-872-imgFrame2147225209.png")}
+                    alt="Mentor consultation"
+                  />
+                  <span className="event-date">
+                    <span>{month.slice(0, 3).toUpperCase()}</span>
+                    <strong>{event.day}</strong>
+                  </span>
+                  <span className="event-info">
+                    <span>{event.title}</span>
+                    <small>{event.time}</small>
+                  </span>
+                </button>
+              );
+            })
+          )}
         </div>
-        <div
-          className="calendar"
-          aria-label={`${label} calendar`}
-        >
+        <div className="calendar" aria-label={`${label} calendar`}>
           <div className="weekdays" aria-hidden="true">
             {["MO", "TU", "WE", "TH", "FR", "SA", "SU"].map((day) => (
               <span key={day}>{day}</span>
@@ -245,43 +252,33 @@ function Events({
           </div>
           <div className="calendar-grid">
             {days.map((day, index) => {
-              const active = offset === 0 && (day === 6 || day === 14);
-              const selectedDate = new Date(
-                2026,
-                1 + offset,
-                day || 1,
-              ).toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              });
-              return day ? (
+              if (!day)
+                return <div key={index} className="calendar-day empty" />;
+              const dayEvents = eventsOn(day);
+              const active = dayEvents.length > 0;
+              const summary =
+                dayEvents.length > 1
+                  ? `${dayEvents.length} events`
+                  : dayEvents[0]?.title;
+              const selectedDate = `${MONTH_NAMES[currentMonth]} ${day}, ${currentYear}`;
+              return (
                 <button
                   key={index}
                   className={`calendar-day ${active ? "has-session" : ""}`}
                   onClick={() =>
                     onSelect({
-                      title: active
-                        ? "Online Session with Mentor"
-                        : selectedDate,
+                      title:
+                        dayEvents.length === 1 ? dayEvents[0].title : selectedDate,
                       detail: active
-                        ? `${selectedDate} · Online Session with Mentor`
+                        ? `${selectedDate} · ${dayEvents.map((e) => `${e.title}, ${e.time}`).join(" · ")}`
                         : `${selectedDate} · No sessions scheduled for this date.`,
                     })
                   }
-                  aria-label={`${label} ${day}${active ? ": Online Session with Mentor" : ""}`}
+                  aria-label={`${label} ${day}${active ? `: ${summary}` : ""}`}
                 >
                   <span>{day}</span>
-                  {active && (
-                    <small>
-                      Online Session
-                      <br />
-                      with Mentor
-                    </small>
-                  )}
+                  {active && <small>{summary}</small>}
                 </button>
-              ) : (
-                <div key={index} className="calendar-day empty" />
               );
             })}
           </div>
@@ -291,274 +288,294 @@ function Events({
   );
 }
 
-/** Dashboard view content; navigation comes from the shared Supernova sidebar. */
+/**
+ * The dashboard home (the first Figma design) with the student's data:
+ * their greeting, shortlisted courses, booked sessions and the LTA suite.
+ */
 export default function Dashboard({
-  onNavigate,
-  onAction,
-  navigationOpen,
-  onOpenNavigation,
+  greeting,
+  courses,
 }: {
-  onNavigate: (view: ViewId) => void;
-  onAction: (action: "booking" | "contact") => void;
-  navigationOpen: boolean;
-  onOpenNavigation: () => void;
+  greeting: string;
+  courses: ShortlistedCourse[];
 }) {
+  const { navigate, openDialog } = useApp();
+  const { navigationOpen, openNavigation } = useShellNavigation();
+  const { user, firstName } = useCurrentUser();
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [dialog, setDialog] = useState<DialogState>(null);
-  const visible = universities.filter((item) =>
-    item.name.toLowerCase().includes(query.trim().toLowerCase()),
-  );
-  const book = () => onAction("booking");
+
+  const requestedSrc = user?.profile_picture || PROFILE_PLACEHOLDER;
+  const profileSrc =
+    requestedSrc === failedSrc ? PROFILE_PLACEHOLDER : requestedSrc;
+
+  const search = query.trim().toLowerCase();
+  const visible = courses
+    .map((item, index) => ({
+      item,
+      Card: CARD_DESIGNS[index % CARD_DESIGNS.length],
+    }))
+    .filter(({ item }) =>
+      `${item.course.university.name} ${item.course.name}`
+        .toLowerCase()
+        .includes(search),
+    );
+  const zennaMessage = courses.length
+    ? `Here are your ${courses.length} university chance${courses.length === 1 ? "" : "s"} for your chosen course`
+    : "No offers for you for now. We're working on it!";
+
   return (
-    <div className="reference-shell">
-      <main className="reference-main">
-        <header className="reference-header" data-section="header">
-          <button
-            className="mobile-menu"
-            aria-label="Toggle navigation"
-            aria-expanded={navigationOpen}
-            onClick={onOpenNavigation}
-          >
-            ☰
-          </button>
-          <input
-            type="search"
-            placeholder="Search"
-            aria-label="Search universities"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-          <button
-            className="profile-button"
-            aria-label="View profile"
-            onClick={() =>
-              setDialog({
-                title: "Geen's profile",
-                detail: "This profile is part of the Figma design reference.",
-              })
-            }
-          >
-            <img src={asset("1-571-imgEllipse8.png")} alt="Geen" />
-          </button>
-        </header>
-        <div className="reference-content">
-          <h1>Good Morning Geen!</h1>
-          <section
-            className="recommendations"
-            data-section="recommendations"
-            aria-label="Your university matches"
-          >
-            <div className="zenna-intro">
-              <div className="zenna-canvas">
-                <ZennaIntro message="Here yours's 5 University chance for your chosen Engineering course" />
-              </div>
-            </div>
-            <SmoothScrollArea
-              className="university-carousel"
-              orientation="horizontal"
-              tabIndex={0}
-              aria-label="University recommendations; scroll to see more"
+    <div className="figma-dashboard">
+      <div className="reference-shell">
+        <main className="reference-main">
+          <header className="reference-header" data-section="header">
+            <button
+              className="mobile-menu"
+              aria-label="Toggle navigation"
+              aria-expanded={navigationOpen}
+              onClick={openNavigation}
             >
-              {visible.map(({ id, name, chance, days, Card }) => (
-                <article
-                  key={id}
-                  className="university-card"
-                  data-university-card
-                  aria-label={name}
+              ☰
+            </button>
+            <input
+              type="search"
+              placeholder="Search"
+              aria-label="Search universities"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+            />
+            <button
+              className="profile-button"
+              aria-label="View profile"
+              onClick={() => openDialog({ kind: "settings" })}
+            >
+              <img
+                src={profileSrc}
+                alt={firstName || "Profile"}
+                onError={() => setFailedSrc(requestedSrc)}
+              />
+            </button>
+          </header>
+          <div className="reference-content">
+            <h1>{greeting}</h1>
+            <section
+              className="recommendations"
+              data-section="recommendations"
+              aria-label="Your university matches"
+            >
+              <div className="zenna-intro">
+                <div className="zenna-canvas">
+                  <ZennaIntro message={zennaMessage} />
+                </div>
+              </div>
+              {courses.length > 0 && (
+                <SmoothScrollArea
+                  className="university-carousel"
+                  orientation="horizontal"
+                  tabIndex={0}
+                  aria-label="University recommendations; scroll to see more"
                 >
-                  <button
-                    className="university-card-open"
-                    aria-label={`View ${name} recommendation`}
-                    aria-describedby={`${id}-details`}
-                    onClick={() =>
-                      setDialog({
-                        title: name,
-                        detail: `${chance}% admission chance · ${days} days left · Munich, Germany · Msc Technology of Biogenic · 4 Yr Course · Starting: 40k`,
-                      })
-                    }
-                  >
-                    <div className="university-card-canvas">
-                      <Card
-                        chance={`${chance}%`}
-                        badge={`${days} days left`}
-                        name={name}
-                        location="Munich, Germany"
-                        course="Msc Technology of Biogenic "
-                        intake="4 yr course"
-                        cost="Starting: 40k"
-                      />
-                    </div>
-                  </button>
-                  <span id={`${id}-details`} className="sr-only">
-                    {chance}% admission chance; {days} days left; Munich,
-                    Germany; Msc Technology of Biogenic; 4 Yr Course; Starting:
-                    40k.
-                  </span>
-                </article>
-              ))}
-              {visible.length === 0 && (
-                <p className="no-results" role="status">
-                  No universities match “{query}”.
-                </p>
+                  {visible.map(({ item, Card }) => {
+                    const card = universityCardProps(item);
+                    const details = `${card.chance} admission chance · ${card.badge} · ${card.location} · ${card.course} · ${card.intake} · ${card.cost}`;
+                    return (
+                      <article
+                        key={item.id}
+                        className="university-card"
+                        data-university-card
+                        aria-label={card.name}
+                      >
+                        <button
+                          className="university-card-open"
+                          aria-label={`View ${card.name} recommendation`}
+                          aria-describedby={`${item.id}-details`}
+                          onClick={() =>
+                            setDialog({ title: card.name, detail: details })
+                          }
+                        >
+                          <div className="university-card-canvas">
+                            <Card {...card} />
+                          </div>
+                        </button>
+                        <span id={`${item.id}-details`} className="sr-only">
+                          {details}
+                        </span>
+                      </article>
+                    );
+                  })}
+                  {visible.length === 0 && (
+                    <p className="no-results" role="status">
+                      No universities match “{query}”.
+                    </p>
+                  )}
+                </SmoothScrollArea>
               )}
-            </SmoothScrollArea>
-          </section>
-          <section
-            className="products-section"
-            data-section="products"
-            aria-labelledby="products-title"
-          >
-            <h2 id="products-title">Explore LTA Suit</h2>
-            <div className="products-grid">
-              {products.map((product, index) => (
-                <article className="product-card" key={product.title}>
-                  <h3>
+            </section>
+            <section
+              className="products-section"
+              data-section="products"
+              aria-labelledby="products-title"
+            >
+              <h2 id="products-title">Explore LTA Suit</h2>
+              <div className="products-grid">
+                {products.map((product) => (
+                  <article
+                    className={`product-card ${product.comingSoon ? "coming-soon" : ""}`}
+                    key={product.title}
+                  >
+                    <h3>
+                      <button
+                        className="product-view-link"
+                        aria-label={`Open ${product.title}`}
+                        onClick={() => navigate(product.view)}
+                      >
+                        {product.title}
+                      </button>
+                    </h3>
+                    <div className="product-media">
+                      <img
+                        className="product-photo"
+                        src={asset(product.image)}
+                        alt={product.title}
+                      />
+                      <span className="access-tag">
+                        {product.access}
+                        {product.locked && (
+                          <img src={asset("1-799-imgVector.svg")} alt="Locked" />
+                        )}
+                      </span>
+                      {product.videoUrl ? (
+                        <button
+                          className="product-action"
+                          aria-label={`Watch ${product.title} video`}
+                          onClick={() =>
+                            setDialog({
+                              title: product.title,
+                              video: product.videoUrl,
+                            })
+                          }
+                        >
+                          <img src={asset("1-799-imgMaskGroup.svg")} alt="" />
+                          {product.action}
+                        </button>
+                      ) : (
+                        <button
+                          className="product-action"
+                          disabled={product.comingSoon}
+                          onClick={() => navigate(product.view)}
+                        >
+                          {product.action}
+                        </button>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+            <Events onSelect={setDialog} />
+            <section
+              className="testimonials-section"
+              data-section="testimonials"
+              aria-labelledby="testimonials-title"
+            >
+              <h2 id="testimonials-title">Hear from our family</h2>
+              <SmoothScrollArea
+                className="testimonials-grid"
+                orientation="horizontal"
+              >
+                {TESTIMONIALS.map((item, index) => (
+                  <article
+                    className={`testimonial testimonial-${index % 3}`}
+                    key={item.name}
+                  >
+                    <div className="testimonial-background">
+                      <img src={item.backgroundImage} alt="" />
+                    </div>
+                    <div className="testimonial-overlay" />
+                    <div className="testimonial-copy">
+                      <h3>{item.name}</h3>
+                      <p className="testimonial-degree">{item.degree}</p>
+                      <TruncatedText
+                        as="p"
+                        className="university-badge"
+                        text={item.university}
+                      />
+                      <blockquote>“{item.quote}”</blockquote>
+                    </div>
+                  </article>
+                ))}
+              </SmoothScrollArea>
+            </section>
+            <footer className="reference-footer" data-section="footer">
+              <h2>Hear from our family</h2>
+              <div className="footer-row">
+                <div className="mentor-card">
+                  <p>
+                    Every university weighs these differently. to understand
+                    which university truly fits you best.
+                  </p>
+                  <div className="mentor-actions">
                     <button
-                      className="product-view-link"
-                      aria-label={`Open ${product.title}`}
+                      className="primary-cta"
+                      onClick={() => openDialog({ kind: "booking" })}
+                    >
+                      Book a session
+                    </button>
+                    <button
+                      className="chat-cta"
+                      onClick={() => openDialog({ kind: "contact" })}
+                    >
+                      <span>
+                        <img src={asset("1-1042-imgGroup35.svg")} alt="" />
+                      </span>
+                      Chat with a Mentor
+                    </button>
+                  </div>
+                </div>
+                <div className="footer-brand">
+                  <img
+                    src={asset("1-1042-imgFrame.svg")}
+                    alt="Letters to Abroad"
+                  />
+                  <p>
+                    Built by people who’ve
+                    <br />
+                    lived this journey
+                  </p>
+                  <div className="social-links">
+                    <a
+                      href="https://www.linkedin.com/company/letterstoabroad/"
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="LinkedIn"
+                    >
+                      <img src={asset("1-1042-imgMdiLinkedin.svg")} alt="" />
+                    </a>
+                    <a
+                      href="https://www.instagram.com/letterstoabroad_/"
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="Instagram"
+                    >
+                      <img src={asset("1-1042-imgGroup.svg")} alt="" />
+                    </a>
+                    <button
+                      className="social-button"
+                      aria-label="YouTube"
                       onClick={() =>
-                        onNavigate(
-                          (["cst", "connect", "zenna"] as const)[index],
-                        )
+                        setDialog({ title: "LTA videos", video: VIDEO_URL })
                       }
                     >
-                      {product.title}
+                      <img src={asset("1-1042-imgMaskGroup.svg")} alt="" />
                     </button>
-                  </h3>
-                  <div className="product-media">
-                    <img
-                      className="product-photo"
-                      src={asset(product.image)}
-                      alt={product.title}
-                    />
-                    <span className="access-tag">
-                      {product.access}
-                      {index === 2 && (
-                        <img src={asset("1-799-imgVector.svg")} alt="Locked" />
-                      )}
-                    </span>
-                    {index === 0 ? (
-                      <button
-                        className="product-action"
-                        onClick={() => onNavigate("connect")}
-                      >
-                        {product.action}
-                      </button>
-                    ) : (
-                      <button
-                        className="product-action"
-                        aria-label={`Watch ${product.title} video`}
-                        onClick={() =>
-                          setDialog({ title: product.title, video: true })
-                        }
-                      >
-                        <img src={asset("1-799-imgMaskGroup.svg")} alt="" />
-                        {product.action}
-                      </button>
-                    )}
                   </div>
-                </article>
-              ))}
-            </div>
-          </section>
-          <Events onSelect={setDialog} />
-          <section
-            className="testimonials-section"
-            data-section="testimonials"
-            aria-labelledby="testimonials-title"
-          >
-            <h2 id="testimonials-title">Hear from our family</h2>
-            <div className="testimonials-grid">
-              {testimonials.map((item, index) => (
-                <article
-                  className={`testimonial testimonial-${index}`}
-                  key={item.university}
-                >
-                  <div className="testimonial-background">
-                    <img src={asset(item.image)} alt="" />
-                  </div>
-                  <div className="testimonial-overlay" />
-                  <div className="testimonial-copy">
-                    <h3>{item.name}</h3>
-                    <p className="testimonial-degree">
-                      M.Sc. Logistics and Production (ISE),
-                    </p>
-                    <TruncatedText
-                      as="p"
-                      className="university-badge"
-                      text={item.university}
-                    />
-                    <blockquote>“{item.quote}”</blockquote>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-          <footer className="reference-footer" data-section="footer">
-            <h2>Hear from our family</h2>
-            <div className="footer-row">
-              <div className="mentor-card">
-                <p>
-                  Every university weighs these differently. to understand which
-                  university truly fits you best.
-                </p>
-                <div className="mentor-actions">
-                  <button className="primary-cta" onClick={book}>
-                    Book a session
-                  </button>
-                  <button
-                    className="chat-cta"
-                    onClick={() => onAction("contact")}
-                  >
-                    <span>
-                      <img src={asset("1-1042-imgGroup35.svg")} alt="" />
-                    </span>
-                    Chat with a Mentor
-                  </button>
                 </div>
               </div>
-              <div className="footer-brand">
-                <img
-                  src={asset("1-1042-imgFrame.svg")}
-                  alt="Letters to Abroad"
-                />
-                <p>
-                  Built by people who’ve
-                  <br />
-                  lived this journey
-                </p>
-                <div className="social-links">
-                  <a
-                    href="https://www.linkedin.com/company/letterstoabroad/"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="LinkedIn"
-                  >
-                    <img src={asset("1-1042-imgMdiLinkedin.svg")} alt="" />
-                  </a>
-                  <a
-                    href="https://www.instagram.com/letterstoabroad_/"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Instagram"
-                  >
-                    <img src={asset("1-1042-imgGroup.svg")} alt="" />
-                  </a>
-                  <button
-                    className="social-button"
-                    aria-label="YouTube"
-                    onClick={() =>
-                      setDialog({ title: "LTA videos", video: true })
-                    }
-                  >
-                    <img src={asset("1-1042-imgMaskGroup.svg")} alt="" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </footer>
-        </div>
-      </main>
+            </footer>
+          </div>
+        </main>
+      </div>
       {dialog && <Dialog state={dialog} onClose={() => setDialog(null)} />}
     </div>
   );
