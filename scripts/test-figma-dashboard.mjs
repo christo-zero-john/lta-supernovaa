@@ -75,9 +75,9 @@ try {
       ["0px", "none", "none"],
     );
     await go();
-    const before = await page.locator(".reference-sidebar").boundingBox();
+    const before = await page.locator(".sn-sidebar").boundingBox();
     await page.evaluate(() => scrollTo(0, 600));
-    const after = await page.locator(".reference-sidebar").boundingBox();
+    const after = await page.locator(".sn-sidebar").boundingBox();
     assert.ok(Math.abs(before.y - after.y) < 1);
     console.log(
       "PASS: canonical/legacy routing, URL fallback/history/refresh, persona gates, keyboard search, borderless focus, sticky navigation",
@@ -522,7 +522,7 @@ try {
       .getByRole("button", { name: "Close navigation", exact: true })
       .waitFor();
     await page.keyboard.press("Escape");
-    assert.equal(await page.locator(".reference-sidebar.is-open").count(), 0);
+    assert.equal(await page.locator(".sn-sidebar.open").count(), 0);
     for (const zoom of [0.5, 0.67, 0.8, 1, 1.25, 1.5, 1.75, 2]) {
       const ctx = await browser.newContext({
         viewport: {
