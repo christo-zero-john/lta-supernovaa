@@ -1,6 +1,6 @@
 # Supernova concept rebuilt in LTA's design language
 
-Status: design direction approved; written specification awaiting review.
+Status: written specification approved by the user's “continue” on 2026-09-29; implementation plan awaiting review.
 
 ## Intent and source precedence
 
