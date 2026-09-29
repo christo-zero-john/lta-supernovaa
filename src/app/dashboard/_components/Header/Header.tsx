@@ -42,6 +42,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }): React.ReactElement => {
                         type="text"
                         className="header--search-input"
                         placeholder="Search"
+                        aria-label="Search"
                     />
                 </div>
                 <div className="header--profile-section">{ProfilePicture}</div>
@@ -57,9 +58,15 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }): React.ReactElement => {
                         type="text"
                         className="header--search-input"
                         placeholder="Search"
+                        aria-label="Search"
                     />
                 </div>
-                <button className="header--menu-btn" onClick={onMenuClick}>
+                <button
+                    type="button"
+                    className="header--menu-btn"
+                    aria-label="Open navigation"
+                    onClick={onMenuClick}
+                >
                     <Image
                         src="/assets/icons/Menu_icon.svg"
                         alt="Menu"

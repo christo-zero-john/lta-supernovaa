@@ -1,10 +1,12 @@
+/* Header from the Figma dashboard reference. */
 .header--main-container-large-screen {
   display: flex;
-  flex-direction: row;
-  /* Search to the left, Profile to the right */
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   width: 100%;
+  height: 36px;
+  padding-right: 2px;
 }
 
 .header--main-container-mobile-screen {
@@ -14,26 +16,27 @@
 .header--search-container {
   display: flex;
   align-items: center;
-  width: 25rem;
-  height: 2.5rem;
+  width: 297px;
+  max-width: 100%;
+  min-width: 0;
+  height: 36px;
   padding: 0 20px;
-  background: var(--Surface-Grey-100, #fff);
+  background: #ffffff;
   border: 0;
   border-radius: 44px;
-  box-sizing: border-box;
 }
 
 .header--search-input {
+  width: 100%;
+  height: 100%;
   border: none;
   outline: none;
   box-shadow: none;
   background: transparent;
-  font-family: "Inter", sans-serif;
-  font-weight: 400;
+  font-family: var(--figma-inter), sans-serif;
   font-size: 14px;
-  color: #888c92;
-  width: 100%;
-  height: 100%;
+  font-weight: 400;
+  color: #242a33;
 }
 
 .header--search-input:focus-visible {
@@ -48,13 +51,10 @@
 
 .header--profile-image-wrapper {
   position: relative;
-  /* Specific Dimensions */
   width: 36px;
   height: 36px;
   border-radius: 50%;
   overflow: hidden;
-  opacity: 1;
-  transform: rotate(0deg);
   background-color: #f0f0f0;
   cursor: pointer;
   flex-shrink: 0;
@@ -65,32 +65,37 @@
 }
 
 .header--menu-btn {
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
 }
 
-@media (max-width: 499px) {
+.header--menu-btn:focus-visible {
+  outline: 2px solid #8764de;
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
   .header--main-container-large-screen {
     display: none;
   }
   .header--main-container-mobile-screen {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     width: 100%;
-    gap: 10px;
+    height: 36px;
   }
   .header--search-container {
-    width: 100%;
     flex: 1;
-    height: 2.2rem;
+    width: auto;
   }
 }
