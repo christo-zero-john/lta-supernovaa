@@ -7,11 +7,10 @@ import DemoDataSwitch from "../demo/DemoDataSwitch";
 import { Icon } from "./ui";
 import { useUnreadCount } from "../hooks/useUnreadCount";
 
-/** The section pages' top bar: search, WhatsApp, notifications, profile. */
+/** The section pages' top bar: search, dummy data, notifications, profile. */
 export default function Topbar({ onMenu }: { onMenu: () => void }) {
-  const { persona, state, navigate, openDialog } = useApp();
+  const { navigate, openDialog } = useApp();
   const unread = useUnreadCount();
-  const whatsapp = state[persona].whatsapp;
   return (
     <header className="sn-topbar">
       <button
@@ -24,13 +23,6 @@ export default function Topbar({ onMenu }: { onMenu: () => void }) {
       <DashboardSearch />
       <div className="sn-topbar-right">
         <DemoDataSwitch />
-        <button
-          className={`sn-whatsapp ${whatsapp ? "" : "off"}`}
-          onClick={() => openDialog({ kind: "settings" })}
-        >
-          <span />
-          WhatsApp {whatsapp ? "ON" : "OFF"}
-        </button>
         <button
           className="sn-icon-button"
           aria-label={`Notifications, ${unread} unread`}
