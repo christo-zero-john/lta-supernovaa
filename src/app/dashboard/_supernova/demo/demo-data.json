@@ -1,0 +1,110 @@
+{
+  "shortlisted_colleges": [
+    {
+      "id": "demo-shortlist-0",
+      "rank": 1,
+      "admission_percentage": 80,
+      "course": {
+        "id": "demo-course-0",
+        "name": "M.Sc. Technical Logistics",
+        "start_semesters": ["Winter"],
+        "cost_of_living": "€11,904 / year",
+        "university": {
+          "id": "demo-university-0",
+          "name": "Technical University of Munich (TUM)",
+          "address": "Munich, Germany"
+        }
+      }
+    },
+    {
+      "id": "demo-shortlist-1",
+      "rank": 2,
+      "admission_percentage": 71,
+      "course": {
+        "id": "demo-course-1",
+        "name": "M.Sc. Industrial Engineering",
+        "start_semesters": ["Winter", "Summer"],
+        "cost_of_living": "€10,800 / year",
+        "university": {
+          "id": "demo-university-1",
+          "name": "TH Ingolstadt",
+          "address": "Ingolstadt, Germany"
+        }
+      }
+    },
+    {
+      "id": "demo-shortlist-2",
+      "rank": 3,
+      "admission_percentage": 53,
+      "course": {
+        "id": "demo-course-2",
+        "name": "M.Sc. Logistics & Supply Chain Management",
+        "start_semesters": ["Winter"],
+        "cost_of_living": "€11,200 / year",
+        "university": {
+          "id": "demo-university-2",
+          "name": "TU Darmstadt",
+          "address": "Darmstadt, Germany"
+        }
+      }
+    },
+    {
+      "id": "demo-shortlist-3",
+      "rank": 4,
+      "admission_percentage": 38,
+      "course": {
+        "id": "demo-course-3",
+        "name": "M.Sc. Technical Logistics",
+        "start_semesters": ["Summer"],
+        "cost_of_living": "€10,400 / year",
+        "university": {
+          "id": "demo-university-3",
+          "name": "University of Duisburg-Essen",
+          "address": "Duisburg, Germany"
+        }
+      }
+    }
+  ],
+  "shortlisted_courses": [
+    { "mono": "TUM", "university": "TU Munich", "course": "M.Sc. Technical Logistics", "pct": 80 },
+    { "mono": "THI", "university": "TH Ingolstadt", "course": "M.Sc. Industrial Engineering", "pct": 71 },
+    { "mono": "THN", "university": "TH Nürnberg", "course": "M.Sc. Logistics", "pct": 64 },
+    { "mono": "UDE", "university": "Uni Duisburg-Essen", "course": "M.Sc. Technical Logistics", "pct": 53 },
+    { "mono": "TUD", "university": "TU Darmstadt", "course": "M.Sc. Logistics & SCM", "pct": 34 }
+  ],
+  "documents": [
+    { "id": "doc-0", "name": "Passport_TinoSunny.pdf", "meta": "Uploaded Mar 2026 · verified ✓", "used": ["Zenna"] },
+    { "id": "doc-1", "name": "IELTS_TRF_7.0.pdf", "meta": "Uploaded Mar 2026 · verified ✓", "used": ["Zenna"] },
+    { "id": "doc-2", "name": "B.Tech_Transcripts.pdf", "meta": "Uploaded Apr 2026 · verified ✓", "used": ["Zenna", "CST"] },
+    { "id": "doc-3", "name": "German_A2_Goethe.pdf", "meta": "Uploaded May 2026", "used": ["Zenna"] }
+  ],
+  "events": [
+    { "title": "Webinar: Choosing your German master's", "time": "10:00 AM" },
+    { "title": "Online session with your mentor", "time": "05:00 PM" },
+    { "title": "Workshop: Writing a strong SOP", "time": "06:30 PM" },
+    { "title": "Live Q&A: Blocked account and visa", "time": "11:00 AM" }
+  ],
+  "applications": [
+    { "id": "application-0", "mono": "DIT", "c": "#177A45", "uni": "Deggendorf Institute of Technology", "course": "International Management", "status": "warn", "stTxt": "In progress", "prog": 82, "dl": "10 Jul", "dld": "8 days left" },
+    { "id": "application-1", "mono": "DIT", "c": "#177A45", "uni": "Deggendorf Institute of Technology", "course": "BA Intl. Tourism Development", "status": "warn", "stTxt": "In progress", "prog": 76, "dl": "10 Jul", "dld": "8 days left" },
+    { "id": "application-2", "mono": "OTH", "c": "#E3A417", "uni": "OTH Amberg-Weiden", "course": "BA International Business", "status": "ok", "stTxt": "Offer received", "prog": 100, "dl": "15 Aug", "dld": "Confirm enrolment" },
+    { "id": "application-3", "mono": "OTH", "c": "#E3A417", "uni": "OTH Amberg-Weiden", "course": "BSc Digital Technology & Mgmt.", "status": "ok", "stTxt": "Offer received", "prog": 100, "dl": "15 Aug", "dld": "Confirm enrolment" },
+    { "id": "application-4", "mono": "HFU", "c": "#C33A34", "uni": "Hochschule Furtwangen", "course": "BSc Intl. Business Information Systems", "status": "info", "stTxt": "In review", "prog": 64, "dl": "20 Jul", "dld": "1 doc missing" },
+    { "id": "application-5", "mono": "THN", "c": "#6450E0", "uni": "TH Nürnberg", "course": "M.Sc. Logistics", "status": "info", "stTxt": "Submitted", "prog": 100, "dl": "—", "dld": "Decision late July" },
+    { "id": "application-6", "mono": "HM", "c": "#5B7FD6", "uni": "Hochschule München", "course": "M.Sc. Engineering & Mgmt.", "status": "bad", "stTxt": "Rejected", "prog": 100, "dl": "—", "dld": "Closed" },
+    { "id": "application-7", "mono": "THK", "c": "#5B7FD6", "uni": "TH Köln", "course": "M.Sc. Production Engineering", "status": "bad", "stTxt": "Rejected", "prog": 100, "dl": "—", "dld": "Closed" },
+    { "id": "application-8", "mono": "FRA", "c": "#9C8CF5", "uni": "Frankfurt UAS", "course": "M.Sc. Global Logistics", "status": "bad", "stTxt": "Rejected", "prog": 100, "dl": "—", "dld": "Closed" }
+  ],
+  "mentor_session": {
+    "mentor_id": "mentor-0",
+    "days_from_today": 3,
+    "slot": "17:00",
+    "topic": "Course selection for Technical Logistics"
+  },
+  "notifications": [
+    { "id": "demo-notification-0", "text": "DIT portal submission due in 8 days — Zenna is tracking it.", "time": "Today · 08:00", "view": "zenna" },
+    { "id": "demo-notification-1", "text": "Zenna AI found an enrolment date in your OTH offer letter.", "time": "Yesterday", "view": "zenna" },
+    { "id": "demo-notification-2", "text": "Session confirmed with Geen Geo (TUM) — Friday 17:00.", "time": "2 days ago", "view": "connect" },
+    { "id": "demo-notification-3", "text": "Your admit-chance report is ready — 5 universities checked.", "time": "4 days ago", "view": "cst" }
+  ]
+}

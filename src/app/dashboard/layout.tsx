@@ -5,6 +5,7 @@ import PageLoader from "@/components/PageLoader/PageLoader";
 import { AppProvider } from "@/app/dashboard/_supernova/components/AppProvider";
 import AppShell from "@/app/dashboard/_supernova/components/AppShell";
 import SupernovaOverlays from "@/app/dashboard/_supernova/components/SupernovaOverlays";
+import { DemoDataProvider } from "@/app/dashboard/_supernova/demo/DemoDataProvider";
 import axiosInstance from "@/lib/axios";
 import useStore from "@/store/useStore";
 import "./_supernova/supernova.css";
@@ -42,12 +43,14 @@ export default function DashboardLayout({
     return (
         // The app state reads the URL's query, so it renders under Suspense.
         <Suspense fallback={<PageLoader/>}>
-            <AppProvider>
-                <div className="sn-root">
-                    <AppShell>{children}</AppShell>
-                    <SupernovaOverlays/>
-                </div>
-            </AppProvider>
+            <DemoDataProvider>
+                <AppProvider>
+                    <div className="sn-root">
+                        <AppShell>{children}</AppShell>
+                        <SupernovaOverlays/>
+                    </div>
+                </AppProvider>
+            </DemoDataProvider>
         </Suspense>
     );
 }
