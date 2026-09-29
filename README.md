@@ -245,21 +245,13 @@ used the shared API address shown above. Future deployments may differ. Backend
 email delivery and complete onboarding remain separate acceptance checks from a
 successful frontend build.
 
-## Supernova LTA concept
+## Dashboard
 
-The standalone `/figma/dashboard` and `/figma/dashoard` design-reference routes
-have been retired. Their Supernova visual design (purple accents, rounded pale
-panels, glass-pill CTAs, calendar and search polish) now lives directly in
-`/dashboard`'s own components and CSS — see [AGENTS.md](AGENTS.md) for the
-specific hover/animation details. `/dashboard`'s data fetching and access
-gating are unchanged by this; only its styling moved.
+`/dashboard` is the Figma redesign: a home page with the student's courses,
+sessions and the LTA suite, and seven section pages (Documents,
+Notifications, Support, Zenna, LTA Connect, Course Shortlisting, Project004).
+See the [dashboard guide](docs/dashboard.md). Run `pnpm.cmd test:model` for
+the concept model tests.
 
 [AGENTS.md](AGENTS.md) contains project guidance. Local skills, caches and
 browser evidence remain ignored by Git.
-
-
-## Restored Figma design reference
-
-Open `/figma/dashboard` for the restored reference. Its Dashboard tab preserves the first Figma layout and assets; the other seven pages preserve the HTML content with LTA styling. Glass pill buttons animate their existing inset reflection, without an extra light overlay. `/figma/dashoard` redirects to the canonical route.
-
-The real authenticated `/dashboard` is unchanged by this restoration. See [reference guidance](docs/figma-dashboard.md). Run `pnpm.cmd test:figma` and `pnpm.cmd test:figma:model`; set `FIGMA_TEST_URL` to a running server. Evidence is ignored under `.codex/artifacts/`.
