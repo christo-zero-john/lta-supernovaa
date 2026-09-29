@@ -1,0 +1,86 @@
+/* Move the existing inset reflection around the edge, without another overlay. */
+.lta-reference-root :is(.sn-button.primary, .primary-cta, .product-action) {
+  --lta-edge-shade: rgba(202, 183, 236, 0.78);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.24),
+      rgba(238, 227, 255, 0.1) 51%,
+      rgba(77, 55, 131, 0.1)
+    ),
+    rgba(107, 90, 137, 0.86);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  backdrop-filter: blur(10px) saturate(1.15);
+  box-shadow: inset 0 3px 1px var(--lta-edge-shade);
+}
+.lta-reference-root :is(.sn-button.secondary, .chat-cta) {
+  --lta-edge-shade: rgba(255, 255, 255, 0.95);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.65),
+      rgba(255, 255, 255, 0.2) 52%
+    ),
+    rgba(248, 246, 250, 0.65);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  backdrop-filter: blur(10px) saturate(1.15);
+  box-shadow: inset 0 3px 1px var(--lta-edge-shade);
+}
+@media (hover: hover) {
+  .lta-reference-root
+    :is(
+      .sn-button.primary,
+      .sn-button.secondary,
+      .primary-cta,
+      .product-action,
+      .chat-cta
+    ):not(:disabled):hover {
+    animation: lta-edge-reflection 2.6s linear infinite;
+  }
+}
+.lta-reference-root
+  :is(
+    .sn-button.primary,
+    .sn-button.secondary,
+    .primary-cta,
+    .product-action,
+    .chat-cta
+  ):not(:disabled):focus-visible {
+  animation: lta-edge-reflection 2.6s linear infinite;
+}
+@keyframes lta-edge-reflection {
+  0%,
+  100% {
+    box-shadow: inset 0 3px 1px var(--lta-edge-shade);
+  }
+  25% {
+    box-shadow: inset -3px 0 1px var(--lta-edge-shade);
+  }
+  50% {
+    box-shadow: inset 0 -3px 1px var(--lta-edge-shade);
+  }
+  75% {
+    box-shadow: inset 3px 0 1px var(--lta-edge-shade);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lta-reference-root
+    :is(.sn-button, .primary-cta, .product-action, .chat-cta) {
+    animation: none !important;
+  }
+}
+
+/* Keep the glass fill constant while its existing edge reflection moves. */
+.lta-reference-root
+  :is(.sn-button.primary, .primary-cta, .product-action):hover {
+  background-color: rgba(107, 90, 137, 0.86);
+}
+.lta-reference-root :is(.sn-button.secondary, .chat-cta):hover {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.65),
+      rgba(255, 255, 255, 0.2) 52%
+    ),
+    rgba(248, 246, 250, 0.65);
+}

@@ -26,7 +26,7 @@ function Content() {
   const { persona, view, signedOut, setSignedOut, dialog } = useApp();
   if (signedOut)
     return (
-      <div className="sn-signed-out">
+      <div className="supernova sn-signed-out">
         <Card>
           <h1>See you soon, Tino.</h1>
           <p>
@@ -39,17 +39,21 @@ function Content() {
     );
   const View = views[view];
   return (
-    <>
-      <AppShell>
-        <PageHeader {...PAGE_COPY[persona][view]} />
-        <View />
-      </AppShell>
+    <div className={view === "dashboard" ? undefined : "supernova"}>
+      {view === "dashboard" ? (
+        <DashboardView />
+      ) : (
+        <AppShell>
+          <PageHeader {...PAGE_COPY[persona][view]} />
+          <View />
+        </AppShell>
+      )}
       {dialog && (
         <InteractionDialog
           key={`${persona}-${dialog.kind}-${dialog.id || ""}`}
         />
       )}
-    </>
+    </div>
   );
 }
 export default function SupernovaApp() {

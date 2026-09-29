@@ -210,3 +210,7 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 @media (prefers-reduced-motion: reduce) {
   .figma-dashboard * { scroll-behavior: auto !important; transition: none !important; }
 }
+
+/* The home view retains the first Figma reference independently of the other pages. */
+.figma-dashboard { --figma-jakarta: var(--sn-body); --figma-anek: var(--sn-heading); --figma-serif: "Times New Roman"; }
+.figma-dashboard .product-view-link { appearance: none; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: inherit; }
