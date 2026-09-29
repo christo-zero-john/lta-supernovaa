@@ -60,28 +60,24 @@ body,
     box-sizing: border-box;
 }
 
+/* Dashboard shell (Figma dashboard reference): the page scrolls, the
+   sidebar stays put. */
 .layout-container {
     display: flex;
-    background: linear-gradient(
-            172deg,
-            #ccc4dc -15.87%,
-            #e5dfdf -7.37%,
-            #f6f3eb 33.95%,
-            #fff 68.38%
-    ),
-    url(/assets/images/background.png) lightgray -19.54px -266.052px /
-      102.714% 71.608% no-repeat;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 1rem;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    background: #e8e6e9;
+    color: #242a33;
+    overflow-x: clip;
 }
 
-.layout-container::-webkit-scrollbar {
-    display: none;
+.dashboard--main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    gap: 12px;
+    padding: 12px;
 }
 
 .layout-container-login {
@@ -110,56 +106,53 @@ body,
     display: none;
 }
 
+/* Content panel. */
 .main-section-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    height: 100vh;
     width: 100%;
+    min-width: 0;
     border-radius: 24px;
     background: rgba(255, 255, 255, 0.35);
-    padding: 1rem;
-    gap: 2.5rem;
-    overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-.main-section-container::-webkit-scrollbar {
-    display: none;
+    padding: 24px;
+    gap: 32px;
 }
 
 .main--header-style {
     align-self: flex-start;
     margin: 0;
-    color: var(--Text-Grey-800, #242a33);
-    text-align: center;
-    font-family: "Anek Bangla";
+    color: #242a33;
+    font-family: var(--font-anek-bangla), sans-serif;
     font-size: 28px;
-    font-style: normal;
     font-weight: 500;
-    line-height: 36px;
+    line-height: 36.48px;
     letter-spacing: -0.84px;
     text-transform: capitalize;
 }
 
-.main--sub-header-style {
-    color: var(--Text-Grey-800, #242a33);
-    font-family: "Plus Jakarta Sans";
+/* Section headings ("Explore LTA Suit", "Hear from our family", …). */
+.main--sub-header-style,
+.main--footer-caption {
+    margin: 0;
+    color: #242a33;
+    font-family: var(--font-plus-jakarta-sans), sans-serif;
     font-size: 14px;
-    font-style: normal;
     font-weight: 700;
     line-height: 24px;
 }
 
-.main--footer-caption {
-    color: var(--Text-Grey-800, #242a33);
-    font-family: "Plus Jakarta Sans";
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 24px;
+@media (max-width: 900px) {
+    .main-section-container {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 700px) {
+    .main-section-container {
+        padding: 16px;
+    }
 }
 
 /* Common App Styles */
