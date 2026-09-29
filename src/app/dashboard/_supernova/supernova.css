@@ -457,13 +457,6 @@ body:has(.sn-root) {
   padding: 24px;
   min-height: calc(100dvh - 152px);
 }
-/* Section pages: persona bar above the content panel. */
-.sn-page {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-width: 0;
-}
 .sn-page-header {
   margin-bottom: 24px;
 }
