@@ -13,6 +13,11 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value || "";
   const { pathname } = request.nextUrl;
 
+  // Only the two isolated fixture-only design reference URLs are public.
+  if (pathname === "/figma/dashboard" || pathname === "/figma/dashoard") {
+    return NextResponse.next();
+  }
+
   const isPublicRoute = publicRoutes.some((route) =>
       pathname.startsWith(route)
   );
