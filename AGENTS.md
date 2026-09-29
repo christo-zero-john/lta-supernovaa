@@ -25,6 +25,16 @@
 - Preserve `.env.local`. Never output cookies, tokens, passwords or secret values. Public configuration belongs in `.env.example`.
 - Do not write to the shared live backend just to verify a visual reference. Do not deploy, push or change remote accounts without explicit authorization.
 
+## Ultra-micro commits (automatic)
+
+- Commit automatically, without being asked, as soon as a closely related unit of change is done and working. Do not batch up a task's changes into one commit at the end.
+- One commit holds one concern: a single style tweak, a single component's hover, one dependency, one doc section. If a commit message needs "and" or touches two unrelated concerns, split it.
+- Split within a file when its hunks serve different concerns (`git apply --cached` for single hunks, or write an intermediate blob to the index). Keep changes together only when one cannot be correct without the other, such as a dependency and its lockfile entries, a deleted script and its `package.json` entry, or a new stylesheet and the import that loads it.
+- Order commits so every commit builds on its own: remove callers before what they depend on, and add dependencies before their users.
+- Use Conventional Commits with a scope where it helps (`style(calendar): …`, `docs(agents): …`, `chore: …`), imperative, one line, plus any attribution trailer the harness requires.
+- Stage paths explicitly; never `git add -A`/`git add .` across the whole tree. Commit only changes made during the current task. Pre-existing dirty changes belong to the user and are committed only when the user asks.
+- Never amend, rebase, squash, force-push or push unless explicitly authorized. Never skip hooks.
+
 ## Critical task cleanup
 
 - Before declaring any task complete, stop every long-running resource started during that task: development servers, listeners, terminal/background jobs, watchers, containers, tunnels, emulators and browser helpers.
