@@ -1,13 +1,13 @@
 /* Figma 1:720: local assets retain the exported crop and compositing geometry. */
 /* eslint-disable @next/next/no-img-element */
-const imgFrame2147228722 = "/assets/figma/dashboard/1-720-imgFrame2147228722.png";
-const imgRectangle2601 = "/assets/figma/dashboard/1-720-imgRectangle2601.png";
-const imgRectangle2602 = "/assets/figma/dashboard/1-720-imgRectangle2602.png";
-const imgHourglassMedium = "/assets/figma/dashboard/1-720-imgHourglassMedium.svg";
-const imgEllipse6013 = "/assets/figma/dashboard/1-720-imgEllipse6013.svg";
-const imgEllipse6014 = "/assets/figma/dashboard/1-720-imgEllipse6014.svg";
-const imgLucideCalendar = "/assets/figma/dashboard/1-720-imgLucideCalendar.svg";
-const imgLucideBadgeEuro = "/assets/figma/dashboard/1-720-imgLucideBadgeEuro.svg";
+const imgFrame2147228722 = "/assets/dashboard/1-720-imgFrame2147228722.png";
+const imgRectangle2601 = "/assets/dashboard/1-720-imgRectangle2601.png";
+const imgRectangle2602 = "/assets/dashboard/1-720-imgRectangle2602.png";
+const imgHourglassMedium = "/assets/dashboard/1-720-imgHourglassMedium.svg";
+const imgEllipse6013 = "/assets/dashboard/1-720-imgEllipse6013.svg";
+const imgEllipse6014 = "/assets/dashboard/1-720-imgEllipse6014.svg";
+const imgLucideCalendar = "/assets/dashboard/1-720-imgLucideCalendar.svg";
+const imgLucideBadgeEuro = "/assets/dashboard/1-720-imgLucideBadgeEuro.svg";
 
 export default function DarmstadtCard() {
   return (

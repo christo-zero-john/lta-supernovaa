@@ -1,12 +1,12 @@
 /* Figma 1:644: local assets retain the exported crop and compositing geometry. */
 /* eslint-disable @next/next/no-img-element */
-const imgFrame2147228681 = "/assets/figma/dashboard/1-644-imgFrame2147228681.png";
-const imgRectangle2601 = "/assets/figma/dashboard/1-644-imgRectangle2601.png";
-const imgHourglassMedium = "/assets/figma/dashboard/1-644-imgHourglassMedium.svg";
-const imgEllipse6013 = "/assets/figma/dashboard/1-644-imgEllipse6013.svg";
-const imgEllipse6014 = "/assets/figma/dashboard/1-644-imgEllipse6014.svg";
-const imgLucideCalendar = "/assets/figma/dashboard/1-644-imgLucideCalendar.svg";
-const imgLucideBadgeEuro = "/assets/figma/dashboard/1-644-imgLucideBadgeEuro.svg";
+const imgFrame2147228681 = "/assets/dashboard/1-644-imgFrame2147228681.png";
+const imgRectangle2601 = "/assets/dashboard/1-644-imgRectangle2601.png";
+const imgHourglassMedium = "/assets/dashboard/1-644-imgHourglassMedium.svg";
+const imgEllipse6013 = "/assets/dashboard/1-644-imgEllipse6013.svg";
+const imgEllipse6014 = "/assets/dashboard/1-644-imgEllipse6014.svg";
+const imgLucideCalendar = "/assets/dashboard/1-644-imgLucideCalendar.svg";
+const imgLucideBadgeEuro = "/assets/dashboard/1-644-imgLucideBadgeEuro.svg";
 
 export default function MunichCard() {
   return (

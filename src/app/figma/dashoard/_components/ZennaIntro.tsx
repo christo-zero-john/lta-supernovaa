@@ -1,7 +1,7 @@
 /* Figma 1:632: local assets retain the exported crop and compositing geometry. */
 /* eslint-disable @next/next/no-img-element */
-const imgWhatsAppImage20240426At22913 = "/assets/figma/dashboard/1-632-imgWhatsAppImage20240426At22913.png";
-const imgRectangle188540 = "/assets/figma/dashboard/1-632-imgRectangle188540.svg";
+const imgWhatsAppImage20240426At22913 = "/assets/dashboard/1-632-imgWhatsAppImage20240426At22913.png";
+const imgRectangle188540 = "/assets/dashboard/1-632-imgRectangle188540.svg";
 
 export default function ZennaIntro() {
   return (

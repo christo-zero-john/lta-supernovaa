@@ -12,7 +12,7 @@ import type { ViewId } from "../../../dashboard/_supernova/lib/types";
 import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import TruncatedText from "@/components/TruncatedText/TruncatedText";
 
-const asset = (name: string) => `/assets/figma/dashboard/${name}`;
+const asset = (name: string) => `/assets/dashboard/${name}`;
 const universities = [
   {
     id: "tum",

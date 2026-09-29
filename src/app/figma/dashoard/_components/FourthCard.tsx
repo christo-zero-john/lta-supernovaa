@@ -1,11 +1,11 @@
 /* Figma 1:757: local assets retain the exported crop and compositing geometry. */
 /* eslint-disable @next/next/no-img-element */
-const imgFrame2147228723 = "/assets/figma/dashboard/1-757-imgFrame2147228723.png";
-const imgRectangle2601 = "/assets/figma/dashboard/1-757-imgRectangle2601.png";
-const imgLucideCalendar = "/assets/figma/dashboard/1-757-imgLucideCalendar.svg";
-const imgLucideBadgeEuro = "/assets/figma/dashboard/1-757-imgLucideBadgeEuro.svg";
-const imgEllipse6013 = "/assets/figma/dashboard/1-757-imgEllipse6013.svg";
-const imgEllipse6014 = "/assets/figma/dashboard/1-757-imgEllipse6014.svg";
+const imgFrame2147228723 = "/assets/dashboard/1-757-imgFrame2147228723.png";
+const imgRectangle2601 = "/assets/dashboard/1-757-imgRectangle2601.png";
+const imgLucideCalendar = "/assets/dashboard/1-757-imgLucideCalendar.svg";
+const imgLucideBadgeEuro = "/assets/dashboard/1-757-imgLucideBadgeEuro.svg";
+const imgEllipse6013 = "/assets/dashboard/1-757-imgEllipse6013.svg";
+const imgEllipse6014 = "/assets/dashboard/1-757-imgEllipse6014.svg";
 
 export default function FourthCard() {
   return (

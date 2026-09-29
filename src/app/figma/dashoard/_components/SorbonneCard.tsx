@@ -1,13 +1,13 @@
 /* Figma 1:683: local assets retain the exported crop and compositing geometry. */
 /* eslint-disable @next/next/no-img-element */
-const imgFrame2147228688 = "/assets/figma/dashboard/1-683-imgFrame2147228688.png";
-const imgRectangle2601 = "/assets/figma/dashboard/1-683-imgRectangle2601.png";
-const imgRectangle2602 = "/assets/figma/dashboard/1-683-imgRectangle2602.png";
-const imgHourglassMedium = "/assets/figma/dashboard/1-683-imgHourglassMedium.svg";
-const imgEllipse6013 = "/assets/figma/dashboard/1-683-imgEllipse6013.svg";
-const imgEllipse6014 = "/assets/figma/dashboard/1-683-imgEllipse6014.svg";
-const imgLucideCalendar = "/assets/figma/dashboard/1-683-imgLucideCalendar.svg";
-const imgLucideBadgeEuro = "/assets/figma/dashboard/1-683-imgLucideBadgeEuro.svg";
+const imgFrame2147228688 = "/assets/dashboard/1-683-imgFrame2147228688.png";
+const imgRectangle2601 = "/assets/dashboard/1-683-imgRectangle2601.png";
+const imgRectangle2602 = "/assets/dashboard/1-683-imgRectangle2602.png";
+const imgHourglassMedium = "/assets/dashboard/1-683-imgHourglassMedium.svg";
+const imgEllipse6013 = "/assets/dashboard/1-683-imgEllipse6013.svg";
+const imgEllipse6014 = "/assets/dashboard/1-683-imgEllipse6014.svg";
+const imgLucideCalendar = "/assets/dashboard/1-683-imgLucideCalendar.svg";
+const imgLucideBadgeEuro = "/assets/dashboard/1-683-imgLucideBadgeEuro.svg";
 
 export default function SorbonneCard() {
   return (

@@ -117,7 +117,7 @@ export default function Sidebar({
             onClose();
           }}
         >
-          <img src="/assets/figma/dashboard/1-515-imgFrame.svg" alt="" />
+          <img src="/assets/dashboard/1-515-imgFrame.svg" alt="" />
           <span>
             Letters
             <br />
