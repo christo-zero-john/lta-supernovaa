@@ -53,12 +53,11 @@ function ConnectLayout({
                     <MentorSessionCard/>
                 </div>
             </div>
-            <TestimonialCarousel/>
-            <div
-                className="common--flex-col common--align-start common--justify-center common--gap-1 common--width-100 common--margin-top-auto">
-                <div className="main--footer-caption">Hear from our family</div>
-                <Footer/>
-            </div>
+            <section className="dashboard--section">
+                <h2 className="main--footer-caption">Hear from our family</h2>
+                <TestimonialCarousel/>
+            </section>
+            <Footer/>
         </>
     );
 }
@@ -82,12 +81,11 @@ function ZennaLayout({
                 <LtaPlane/>
             </div>
             <ApplicationsTable prefetchedData={data.applications}/>
-            <TestimonialCarousel/>
-            <div
-                className="common--flex-col common--align-start common--justify-center common--gap-1 common--width-100 common--margin-top-auto">
-                <div className="main--footer-caption">Hear from our family</div>
-                <Footer/>
-            </div>
+            <section className="dashboard--section">
+                <h2 className="main--footer-caption">Hear from our family</h2>
+                <TestimonialCarousel/>
+            </section>
+            <Footer/>
         </>
     );
 }
@@ -116,12 +114,11 @@ function DefaultLayout({
                 <LtaPlane/>
             </div>
             <Calendar/>
-            <TestimonialCarousel/>
-            <div
-                className="common--flex-col common--align-start common--justify-center common--gap-1 common--width-100 common--margin-top-auto">
-                <div className="main--footer-caption">Hear from our family</div>
-                <Footer/>
-            </div>
+            <section className="dashboard--section">
+                <h2 className="main--footer-caption">Hear from our family</h2>
+                <TestimonialCarousel/>
+            </section>
+            <Footer/>
         </>
     );
 }
@@ -146,12 +143,11 @@ function ZennaAndConnectLayout({
             </div>
             <ApplicationsTable prefetchedData={data.applications}/>
             <Calendar/>
-            <TestimonialCarousel/>
-            <div
-                className="common--flex-col common--align-start common--justify-center common--gap-1 common--width-100 common--margin-top-auto">
-                <div className="main--footer-caption">Hear from our family</div>
-                <Footer/>
-            </div>
+            <section className="dashboard--section">
+                <h2 className="main--footer-caption">Hear from our family</h2>
+                <TestimonialCarousel/>
+            </section>
+            <Footer/>
         </>
     );
 }

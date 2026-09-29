@@ -147,6 +147,15 @@ body,
     line-height: 24px;
 }
 
+/* A heading over its content, e.g. "Hear from our family". */
+.dashboard--section {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+    min-width: 0;
+}
+
 @media (max-width: 900px) {
     .main-section-container {
         --panel-inset: 20px;
