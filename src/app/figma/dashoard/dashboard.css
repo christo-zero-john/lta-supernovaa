@@ -101,7 +101,7 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .testimonial-copy { position: relative; padding: 30.08px 17.188px 32px 24.35px; color: white; }
 .testimonial h3 { font-size: 17.188px; font-weight: 700; line-height: 29.363px; margin: 0; }
 .testimonial-degree { font-size: 12.891px; line-height: 20.053px; opacity: .8; margin: 0; }
-.university-badge { margin: 20.053px 0 28.647px; padding: 0 20.769px; background: linear-gradient(90deg, rgba(255,255,255,.2),rgba(153,153,153,0)); border-radius: 35.093px; font-size: 12.891px; line-height: 32.228px; font-weight: 700; text-transform: uppercase; width: fit-content; max-width: 100%; overflow-wrap: anywhere; }
+.university-badge { margin: 20.053px 0 28.647px; padding: 0 20.769px; background: linear-gradient(90deg, rgba(255,255,255,.2),rgba(153,153,153,0)); border-radius: 35.093px; font-size: 12.891px; line-height: 32.228px; font-weight: 700; text-transform: uppercase; width: fit-content; max-width: 100%; }
 .testimonial blockquote { font: 500 17.188px/27.215px var(--figma-manrope), sans-serif; letter-spacing: .1719px; color: #fafafa; opacity: .8; margin: 0; width: 100%; overflow-wrap: anywhere; }
 .figma-dashboard .primary-cta, .figma-dashboard .product-action { transition: background-color 200ms ease-out; }
 .figma-dashboard .primary-cta:hover, .figma-dashboard .product-action:hover { background-color: #5b4b7a; }
@@ -153,7 +153,6 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
   .testimonial-copy { padding-left: 24.35px; padding-right: 24.35px; }
   .university-badge { line-height: 32.228px; padding: 0 20.769px; width: fit-content; max-width: 100%; }
   .testimonial blockquote { width: auto; height: auto; }
-  .university-badge { white-space: normal; }
   .footer-row { flex-direction: column; }
   .reference-footer { width: 100%; }
   .mentor-card { width: 100%; }

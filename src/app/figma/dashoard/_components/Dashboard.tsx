@@ -10,6 +10,7 @@ import FourthCard from "./FourthCard";
 import ZennaIntro from "./ZennaIntro";
 import type { ViewId } from "../../dashboard/_lib/types";
 import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
+import TruncatedText from "@/components/TruncatedText/TruncatedText";
 
 const asset = (name: string) => `/assets/figma/dashboard/${name}`;
 const universities = [
@@ -474,7 +475,11 @@ export default function Dashboard({
                     <p className="testimonial-degree">
                       M.Sc. Logistics and Production (ISE),
                     </p>
-                    <p className="university-badge">{item.university}</p>
+                    <TruncatedText
+                      as="p"
+                      className="university-badge"
+                      text={item.university}
+                    />
                     <blockquote>“{item.quote}”</blockquote>
                   </div>
                 </article>
