@@ -1,26 +1,31 @@
+/* "Explore LTA Suit" product cards from the Figma dashboard reference. */
 .lta-suit--wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 16px;
   width: 100%;
+  min-width: 0;
 }
 
 .lta-suit--heading {
-  font-family: var(--font-plus-jakarta-sans);
+  margin: 0;
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
   color: #242a33;
-  margin: 0;
 }
 
 .lta-suit--container {
   display: flex;
-  gap: 17px;
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
   align-items: flex-start;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+  /* Room for the cards' soft shadow inside the scroll box. */
+  padding: 0 12px 24px 0;
+  margin-bottom: -24px;
+  overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -30,37 +35,30 @@
 }
 
 .lta-suit--card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
-  padding: 4px;
-  background: #ffffff;
-  border: 1.38px solid #f7f7f7;
-  border-radius: 18px;
-  box-shadow: 5px 8px 24.9px 0px rgba(237, 230, 214, 0.5);
+  flex: 0 0 208px;
   width: 208px;
-  min-width: 208px;
-  height: 217px;
-  box-sizing: border-box;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
+  padding: 3px;
+  background: #ffffff;
+  border: 1.378px solid #f7f7f7;
+  border-radius: 18px;
+  box-shadow: 5px 8px 24.9px rgba(237, 230, 214, 0.5);
 }
 
 .lta-suit--header {
-  padding: 10px 10px 6px 10px;
-  width: 100%;
-  flex-shrink: 0;
+  padding: 16px 16px 0;
+  margin-bottom: 24px;
 }
 
 .lta-suit--title {
-  font-family: var(--font-plus-jakarta-sans);
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 20px;
-  color: #242a33;
   margin: 0;
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #242a33;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -68,106 +66,93 @@
 
 .lta-suit--image-container {
   position: relative;
-  width: 100%;
-  flex: 1;
-  border-radius: 14px;
+  height: 145.082px;
+  border-radius: 18.033px;
   overflow: hidden;
-  min-height: 0;
+  background: #cfbce2;
 }
 
 .lta-suit--image {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-  border-radius: 14px;
 }
 
 .lta-suit--access-tag {
   position: absolute;
-  top: 6px;
+  top: 5.738px;
   left: 0;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(13.36px);
-  padding: 4.92px 9.84px;
-  gap: 8.2px;
-  border-radius: 42.62px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
+  padding: 4.918px 9.836px;
+  border-radius: 0 42.623px 42.623px 0;
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(13.361px);
+  backdrop-filter: blur(13.361px);
 }
 
 .lta-suit--access-text {
-  font-family: var(--font-plus-jakarta-sans);
+  font-family: var(--figma-geist), sans-serif;
   font-weight: 500;
-  font-size: 11px;
-  line-height: 13px;
+  font-size: 11.475px;
+  line-height: 13.115px;
   color: #ebe8ef;
   white-space: nowrap;
 }
 
-.lta-suit--cta-wrapper {
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  right: 8px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.lta-suit--cta-button {
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6.5px 13px;
-  border-radius: 63px;
-  border: 1.639px solid rgba(78, 73, 89, 0.65);
-  cursor: pointer;
-  background-image:
-          linear-gradient(rgba(77, 55, 131, 0.2) 0%, rgba(238, 227, 255, 0.2) 51.44%),
-          linear-gradient(90deg, rgb(107, 90, 137) 0%, rgb(107, 90, 137) 100%);
-  box-shadow: inset 0px 2.459px 0.82px 0px #a392c7;
-  transition: background-color 0.2s ease-out;
-}
-
-.lta-suit--cta-button:hover {
-  background-image:
-          linear-gradient(rgba(77, 55, 131, 0.2) 0%, rgba(238, 227, 255, 0.2) 51.44%),
-          linear-gradient(90deg, rgb(91, 75, 122) 0%, rgb(91, 75, 122) 100%);
-}
-
-.lta-suit--cta-text {
-  font-family: var(--font-plus-jakarta-sans);
-  font-weight: 600;
-  font-size: 10px;
-  color: #ffffff;
-  letter-spacing: -0.2px;
-}
-
-/* ─── Mobile ──────────────────────────────────────────────────────────────────*/
-@media (max-width: 499px) {
-  .lta-suit--container {
-    flex-direction: column;
-    overflow: visible;
-    gap: 16px;
-  }
-
-  .lta-suit--card {
-    width: 100%;
-    min-width: 100%;
-    height: 217px;
-  }
-}
-/* ─── Tablet ──────────────────────────────────────────────────────────────────*/
-@media (min-width: 500px) and (max-width: 1280px) {
-  .lta-suit--container {
-    width: 100%;
-    overflow-x: auto;
-  }
-}
 .lta-suit--lock-icon {
   width: 12px;
   height: 12px;
   object-fit: contain;
   flex-shrink: 0;
+}
+
+.lta-suit--cta-wrapper {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+}
+
+/* Glass pill CTA; its hover and edge reflection live in dashboard-motion.css. */
+.lta-suit--cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 28px;
+  padding: 6.557px 13.115px;
+  border: 1.4px solid rgba(78, 73, 89, 0.65);
+  border-radius: 63px;
+  background-image:
+    linear-gradient(180deg, rgba(77, 55, 131, 0.2), rgba(238, 227, 255, 0.2) 51.442%),
+    linear-gradient(#6b5a89, #6b5a89);
+  box-shadow: inset 0 2.1px 0.7px #a392c7;
+  cursor: pointer;
+  transition: background-color 0.2s ease-out;
+}
+
+.lta-suit--cta-button:hover {
+  background-image:
+    linear-gradient(180deg, rgba(77, 55, 131, 0.2), rgba(238, 227, 255, 0.2) 51.442%),
+    linear-gradient(#5b4b7a, #5b4b7a);
+}
+
+.lta-suit--cta-button:focus-visible {
+  outline: 2px solid #8764de;
+  outline-offset: 3px;
+}
+
+.lta-suit--cta-text {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 600;
+  font-size: 8.4px;
+  line-height: 12.6px;
+  letter-spacing: -0.168px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+@container panel (max-width: 850px) {
+  .lta-suit--container {
+    gap: 12px;
+  }
 }
