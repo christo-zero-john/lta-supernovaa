@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Anek_Bangla, Inter, Geist, Rubik, Manrope } from "next/font/google";
+import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -27,7 +28,10 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" className={`${plusJakartaSans.variable} ${anekBangla.variable} ${inter.variable} ${geist.variable} ${rubik.variable} ${manrope.variable}`}>
-        <body>{children}</body>
+        <body>
+        <SmoothScroll/>
+        {children}
+        </body>
         </html>
     );
 }
