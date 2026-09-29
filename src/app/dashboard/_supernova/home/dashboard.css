@@ -68,8 +68,8 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .month-controls > span { font-size: 14px; line-height: 20px; font-weight: 600; }
 .month-controls button { background: #fff; border: 0; border-radius: 100px; width: 27px; height: 27px; display: flex; justify-content: center; align-items: center; padding: 0; }
 .month-controls button:last-child { transform: rotate(180deg); }
-.events-panel { display: grid; grid-template-columns: minmax(0, 417fr) minmax(0, 641fr); gap: 24px; padding: 12px; background: white; border-radius: 18px; min-height: 306px; }
 .event-empty { margin: 0; padding: 8px 0; color: #6a6e74; font-size: 14px; line-height: 20px; }
+.events-panel { display: grid; grid-template-columns: minmax(0, 417fr) minmax(0, 641fr); gap: 24px; padding: 12px; background: white; border-radius: 18px; min-height: 306px; }
 .event-list { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .event-row { display: grid; grid-template-columns: 76px 51.795px minmax(0,1fr); gap: 12px; min-height: 86px; border: 0; background: none; padding: 8px 0; align-items: start; text-align: left; font-family: var(--figma-jakarta), sans-serif; }
 .event-photo { width: 76px; height: 70px; object-fit: cover; border-radius: 12px; }
@@ -108,11 +108,11 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .university-badge { margin: 20.053px 0 28.647px; padding: 0 20.769px; background: linear-gradient(90deg, rgba(255,255,255,.2),rgba(153,153,153,0)); border-radius: 35.093px; font-size: 12.891px; line-height: 32.228px; font-weight: 700; text-transform: uppercase; width: fit-content; max-width: 100%; }
 .testimonial blockquote { font: 500 17.188px/27.215px var(--figma-manrope), sans-serif; letter-spacing: .1719px; color: #fafafa; opacity: .8; margin: 0; width: 100%; overflow-wrap: anywhere; }
 .figma-dashboard .primary-cta, .figma-dashboard .product-action { transition: background-color 200ms ease-out; }
-.figma-dashboard .primary-cta:hover, .figma-dashboard .product-action:hover { background-color: #5b4b7a; }
-.reference-footer { display: flex; flex-direction: column; gap: 8px; width: calc(100% + 24px); }
 /* Coming soon (like Project004): muted artwork, action not clickable. */
 .figma-dashboard .product-card.coming-soon .product-photo { filter: grayscale(.55) brightness(.92); }
 .figma-dashboard .product-action:disabled, .figma-dashboard .product-action:disabled:hover { cursor: not-allowed; background: linear-gradient(180deg, rgba(77,55,131,.2), rgba(238,227,255,.2) 51.442%), #8b7fa0; opacity: .85; animation: none; }
+.figma-dashboard .primary-cta:hover, .figma-dashboard .product-action:hover { background-color: #5b4b7a; }
+.reference-footer { display: flex; flex-direction: column; gap: 8px; width: calc(100% + 24px); }
 .footer-row { display: flex; align-items: stretch; justify-content: space-between; gap: 24px; min-height: 170px; }
 .mentor-card { padding: 24px; border-radius: 17px; background: rgba(235,230,227,.36); width: 476px; min-width: 0; }
 .mentor-card > p { font: 500 18px/27px var(--figma-geist), sans-serif; letter-spacing: -.54px; margin: 0 0 24px; max-width: 371.997px; }
