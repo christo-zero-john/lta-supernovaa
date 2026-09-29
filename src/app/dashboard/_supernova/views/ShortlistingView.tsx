@@ -11,6 +11,7 @@ import {
 } from "../lib/model";
 import type { ChanceProfile, ChanceResult } from "../lib/types";
 import { Button, Card, ProgressBar, StatusBadge } from "../components/ui";
+import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 export default function ShortlistingView() {
   const { openDialog } = useApp(),
     [profile, setProfile] = useState<ChanceProfile>({
@@ -20,8 +21,13 @@ export default function ShortlistingView() {
       german: "A2",
       field: FIELDS[0],
     }),
-    [results, setResults] = useState<ChanceResult[] | null>(null),
-    [errors, setErrors] = useState<string[]>([]);
+    [checked, setResults] = useState<ChanceResult[] | null>(null),
+    [errors, setErrors] = useState<string[]>([]),
+    // Until the user runs a check, a chosen dummy report stands in.
+    saved = useDemoData().has("courses") ? DEMO_DATA.courses : null,
+    results:
+      Pick<ChanceResult, "mono" | "university" | "course" | "pct">[] | null =
+      checked || saved;
   return (
     <div className="sn-form-grid">
       <Card>
@@ -120,7 +126,11 @@ export default function ShortlistingView() {
       <Card>
         <div className="sn-actions">
           <h3>{results ? "Your results" : "Your results will appear here"}</h3>
-          {results && <StatusBadge tone="free">Updated just now</StatusBadge>}
+          {results && (
+            <StatusBadge tone="free">
+              {checked ? "Updated just now" : "Saved report"}
+            </StatusBadge>
+          )}
         </div>
         {results ? (
           results.map((r) => (
