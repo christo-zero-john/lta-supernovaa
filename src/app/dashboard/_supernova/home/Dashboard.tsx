@@ -15,6 +15,7 @@ import { useApp } from "../components/AppProvider";
 import { useShellNavigation } from "../components/AppShell";
 import UserAvatar from "../components/UserAvatar";
 import DemoDataSwitch from "../demo/DemoDataSwitch";
+import NotificationBell from "../components/NotificationBell";
 import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import type { ViewId } from "../lib/types";
 import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
@@ -410,6 +411,7 @@ export default function Dashboard({
             />
             <div className="reference-header-actions">
               <DemoDataSwitch />
+              <NotificationBell />
               <button
                 className="profile-button"
                 aria-label="View profile"
