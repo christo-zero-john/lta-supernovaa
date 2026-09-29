@@ -13,6 +13,7 @@ import type { ViewId } from "../lib/types";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useUnreadCount } from "../hooks/useUnreadCount";
 import { Icon } from "./ui";
+import UserAvatar from "./UserAvatar";
 
 type NavIconName = ViewId | "settings" | "logout";
 
@@ -64,7 +65,7 @@ export default function Sidebar({
 }) {
   const router = useRouter();
   const { persona, view, openDialog } = useApp();
-  const { name, initials } = useCurrentUser();
+  const { name } = useCurrentUser();
   const unread = useUnreadCount();
 
   const handleLogout = () => {
@@ -144,7 +145,9 @@ export default function Sidebar({
             className="sn-user"
             onClick={() => openDialog({ kind: "settings" })}
           >
-            <span className="sn-avatar">{initials}</span>
+            <span className="sn-avatar">
+              <UserAvatar />
+            </span>
             <span>
               <b>{name}</b>
               <small>{PERSONAS[persona].role}</small>

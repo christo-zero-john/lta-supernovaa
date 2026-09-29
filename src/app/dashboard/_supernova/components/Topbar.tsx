@@ -2,14 +2,13 @@
 
 import { useApp } from "./AppProvider";
 import DashboardSearch from "./DashboardSearch";
+import UserAvatar from "./UserAvatar";
 import { Icon } from "./ui";
-import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useUnreadCount } from "../hooks/useUnreadCount";
 
 /** The section pages' top bar: search, WhatsApp, notifications, profile. */
 export default function Topbar({ onMenu }: { onMenu: () => void }) {
   const { persona, state, navigate, openDialog } = useApp();
-  const { initials } = useCurrentUser();
   const unread = useUnreadCount();
   const whatsapp = state[persona].whatsapp;
   return (
@@ -43,7 +42,7 @@ export default function Topbar({ onMenu }: { onMenu: () => void }) {
           aria-label="View profile"
           onClick={() => openDialog({ kind: "settings" })}
         >
-          {initials}
+          <UserAvatar />
         </button>
       </div>
     </header>

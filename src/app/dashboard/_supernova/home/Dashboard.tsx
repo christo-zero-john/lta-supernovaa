@@ -13,7 +13,7 @@ import { MONTH_NAMES, toCalendarEvent, type CalendarEvent } from "./events";
 import { TESTIMONIALS } from "./testimonials";
 import { useApp } from "../components/AppProvider";
 import { useShellNavigation } from "../components/AppShell";
-import { useCurrentUser } from "../hooks/useCurrentUser";
+import UserAvatar from "../components/UserAvatar";
 import type { ViewId } from "../lib/types";
 import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import TruncatedText from "@/components/TruncatedText/TruncatedText";
@@ -26,7 +26,6 @@ import "./testimonial-gradients.css";
 const asset = (name: string) => `/assets/dashboard/${name}`;
 const VIDEO_URL =
   "https://lta-dev-kj2hs6dasja.s3.ap-south-1.amazonaws.com/LTA+WEB.mp4";
-const PROFILE_PLACEHOLDER = "/assets/images/profile-placeholder.svg";
 
 // The four Figma card designs, repeated in order.
 const CARD_DESIGNS = [MunichCard, SorbonneCard, DarmstadtCard, FourthCard];
@@ -303,14 +302,8 @@ export default function Dashboard({
 }) {
   const { navigate, openDialog } = useApp();
   const { navigationOpen, openNavigation } = useShellNavigation();
-  const { user, firstName } = useCurrentUser();
-  const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [dialog, setDialog] = useState<DialogState>(null);
-
-  const requestedSrc = user?.profile_picture || PROFILE_PLACEHOLDER;
-  const profileSrc =
-    requestedSrc === failedSrc ? PROFILE_PLACEHOLDER : requestedSrc;
 
   const search = query.trim().toLowerCase();
   const visible = courses
@@ -411,11 +404,7 @@ export default function Dashboard({
               aria-label="View profile"
               onClick={() => openDialog({ kind: "settings" })}
             >
-              <img
-                src={profileSrc}
-                alt={firstName || "Profile"}
-                onError={() => setFailedSrc(requestedSrc)}
-              />
+              <UserAvatar />
             </button>
           </header>
           <div className="reference-content">
