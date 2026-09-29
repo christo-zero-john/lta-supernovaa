@@ -171,3 +171,8 @@ The numbered task descriptions above preserve the original plan. Their compound 
 Execution rulings: retained the user's existing workspace/branch and running preview; used native Windows commands and an ignored ledger; consolidated exact fixtures in one typed module and browser suites in one named-suite runner; used equivalent reducer action unions; restored generated route types after the isolated build. External commits appeared during execution and were preserved. No push, merge, deployment or unrelated lockfile staging was performed.
 
 Evidence: `scripts/test-supernova-model.mjs`, `scripts/test-figma-dashboard.mjs` and ignored screenshots in `.codex/artifacts/supernova/`. Screenshots were visually inspected separately from geometry tests. Interaction state and uploaded files remain browser-memory concept data; no backend persistence is implied.
+
+
+## Dashboard restoration and button refinement
+
+The user clarified that the first Figma dashboard must remain the Dashboard navigation view; HTML content applies only to the other pages. The original components/assets and Fit width layout are restored and wired to the other views. Styling is isolated so the concept shell cannot override the original dashboard. The requested glass button hover moves the existing inset edge reflection; it adds no extra light overlay or outer glow. Dedicated browser tests cover restoration, navigation, responsive fitting, moving reflection, stable geometry, click behavior, reduced motion and borderless search.
