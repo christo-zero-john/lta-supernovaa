@@ -1,16 +1,22 @@
+/* Same speech-bubble look as Zenna's bubble and TruncatedText's tooltip. */
 .tooltip-bubble {
-  background-color: #333;
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: normal;
-  word-wrap: break-word;
-  max-width: 150px;
   z-index: 99999;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  max-width: min(260px, calc(100vw - 24px));
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: #fbf8ff;
+  box-shadow:
+    0 3.86px 3.86px rgba(219, 219, 219, 0.25),
+    inset 0 4.66px 4.66px #fefefe;
+  color: #352c48;
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 19px;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .tooltip-arrow {
-  fill: #333;
+  fill: #fbf8ff;
 }
