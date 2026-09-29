@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:figma": "node scripts/test-figma-dashboard.mjs"
   },
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.2.8",
