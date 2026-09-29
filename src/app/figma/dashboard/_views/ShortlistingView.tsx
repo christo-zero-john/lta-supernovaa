@@ -1,2 +1,180 @@
-import {useState} from 'react';import {useApp} from '../_components/AppProvider';import {CHANCE_UNIVERSITIES} from '../_lib/fixtures';import {calculateChances,validateProfile,DEGREES,FIELDS} from '../_lib/model';import type {ChanceProfile,ChanceResult} from '../_lib/types';import {Button,Card,ProgressBar,StatusBadge} from '../_components/ui';
-export default function ShortlistingView(){const{openDialog}=useApp(),[profile,setProfile]=useState<ChanceProfile>({degree:DEGREES[0],cgpa:7.8,ielts:7,german:'A2',field:FIELDS[0]}),[results,setResults]=useState<ChanceResult[]|null>(null),[errors,setErrors]=useState<string[]>([]);return <div className="sn-form-grid"><Card><h3>Your profile</h3><p className="sn-body-copy">Takes 30 seconds. No documents needed for the basic check.</p><form className="sn-form" style={{marginTop:18}} onSubmit={e=>{e.preventDefault();const errs=validateProfile(profile);setErrors(errs);if(!errs.length)setResults(calculateChances(profile,CHANCE_UNIVERSITIES));}}><label className="sn-field">Bachelor degree<select value={profile.degree} onChange={e=>setProfile({...profile,degree:e.target.value})}>{DEGREES.map(d=><option key={d}>{d}</option>)}</select></label><label className="sn-field">CGPA (out of 10)<input type="number" required min="5" max="10" step="0.1" value={Number.isNaN(profile.cgpa)?'':profile.cgpa} onChange={e=>setProfile({...profile,cgpa:e.target.valueAsNumber})}/></label><label className="sn-field">IELTS score<input type="number" required min="5" max="9" step="0.5" value={Number.isNaN(profile.ielts)?'':profile.ielts} onChange={e=>setProfile({...profile,ielts:e.target.valueAsNumber})}/></label><label className="sn-field">German level<select value={profile.german} onChange={e=>setProfile({...profile,german:e.target.value})}>{['none','A1','A2','B1','B2'].map(g=><option value={g} key={g}>{g==='none'?'None yet':g}</option>)}</select></label><label className="sn-field">Target field<select value={profile.field} onChange={e=>setProfile({...profile,field:e.target.value})}>{FIELDS.map(f=><option key={f}>{f}</option>)}</select></label>{errors.length>0&&<p className="sn-error" role="alert">{errors.join(' ')}</p>}<Button type="submit">Check my chances →</Button></form></Card><Card><div className="sn-actions"><h3>{results?'Your results':'Your results will appear here'}</h3>{results&&<StatusBadge tone="free">Updated just now</StatusBadge>}</div>{results?results.map(r=><div className="sn-chance-row" key={r.mono}><span className="sn-mono">{r.mono}</span><div><b>{r.university}</b><small>{r.course}</small></div><div className="sn-chance-pct" style={{color:r.pct>=65?'#6f9c7d':r.pct>=40?'#b79d66':'#b5838d'}}>{r.pct}%<ProgressBar value={r.pct}/></div></div>):<p className="sn-empty">Fill in your profile and press the button. You’ll get an honest percentage for 5 matched universities — green means apply with confidence, amber means possible, red means we’d suggest better-fit options.</p>}<div className="sn-disclaimer">⚖️ Honesty note: this basic check is roughly 60–70% accurate — it uses only your headline numbers. For a module-level prediction (matching your actual transcripts against course handbooks), our application team does a full evaluation. No one can honestly promise a “100% admission guarantee” to German public universities — and anyone who does is someone to walk away from.</div>{results&&<Button style={{marginTop:16,width:'100%'}} onClick={()=>openDialog({kind:'booking',detail:results.map(r=>`${r.university}: ${r.pct}%`).join(' · ')})}>Talk to our team about these results →</Button>}</Card></div>;}
+import { useState } from "react";
+import { useApp } from "../_components/AppProvider";
+import { CHANCE_UNIVERSITIES } from "../_lib/fixtures";
+import {
+  calculateChances,
+  validateProfile,
+  DEGREES,
+  FIELDS,
+} from "../_lib/model";
+import type { ChanceProfile, ChanceResult } from "../_lib/types";
+import { Button, Card, ProgressBar, StatusBadge } from "../_components/ui";
+export default function ShortlistingView() {
+  const { openDialog } = useApp(),
+    [profile, setProfile] = useState<ChanceProfile>({
+      degree: DEGREES[0],
+      cgpa: 7.8,
+      ielts: 7,
+      german: "A2",
+      field: FIELDS[0],
+    }),
+    [results, setResults] = useState<ChanceResult[] | null>(null),
+    [errors, setErrors] = useState<string[]>([]);
+  return (
+    <div className="sn-form-grid">
+      <Card>
+        <h3>Your profile</h3>
+        <p className="sn-body-copy">
+          Takes 30 seconds. No documents needed for the basic check.
+        </p>
+        <form
+          className="sn-form"
+          style={{ marginTop: 18 }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const errs = validateProfile(profile);
+            setErrors(errs);
+            if (!errs.length)
+              setResults(calculateChances(profile, CHANCE_UNIVERSITIES));
+          }}
+        >
+          <label className="sn-field">
+            Bachelor degree
+            <select
+              value={profile.degree}
+              onChange={(e) =>
+                setProfile({ ...profile, degree: e.target.value })
+              }
+            >
+              {DEGREES.map((d) => (
+                <option key={d}>{d}</option>
+              ))}
+            </select>
+          </label>
+          <label className="sn-field">
+            CGPA (out of 10)
+            <input
+              type="number"
+              required
+              min="5"
+              max="10"
+              step="0.1"
+              value={Number.isNaN(profile.cgpa) ? "" : profile.cgpa}
+              onChange={(e) =>
+                setProfile({ ...profile, cgpa: e.target.valueAsNumber })
+              }
+            />
+          </label>
+          <label className="sn-field">
+            IELTS score
+            <input
+              type="number"
+              required
+              min="5"
+              max="9"
+              step="0.5"
+              value={Number.isNaN(profile.ielts) ? "" : profile.ielts}
+              onChange={(e) =>
+                setProfile({ ...profile, ielts: e.target.valueAsNumber })
+              }
+            />
+          </label>
+          <label className="sn-field">
+            German level
+            <select
+              value={profile.german}
+              onChange={(e) =>
+                setProfile({ ...profile, german: e.target.value })
+              }
+            >
+              {["none", "A1", "A2", "B1", "B2"].map((g) => (
+                <option value={g} key={g}>
+                  {g === "none" ? "None yet" : g}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="sn-field">
+            Target field
+            <select
+              value={profile.field}
+              onChange={(e) =>
+                setProfile({ ...profile, field: e.target.value })
+              }
+            >
+              {FIELDS.map((f) => (
+                <option key={f}>{f}</option>
+              ))}
+            </select>
+          </label>
+          {errors.length > 0 && (
+            <p className="sn-error" role="alert">
+              {errors.join(" ")}
+            </p>
+          )}
+          <Button type="submit">Check my chances →</Button>
+        </form>
+      </Card>
+      <Card>
+        <div className="sn-actions">
+          <h3>{results ? "Your results" : "Your results will appear here"}</h3>
+          {results && <StatusBadge tone="free">Updated just now</StatusBadge>}
+        </div>
+        {results ? (
+          results.map((r) => (
+            <div className="sn-chance-row" key={r.mono}>
+              <span className="sn-mono">{r.mono}</span>
+              <div>
+                <b>{r.university}</b>
+                <small>{r.course}</small>
+              </div>
+              <div
+                className="sn-chance-pct"
+                style={{
+                  color:
+                    r.pct >= 65
+                      ? "#6f9c7d"
+                      : r.pct >= 40
+                        ? "#b79d66"
+                        : "#b5838d",
+                }}
+              >
+                {r.pct}%<ProgressBar value={r.pct} />
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="sn-empty">
+            Fill in your profile and press the button. You’ll get an honest
+            percentage for 5 matched universities — green means apply with
+            confidence, amber means possible, red means we’d suggest better-fit
+            options.
+          </p>
+        )}
+        <div className="sn-disclaimer">
+          ⚖️ Honesty note: this basic check is roughly 60–70% accurate — it uses
+          only your headline numbers. For a module-level prediction (matching
+          your actual transcripts against course handbooks), our application
+          team does a full evaluation. No one can honestly promise a “100%
+          admission guarantee” to German public universities — and anyone who
+          does is someone to walk away from.
+        </div>
+        {results && (
+          <Button
+            style={{ marginTop: 16, width: "100%" }}
+            onClick={() =>
+              openDialog({
+                kind: "booking",
+                detail: results
+                  .map((r) => `${r.university}: ${r.pct}%`)
+                  .join(" · "),
+              })
+            }
+          >
+            Talk to our team about these results →
+          </Button>
+        )}
+      </Card>
+    </div>
+  );
+}
