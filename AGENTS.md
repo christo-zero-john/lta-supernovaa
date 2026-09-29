@@ -4,7 +4,7 @@
 
 - Next.js 16 App Router, React 19, strict TypeScript, Tailwind 4 and scoped component CSS.
 - `src/app/(auth)` contains public onboarding routes; the route group adds no URL prefix.
-- `src/app/dashboard` is the authenticated, API-backed student dashboard. It carries the Supernova visual design (purple accents, rounded pale panels, Plus Jakarta Sans/Anek Bangla typography, glass-pill CTAs) directly in its own components; the restored public `/figma/dashboard` reference remains separate from it. The reference Dashboard view preserves the first Figma design, while its other pages use the HTML content and LTA styling. Navbar consistency is being handled separately; do not overwrite concurrent navbar work. Changes to its look are CSS-only — `src/app/dashboard/page.tsx`'s data fetching, access gating (`hasAccess`/`platformType`) and layout-variant selection are not design surface.
+- `src/app/dashboard` is the authenticated student dashboard, built from the Figma redesign (see `docs/dashboard.md`): the home page (`page.tsx` → `_supernova/home/Dashboard.tsx`) and seven section pages sharing one shell (`_supernova/components/AppShell.tsx`, Figma sidebar, page view transition). Keep the home page's functional logic intact — the user fetch in `layout.tsx`, the course fetch, image preloads and loader in `page.tsx`, the booked-slot fetch in `Events`, and the sidebar's real logout (clears `token` and `refresh_token`).
 - API boundaries live in `src/lib/services`, server actions in `src/actions`, and shared Axios/session handling in `src/lib/axios.ts`, `src/lib/cookies.ts`, and `src/middleware.ts`. Zustand user state is in `src/store/useStore.ts`.
 - Read README.md for backend/setup details when relevant. Do not overwrite existing dirty changes.
 
@@ -15,7 +15,7 @@
 
 ## Design implementation
 
-- Search must have no border effects. Calendar day hover is pale gray, 150ms ease-out; MainCTA hover is `#5B4B7A`, 200ms ease-out; keep button geometry still on hover. Glass-pill buttons (`.lta-suit--cta-button`, `.mentor-session--days-left-btn`, `.footer--btn-primary`) animate their existing inset edge reflection on hover/focus via `src/app/dashboard/dashboard-motion.css`; never add a separate light overlay, and disable the animation under `prefers-reduced-motion`.
+- Search must have no border effects. Calendar day hover is pale gray, 150ms ease-out; MainCTA hover is `#5B4B7A`, 200ms ease-out; keep button geometry still on hover. Glass-pill buttons (`.primary-cta`, `.product-action`, `.chat-cta`, `.sn-button`) animate their existing inset edge reflection on hover/focus via `src/app/dashboard/_supernova/button-motion.css`; never add a separate light overlay, and disable the animation under `prefers-reduced-motion`.
 - Fonts are loaded once via `next/font/google` in `src/app/layout.tsx` (Plus Jakarta Sans, Anek Bangla), exposed as the `--font-plus-jakarta-sans` / `--font-anek-bangla` CSS variables consumed throughout `src/app/globals.css` and the dashboard component CSS. Do not redeclare those variables as literal font-family strings elsewhere.
 - Be explicit about design deviations and verification limits. Passing tests does not establish exact pixel identity.
 
