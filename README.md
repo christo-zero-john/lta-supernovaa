@@ -1,36 +1,262 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Letters to Abroad Dashboard
 
-## Getting Started
+Student dashboard frontend for Letters to Abroad (LTA), maintained in the
+`lta-supernovaa` repository. It brings together course shortlists, university
+applications, admission statistics, booked mentoring sessions, and LTA product
+information.
 
-First, run the development server:
+The application uses Next.js App Router and calls a separately hosted LTA API
+directly from the browser. This repository contains the frontend; email delivery,
+account validation, and data persistence belong to the backend.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Technology
+
+| Area | Implementation |
+| --- | --- |
+| Framework | Next.js 16.1.6 |
+| UI | React 19.2.3 and TypeScript |
+| Styling | Global and component CSS; Tailwind CSS 4 tooling |
+| HTTP | Axios with shared request and response interceptors |
+| User state | Zustand, held in memory |
+| Tooltips | Radix UI |
+| Static assets | Images, SVG icons, and fonts in `public/` |
+
+## Local setup
+
+Use Node.js compatible with Next.js 16 and npm. The repository includes a tracked
+`package-lock.json` for reproducible npm installs.
+
+```powershell
+npm.cmd ci
+Copy-Item .env.example .env.local
+npm.cmd run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Copy the environment file only if `.env.local` does not already exist; preserve
+existing configuration. On shells other than Windows PowerShell, use `npm` in
+place of `npm.cmd` and the equivalent file-copy command.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open [http://localhost:3000](http://localhost:3000). The root page redirects to
+`/signup`; authenticated users may be redirected to `/dashboard` by middleware.
+Use an existing backend account to exercise the dashboard. There is no local
+backend or mock-data mode supplied here.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Environment configuration
 
-## Learn More
+The only environment variable read by the application is:
 
-To learn more about Next.js, take a look at the following resources:
+```dotenv
+NEXT_PUBLIC_LTA_API_BASE_URL=https://apiv2.letterstoabroad.com/api/
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Set it in `.env.local` for development and in the hosting provider's environment
+settings for deployments. Keep the trailing slash: services append relative
+paths such as `auth/signin/`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The example points to the shared live backend. Account creation and other API
+requests therefore operate against that backend. For a separate development
+backend, replace the URL and ensure its CORS policy permits your frontend origin
+and request headers.
 
-## Deploy on Vercel
+`NEXT_PUBLIC_` values are exposed in browser code and included at build time.
+Restart the development server after a change; rebuild and redeploy hosted apps
+to change their API address. Never put passwords, SMTP credentials, or private
+API keys in this variable. OTP email credentials are configured on the backend.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`.env.local` is ignored by Git. `.env.example` is tracked as the setup template.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm.cmd run dev` | Start the development server |
+| `npm.cmd run build` | Create a production build |
+| `npm.cmd run start` | Serve an existing production build |
+| `npm.cmd run lint` | Run ESLint |
+
+There is no automated test script in `package.json`. Build and lint commands are
+available checks, not evidence that backend-dependent flows work. Verify login,
+onboarding, and dashboard data in a browser against the intended backend.
+
+## Routes and authentication
+
+The `(auth)` directory is an App Router route group; it adds no `/auth` prefix
+to URLs.
+
+| Route | Purpose |
+| --- | --- |
+| `/` | Redirect to signup |
+| `/signup` | Create an account with email and password |
+| `/signup-otp?email=...` | Public signup OTP verification and resend UI |
+| `/login` | Sign in with email and password |
+| `/verify-otp?email=...&invite_token=...` | Invite onboarding; sends an initial OTP and verifies it |
+| `/set-password?uid=...&temp_token=...` | Set a password after invite verification |
+| `/welcome` | Welcome screen after password setup |
+| `/dashboard` | Authenticated student dashboard |
+
+### Session handling
+
+- Signin and invite password setup save access and refresh tokens in browser
+  cookies named `token` and `refresh_token`. Signup also saves them if returned.
+- The Axios client adds `Portal-Type: dashboard` and, when a token exists,
+  `Authorization: Bearer <token>` to requests.
+- A `401` response can trigger one token refresh using `token/refresh/`. Failed
+  refresh clears the cookies and redirects to `/login`.
+- Middleware checks whether a `token` cookie exists. It redirects unauthenticated
+  protected-route requests to `/signup` and authenticated public auth-route
+  requests to `/dashboard`. Cookie presence alone does not validate a token;
+  the backend must enforce authorization.
+- The dashboard layout fetches `users/me/` and stores the profile in Zustand.
+  The store is not persisted, so a page reload fetches the profile again.
+
+Invite onboarding and public signup use different OTP endpoints. Do not treat
+them as interchangeable flows.
+
+## Dashboard behavior
+
+The dashboard selects a layout using `signup_platform_type` and three profile
+flags: `is_email_verified`, `is_onboarding_completed`, and `is_approved`.
+All three flags must be true for the approved platform layouts.
+
+| Profile state | Display |
+| --- | --- |
+| Any access flag false | Default dashboard |
+| Approved `dashboard` or unknown platform | Default dashboard |
+| Approved `zenna` | Admission statistics and applications |
+| Approved `connect` | Converted to the combined Zenna and Connect layout |
+| Approved `zenna_and_connect` | Statistics, applications, upcoming mentoring session, and calendar |
+
+The default layout shows shortlisted courses when available, LTA product cards,
+and a calendar. Testimonials and the footer appear across layouts. A standalone
+Connect layout exists in the source, but the current approved `connect` mapping
+selects the combined layout.
+
+Course shortlists, applications, and statistics are fetched according to the
+selected layout. Calendar and mentoring components make their own API requests.
+Application document links open backend-provided file URLs in a new tab.
+
+## API integration
+
+All paths below are relative to `NEXT_PUBLIC_LTA_API_BASE_URL`. The table describes
+frontend calls, rather than guaranteeing that every route is deployed.
+
+| Method | Path | Used for |
+| --- | --- | --- |
+| POST | `auth/signin/` | Login |
+| POST | `auth/signup/` | Public account creation |
+| POST | `auth/signup/verify-otp/` | Public signup verification |
+| POST | `auth/signup/resend-otp/` | Public signup OTP resend |
+| POST | `auth/pre-register/send-otp/` | Invite OTP send and resend |
+| POST | `auth/pre-register/verify-otp/` | Invite OTP verification |
+| POST | `auth/pre-register/set-password/` | Invite password setup |
+| POST | `token/refresh/` | Access-token refresh |
+| GET | `users/me/` | Current user profile |
+| GET | `shortlisted-courses/` | Course shortlist |
+| GET | `shortlisted-courses/{id}/` | Individual shortlisted course |
+| GET | `applications/` | Applications, with `id` and optional `search` parameters |
+| GET | `students/me/stats/` | Admission statistics |
+| GET | `booked-slot/` | Calendar bookings |
+| GET | `booked-slot/upcoming/` | Upcoming mentoring session |
+
+Services generally extract the payload from `response.data.data`. Action
+wrappers turn results into `{ success, data?, error? }` for components. Despite
+their directory name, these wrappers are ordinary imported functions, not
+Next.js Server Actions; they do not use a `"use server"` directive.
+
+## Repository structure
+
+```text
+src/
+  app/
+    (auth)/                 Signup, login, OTP, password, and welcome screens
+    dashboard/              Dashboard page, shared layout, and UI components
+    layout.tsx              Root layout and page metadata
+    globals.css             Global styles
+    page.tsx                Root redirect
+  actions/                  API result and error wrappers
+  components/PageLoader/    Shared loading screen
+  lib/
+    axios.ts                API base URL, headers, and token refresh
+    cookies.ts              Browser token-cookie helpers
+    services/               API functions and response types
+  store/useStore.ts         User profile and authentication state
+  middleware.ts             Cookie-based route redirects
+public/                     Static assets
+next.config.ts              Remote image allowlist
+.env.example                Public API configuration template
+```
+
+The TypeScript alias `@/*` resolves to `src/*`. Most dashboard components keep
+their CSS alongside their TSX file. Remote Next.js images currently allow
+`lta-dev-tl6j9mrplp.s3.amazonaws.com`; update `next.config.ts` if API image URLs
+move to another host.
+
+## Known limitations and troubleshooting
+
+### Signup opens an OTP screen, but no email arrives
+
+Public signup currently redirects to `/signup-otp` after any successful action,
+even if the API already returned login tokens. The OTP screen's initial message
+is static; it does not confirm email dispatch. Its verification and resend
+buttons do make API calls, including a 30-second cooldown after successful
+resend. Verification sends `{ otp }`, while resend sends `{ email }`.
+
+During investigation on September 28, 2026, read-only `OPTIONS` requests to the
+shared backend's `auth/signup/verify-otp/` and `auth/signup/resend-otp/` returned
+HTTP 404. Signup metadata was accessible. These observations identify a
+frontend/backend contract mismatch; they do not establish email delivery status
+or the response from an actual account-creation request. Recheck route support
+when the backend changes. Setting the API URL alone does not resolve this flow.
+
+### Login succeeds, but the dashboard keeps loading
+
+Inspect the `users/me/` request first. Dashboard data loading waits for a user ID;
+profile-fetch failures currently only log an error and can leave the page on its
+loader. Check the API address, token validity, CORS, and profile response shape.
+
+### Logout or sidebar navigation behaves unexpectedly
+
+Logout currently clears token cookies but navigates to `/auth/login`, while the
+actual login page is `/login`. Sidebar item selection updates local active state;
+it does not navigate to separate feature routes. Some product, footer, and social
+controls are placeholders or commented out. Social sign-in is disabled in the
+signup form.
+
+### Authentication implementation needs further hardening
+
+Tokens are stored in JavaScript-readable cookies. Review these implementations
+before relying on them for production session security. Middleware token-value
+logging has been removed; avoid adding logs that expose account credentials.
+
+## Deployment
+
+The repository is a standard Next.js application suitable for Vercel or a Node.js
+host that supports Next.js. Configure `NEXT_PUBLIC_LTA_API_BASE_URL` before the
+production build. For a Node.js host, run `npm.cmd run build`, then
+`npm.cmd run start` using the appropriate command spelling for that host.
+
+Deployment addresses inspected during the September 28, 2026 investigation:
+
+- [LTA dashboard](https://dashboard.letterstoabroad.com/)
+- [Vercel deployment](https://dashboard-opal-ten-58.vercel.app/)
+
+At that time, both served identical inspected signup and API-client bundles and
+used the shared API address shown above. Future deployments may differ. Backend
+email delivery and complete onboarding remain separate acceptance checks from a
+successful frontend build.
+
+## Supernova LTA concept
+
+Open [http://localhost:3000/figma/dashboard](http://localhost:3000/figma/dashboard)
+for the interactive Supernova concept. `/figma/dashoard` redirects here. The supplied
+HTML defines all eight views and three personas; local LTA assets and styles give
+it the shared design language. Local bookings, uploads and preferences do not
+change real accounts or send data to the backend.
+
+Run `pnpm.cmd test:figma:model` and `pnpm.cmd test:figma` against a running server.
+Set `FIGMA_TEST_URL` for another address. Install Chromium with
+`pnpm.cmd exec playwright install chromium` if needed.
+
+See [implementation notes](docs/figma-dashboard.md) for source, architecture,
+interactions and verification. [AGENTS.md](AGENTS.md) contains project guidance.
+Local skills, caches and browser evidence remain ignored by Git.
