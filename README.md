@@ -256,3 +256,10 @@ gating are unchanged by this; only its styling moved.
 
 [AGENTS.md](AGENTS.md) contains project guidance. Local skills, caches and
 browser evidence remain ignored by Git.
+
+
+## Restored Figma design reference
+
+Open `/figma/dashboard` for the restored reference. Its Dashboard tab preserves the first Figma layout and assets; the other seven pages preserve the HTML content with LTA styling. Glass pill buttons animate their existing inset reflection, without an extra light overlay. `/figma/dashoard` redirects to the canonical route.
+
+The real authenticated `/dashboard` is unchanged by this restoration. See [reference guidance](docs/figma-dashboard.md). Run `pnpm.cmd test:figma` and `pnpm.cmd test:figma:model`; set `FIGMA_TEST_URL` to a running server. Evidence is ignored under `.codex/artifacts/`.
