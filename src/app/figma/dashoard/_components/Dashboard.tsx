@@ -167,10 +167,11 @@ function Events({
     month: "long",
     year: "numeric",
   });
-  // The reference shows a three-week excerpt, with the first on Saturday.
-  const start = offset === 0 ? 5 : (date.getDay() + 6) % 7;
+  // Full real month, Monday first. (The Figma frame only drew a three-week
+  // excerpt with invented weekdays; that is not a usable calendar.)
+  const start = (date.getDay() + 6) % 7;
   const daysInMonth = new Date(2026, 2 + offset, 0).getDate();
-  const cells = offset === 0 ? 21 : Math.ceil((start + daysInMonth) / 7) * 7;
+  const cells = Math.ceil((start + daysInMonth) / 7) * 7;
   const days = Array.from({ length: cells }, (_, i) =>
     i < start || i >= start + daysInMonth ? null : i - start + 1,
   );
@@ -234,16 +235,10 @@ function Events({
         </div>
         <div
           className="calendar"
-          aria-label={`${label} calendar${offset === 0 ? " excerpt" : ""}`}
+          aria-label={`${label} calendar`}
         >
-          <div
-            className={`weekdays ${offset === 0 ? "" : "full-week"}`}
-            aria-hidden="true"
-          >
-            {(offset === 0
-              ? ["MO", "TU", "WE", "TH", "FR", "SA"]
-              : ["MO", "TU", "WE", "TH", "FR", "SA", "SU"]
-            ).map((day) => (
+          <div className="weekdays" aria-hidden="true">
+            {["MO", "TU", "WE", "TH", "FR", "SA", "SU"].map((day) => (
               <span key={day}>{day}</span>
             ))}
           </div>
