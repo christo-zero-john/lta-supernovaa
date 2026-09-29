@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import "./ApplicationsTable.css";
 import useStore from "@/store/useStore";
 import { handleFetchApplications } from "@/actions/applications.actions";
@@ -66,7 +67,7 @@ const ApplicationsTable: React.FC<ApplicationsTableProps> = ({ prefetchedData })
                 <p className="applications-table--title">Applications</p>
             </div>
 
-            <div className="applications-table--wrapper">
+            <SmoothScrollArea className="applications-table--wrapper" orientation="horizontal">
                 <div className="applications-table--scroll">
 
                     {/* Header */}
@@ -166,7 +167,7 @@ const ApplicationsTable: React.FC<ApplicationsTableProps> = ({ prefetchedData })
                         ))
                     )}
                 </div>
-            </div>
+            </SmoothScrollArea>
         </div>
     );
 };
