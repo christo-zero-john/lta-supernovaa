@@ -136,6 +136,20 @@
     linear-gradient(#5b4b7a, #5b4b7a);
 }
 
+/* Coming soon (like Project004): muted artwork, button not clickable. */
+.lta-suit--card-coming-soon .lta-suit--image {
+  filter: grayscale(0.55) brightness(0.92);
+}
+
+.lta-suit--cta-button:disabled,
+.lta-suit--cta-button:disabled:hover {
+  cursor: not-allowed;
+  background-image:
+    linear-gradient(180deg, rgba(77, 55, 131, 0.2), rgba(238, 227, 255, 0.2) 51.442%),
+    linear-gradient(#8b7fa0, #8b7fa0);
+  opacity: 0.85;
+}
+
 .lta-suit--cta-button:focus-visible {
   outline: 2px solid #8764de;
   outline-offset: 3px;

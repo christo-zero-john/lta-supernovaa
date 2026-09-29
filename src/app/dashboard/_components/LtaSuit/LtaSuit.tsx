@@ -13,6 +13,8 @@ interface LtaSuitItem {
   image: string;
   buttonText: string;
   locked?: boolean;
+  /** Shown but not yet available: the button is disabled. */
+  comingSoon?: boolean;
   videoUrl?: string;
   href?: string;
 }
@@ -27,15 +29,18 @@ const LTA_SUIT_ARRAY: LtaSuitItem[] = [
     locked: false,
     href: "/dashboard",
   },
-  // {
-  //   id: 2,
-  //   title: "LTA Connect",
-  //   accessDescription: "Free For All",
-  //   image: "/assets/images/suit-connect.png",
-  //   buttonText: "Try Now",
-  //   locked: false,
-  //   href: "https://connect.letterstoabroad.com/home",
-  // },
+  // Not live yet: shown locked, like Project004. When it launches, drop
+  // comingSoon, set locked: false and restore
+  // href: "https://connect.letterstoabroad.com/home".
+  {
+    id: 2,
+    title: "LTA Connect",
+    accessDescription: "Coming Soon",
+    image: "/assets/images/suit-connect.png",
+    buttonText: "Coming Soon",
+    locked: true,
+    comingSoon: true,
+  },
   {
     id: 3,
     title: "LTA Zenna",
@@ -64,7 +69,10 @@ const LtaSuit: React.FC = () => {
           <p className="lta-suit--heading">Explore LTA Suit</p>
           <SmoothScrollArea className="lta-suit--container" orientation="horizontal">
             {LTA_SUIT_ARRAY.map((item) => (
-                <div key={item.id} className="lta-suit--card">
+                <div
+                    key={item.id}
+                    className={`lta-suit--card ${item.comingSoon ? "lta-suit--card-coming-soon" : ""}`}
+                >
                   <div className="lta-suit--header">
                     <p className="lta-suit--title">{item.title}</p>
                   </div>
@@ -94,7 +102,9 @@ const LtaSuit: React.FC = () => {
 
                     <div className="lta-suit--cta-wrapper">
                       <button
+                          type="button"
                           className="lta-suit--cta-button"
+                          disabled={item.comingSoon}
                           onClick={() => handleButtonClick(item)}
                       >
                         <span className="lta-suit--cta-text">{item.buttonText}</span>
