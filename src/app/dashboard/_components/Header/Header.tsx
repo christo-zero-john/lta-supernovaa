@@ -5,6 +5,8 @@ import Image from "next/image";
 import "./Header.css";
 import LtaIcon from "@/app/dashboard/_components/LtaIcon/LtaIcon";
 import useStore from "@/store/useStore";
+import DashboardSearch from "@/app/dashboard/_supernova/components/DashboardSearch";
+import HeaderActions from "@/app/dashboard/_supernova/components/HeaderActions";
 
 interface HeaderProps {
     onMenuClick: () => void;
@@ -33,49 +35,35 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }): React.ReactElement => {
         </div>
     );
 
+    // One responsive header (a single search box, so no duplicate ids).
+    // Narrow screens: logo, search, menu — the profile picture moves into
+    // the drawer's Profile item.
     return (
-        <>
-            {/* Desktop */}
-            <div className="header--main-container-large-screen">
-                <div className="header--search-container">
-                    <input
-                        type="text"
-                        className="header--search-input"
-                        placeholder="Search"
-                        aria-label="Search"
-                    />
-                </div>
-                <div className="header--profile-section">{ProfilePicture}</div>
+        <header className="header--container">
+            <div className="header--logo">
+                <LtaIcon />
             </div>
-
-            {/* Mobile — profile picture removed */}
-            <div className="header--main-container-mobile-screen">
-                <div>
-                    <LtaIcon />
-                </div>
-                <div className="header--search-container">
-                    <input
-                        type="text"
-                        className="header--search-input"
-                        placeholder="Search"
-                        aria-label="Search"
-                    />
-                </div>
-                <button
-                    type="button"
-                    className="header--menu-btn"
-                    aria-label="Open navigation"
-                    onClick={onMenuClick}
-                >
-                    <Image
-                        src="/assets/icons/Menu_icon.svg"
-                        alt="Menu"
-                        width={24}
-                        height={24}
-                    />
-                </button>
+            <div className="supernova header--search">
+                <DashboardSearch />
             </div>
-        </>
+            <div className="supernova header--actions">
+                <HeaderActions />
+            </div>
+            <div className="header--profile-section">{ProfilePicture}</div>
+            <button
+                type="button"
+                className="header--menu-btn"
+                aria-label="Open navigation"
+                onClick={onMenuClick}
+            >
+                <Image
+                    src="/assets/icons/Menu_icon.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                />
+            </button>
+        </header>
     );
 };
 

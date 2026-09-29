@@ -1,52 +1,36 @@
-/* Header from the Figma dashboard reference. */
-.header--main-container-large-screen {
+/* Header from the Figma dashboard reference: search on the left, the
+   WhatsApp preference, notifications and profile on the right. */
+.header--container {
+  position: relative;
+  z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
   width: 100%;
-  height: 36px;
+  min-height: 36px;
   padding-right: 2px;
 }
 
-.header--main-container-mobile-screen {
+.header--logo,
+.header--menu-btn {
   display: none;
 }
 
-.header--search-container {
+.header--search {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Search pill: no border effects (see AGENTS.md). */
+.header--search .sn-search-wrap {
+  max-width: 400px;
+  height: 36px;
+  padding: 0 16px;
+}
+
+.header--actions {
   display: flex;
   align-items: center;
-  width: 297px;
-  max-width: 100%;
-  min-width: 0;
-  height: 36px;
-  padding: 0 20px;
-  background: #ffffff;
-  border: 0;
-  border-radius: 44px;
-}
-
-.header--search-input {
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
-  box-shadow: none;
-  background: transparent;
-  font-family: var(--figma-inter), sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: #242a33;
-}
-
-.header--search-input:focus-visible {
-  outline: none;
-  box-shadow: none;
-}
-
-.header--search-input::placeholder {
-  color: #888c92;
-  opacity: 1;
 }
 
 .header--profile-image-wrapper {
@@ -65,7 +49,6 @@
 }
 
 .header--menu-btn {
-  display: flex;
   justify-content: center;
   align-items: center;
   width: 36px;
@@ -83,19 +66,12 @@
 }
 
 @media (max-width: 700px) {
-  .header--main-container-large-screen {
-    display: none;
-  }
-  .header--main-container-mobile-screen {
+  .header--logo,
+  .header--menu-btn {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    width: 100%;
-    height: 36px;
   }
-  .header--search-container {
-    flex: 1;
-    width: auto;
+  .header--actions,
+  .header--profile-section {
+    display: none;
   }
 }

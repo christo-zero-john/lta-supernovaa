@@ -37,15 +37,15 @@
 
 /* Compact version in the narrow-screen header. */
 @media (max-width: 700px) {
-  .header--main-container-mobile-screen .ltaicon--container {
+  .header--logo .ltaicon--container {
     width: auto;
     height: auto;
     gap: 8px;
   }
-  .header--main-container-mobile-screen .ltaicon--logo {
+  .header--logo .ltaicon--logo {
     width: 35px;
   }
-  .header--main-container-mobile-screen .ltaicon--text {
+  .header--logo .ltaicon--text {
     font-size: 13px;
     letter-spacing: 0.276px;
   }
