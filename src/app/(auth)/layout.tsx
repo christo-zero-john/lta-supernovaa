@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import "./auth.css";
 
 export default function AuthLayout({
@@ -8,7 +9,7 @@ export default function AuthLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="layout-container-login">
+        <SmoothScrollArea className="layout-container-login">
             <div className="auth-bg" aria-hidden="true">
                 <span className="auth-ellipse ellipse-1" />
                 <span className="auth-ellipse ellipse-2" />
@@ -27,6 +28,6 @@ export default function AuthLayout({
                 </div>
                 {children}
             </div>
-        </div>
+        </SmoothScrollArea>
     );
 }
