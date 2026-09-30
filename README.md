@@ -224,13 +224,14 @@ used the shared API address shown above. Future deployments may differ. Backend
 email delivery and complete onboarding remain separate acceptance checks from a
 successful frontend build.
 
-## Dashboard
+## Documentation
 
-`/dashboard` is the Figma redesign: a home page with the student's courses,
-sessions and the LTA suite, and seven section pages (Documents,
-Notifications, Support, Zenna, LTA Connect, Course Shortlisting, Project004).
-See the [dashboard guide](docs/dashboard.md). Run `pnpm.cmd test:model` for
-the concept model tests.
+| Document | Contents |
+| --- | --- |
+| [docs/architecture.md](docs/architecture.md) | How the code is organised: auth, API layer, dashboard runtime, state |
+| [docs/dashboard.md](docs/dashboard.md) | Dashboard pages, home page data, and what is real or placeholder |
+| [docs/dashboard-backend-data.md](docs/dashboard-backend-data.md) | What the backend must provide to replace placeholder data |
+| [docs/review.md](docs/review.md) | Review of this branch: bugs and items to fix as features go live |
+| [AGENTS.md](AGENTS.md) | Project guidance for contributors and coding agents |
 
-[AGENTS.md](AGENTS.md) contains project guidance. Local skills, caches and
-browser evidence remain ignored by Git.
+Local skills, caches and browser evidence remain ignored by Git.
