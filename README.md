@@ -194,13 +194,12 @@ Inspect the `users/me/` request first. Dashboard data loading waits for a user I
 profile-fetch failures currently only log an error and can leave the page on its
 loader. Check the API address, token validity, CORS, and profile response shape.
 
-### Logout or sidebar navigation behaves unexpectedly
+### Logout lands on the signup page
 
-Logout currently clears token cookies but navigates to `/auth/login`, while the
-actual login page is `/login`. Sidebar item selection updates local active state;
-it does not navigate to separate feature routes. Some product, footer, and social
-controls are placeholders or commented out. Social sign-in is disabled in the
-signup form.
+Logout clears the token cookies but navigates to `/auth/login`, while the
+actual login page is `/login`, so middleware sends the user to `/signup`.
+Social sign-in is disabled in the signup form. Other known dashboard issues
+are listed in the [code review](docs/review.md).
 
 ### Authentication implementation needs further hardening
 
