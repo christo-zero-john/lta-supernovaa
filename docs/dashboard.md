@@ -97,5 +97,8 @@ the file in a group folder and list it in `AVATARS` in
 
 ## Checks
 
-- `pnpm.cmd test:model` tests the concept model, validation and reducer.
-- `pnpm.cmd exec tsc --noEmit` and `pnpm.cmd lint`.
+- `pnpm.cmd test:model` tests the concept model, validation and reducer. It
+  currently fails at import ([review T1](review.md#t1-the-model-test-script-does-not-run)).
+- `pnpm.cmd exec tsc --noEmit` passes.
+- `pnpm.cmd lint` currently fails on generated build folders
+  ([review T2](review.md#t2-lint-scans-generated-build-folders)).
