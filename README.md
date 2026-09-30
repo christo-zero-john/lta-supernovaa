@@ -112,28 +112,17 @@ to URLs.
 Invite onboarding and public signup use different OTP endpoints. Do not treat
 them as interchangeable flows.
 
-## Dashboard behavior
+## Dashboard
 
-The dashboard selects a layout using `signup_platform_type` and three profile
-flags: `is_email_verified`, `is_onboarding_completed`, and `is_approved`.
-All three flags must be true for the approved platform layouts.
+`/dashboard` is the Figma redesign: a home page with the student's courses,
+sessions and the LTA suite, and seven section pages (Documents,
+Notifications, Support, Zenna, LTA Connect, Course Shortlisting, Project004)
+in one shared shell.
 
-| Profile state | Display |
-| --- | --- |
-| Any access flag false | Default dashboard |
-| Approved `dashboard` or unknown platform | Default dashboard |
-| Approved `zenna` | Admission statistics and applications |
-| Approved `connect` | Converted to the combined Zenna and Connect layout |
-| Approved `zenna_and_connect` | Statistics, applications, upcoming mentoring session, and calendar |
-
-The default layout shows shortlisted courses when available, LTA product cards,
-and a calendar. Testimonials and the footer appear across layouts. A standalone
-Connect layout exists in the source, but the current approved `connect` mapping
-selects the combined layout.
-
-Course shortlists, applications, and statistics are fetched according to the
-selected layout. Calendar and mentoring components make their own API requests.
-Application document links open backend-provided file URLs in a new tab.
+Most of it is placeholder data. Only the user's name and photo, the home
+page's shortlisted courses and its booked sessions come from the API.
+Product access follows the URL's `persona` parameter, not the account. See
+the [dashboard guide](docs/dashboard.md#data-status) for what each page shows.
 
 ## API integration
 
