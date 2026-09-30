@@ -74,7 +74,9 @@ API keys in this variable. OTP email credentials are configured on the backend.
 | `npm.cmd run start` | Serve an existing production build |
 | `npm.cmd run lint` | Run ESLint |
 
-There is no automated test script in `package.json`. Build and lint commands are
+`pnpm.cmd test:model` checks the dashboard's model and reducer (currently
+broken, see [review T1](docs/review.md#t1-the-model-test-script-does-not-run)).
+There are no other automated tests. Build and lint commands are
 available checks, not evidence that backend-dependent flows work. Verify login,
 onboarding, and dashboard data in a browser against the intended backend.
 
