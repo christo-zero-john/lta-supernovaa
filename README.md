@@ -156,29 +156,20 @@ Next.js Server Actions; they do not use a `"use server"` directive.
 
 ```text
 src/
-  app/
-    (auth)/                 Signup, login, OTP, password, and welcome screens
-    dashboard/              Dashboard page, shared layout, and UI components
-    layout.tsx              Root layout and page metadata
-    globals.css             Global styles
-    page.tsx                Root redirect
-  actions/                  API result and error wrappers
-  components/PageLoader/    Shared loading screen
-  lib/
-    axios.ts                API base URL, headers, and token refresh
-    cookies.ts              Browser token-cookie helpers
-    services/               API functions and response types
-  store/useStore.ts         User profile and authentication state
-  middleware.ts             Cookie-based route redirects
-public/                     Static assets
-next.config.ts              Remote image allowlist
-.env.example                Public API configuration template
+  app/(auth)/        Signup, login, OTP, password and welcome screens
+  app/dashboard/     Dashboard routes; all its code is in _supernova/
+  actions/           API result and error wrappers
+  lib/               Axios client, cookies, API services
+  store/             User profile state (Zustand)
+  middleware.ts      Cookie-based route redirects
+public/              Static assets
+docs/                Project documentation
 ```
 
-The TypeScript alias `@/*` resolves to `src/*`. Most dashboard components keep
-their CSS alongside their TSX file. Remote Next.js images currently allow
-`lta-dev-tl6j9mrplp.s3.amazonaws.com`; update `next.config.ts` if API image URLs
-move to another host.
+The [architecture guide](docs/architecture.md) explains each part. The
+TypeScript alias `@/*` resolves to `src/*`. Remote Next.js images currently
+allow `lta-dev-tl6j9mrplp.s3.amazonaws.com`; update `next.config.ts` if API
+image URLs move to another host.
 
 ## Known limitations and troubleshooting
 
