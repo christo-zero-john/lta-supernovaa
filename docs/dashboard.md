@@ -46,6 +46,46 @@ The seven section pages use the content, controls and persona states of
 uploads, preferences, notifications) is kept in browser memory only; nothing
 is written to the backend.
 
+## Data status
+
+Almost everything on the dashboard is placeholder data. Only three things
+come from the API; everything else is fixed text, optional demo data, or
+browser memory that is lost on reload.
+
+- **Real:** loaded from the API.
+- **Fixed:** written into the frontend (`lib/fixtures.ts`, `lib/jobs.ts`,
+  `home/testimonials.ts`, or the component itself).
+- **Demo:** from `demo/demo-data.json`, shown only when switched on under
+  **Choose options**.
+- **Local:** created on the page, kept in memory, never sent to the backend.
+
+| Page | Part | Source |
+| --- | --- | --- |
+| All | Name, photo | Real (`users/me/`); 3D avatar when no photo |
+| All | Locks, gates, sidebar lock icons | URL `?persona=`, not the account ([review L1](review.md#l1-access-comes-from-the-url-not-the-account)) |
+| All | Notification count | Demo + Local |
+| All | WhatsApp setting (settings dialog) | Local |
+| All | Search results | Fixed mentors, Demo applications and documents, Local uploads |
+| Home | University cards | Real (`shortlisted-courses/`); Demo **replaces** them when on |
+| Home | Calendar events | Real (`booked-slot/`); Demo **replaces** them when on |
+| Home | LTA suite cards, testimonials, footer | Fixed |
+| Documents | Document list | Demo + Local uploads (object URLs) |
+| Notifications | Feed | Demo + Local (booking and AI confirmations) |
+| Support | Help channels, FAQs | Fixed |
+| Support | Team call booking | Local |
+| Zenna | Applications, stats, filters | Demo |
+| Zenna | AI deadline findings, counsellor | Fixed; confirm/dismiss is Local |
+| LTA Connect | Mentors | Fixed |
+| LTA Connect | Next session | Demo; bookings and reschedules are Local |
+| Course Shortlisting | Form options, universities | Fixed |
+| Course Shortlisting | Admit chances | Local, from a made-up formula (`calculateChances`) |
+| Course Shortlisting | Saved report | Demo |
+| Project004 | Jobs, leaderboard, profile | Fixed |
+
+What the backend must provide to replace each placeholder is in
+[dashboard-backend-data.md](dashboard-backend-data.md). Known issues to fix as
+each page goes live are in the [review](review.md#fix-checklist-by-feature).
+
 ## Avatars
 
 Until users can upload photos, users without a `profile_picture` get a 3D
