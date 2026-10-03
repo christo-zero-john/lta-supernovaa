@@ -15,8 +15,9 @@
 
 ## Design implementation
 
-- Search must have no border effects. Calendar day hover is pale gray, 150ms ease-out; MainCTA hover is `#5B4B7A`, 200ms ease-out; keep button geometry still on hover. Glass-pill buttons (`.primary-cta`, `.product-action`, `.chat-cta`, `.sn-button`) animate their existing inset edge reflection on hover/focus via `src/app/dashboard/_supernova/button-motion.css`; never add a separate light overlay, and disable the animation under `prefers-reduced-motion`.
-- Fonts are loaded once via `next/font/google` in `src/app/layout.tsx` (Plus Jakarta Sans, Anek Bangla), exposed as the `--font-plus-jakarta-sans` / `--font-anek-bangla` CSS variables consumed throughout `src/app/globals.css` and the dashboard component CSS. Do not redeclare those variables as literal font-family strings elsewhere.
+- Search must have no border effects. Calendar day hover is pale gray, 150ms ease-out; MainCTA hover is `#5F4B93`, 200ms ease-out; keep button geometry still on hover. Glass-pill buttons (`.primary-cta`, `.product-action`, `.chat-cta`, `.sn-button`) animate their existing inset edge reflection on hover/focus via `src/app/dashboard/_supernova/button-motion.css`; never add a separate light overlay, and disable the animation under `prefers-reduced-motion`.
+- Fonts are loaded once via `next/font/google` in `src/app/layout.tsx` and exposed as CSS variables. The onboarding pages use Plus Jakarta Sans and Anek Bangla (`--font-plus-jakarta-sans`, `--font-anek-bangla`, consumed in `src/app/globals.css`). The dashboard follows the LTA website: Geist for text and Momo Trust Sans for headings, mapped to `--sn-body` / `--sn-heading` in `src/app/dashboard/_supernova/reference-fonts.css`. Do not redeclare those variables as literal font-family strings elsewhere.
+- Dashboard colours follow the LTA website palette: primary violet `#8764DE`, brand purple `#735DAA`, ink `#1D172C`, muted text `#6A6E74`.
 - Be explicit about design deviations and verification limits. Passing tests does not establish exact pixel identity.
 
 ## Local tools, skills and security
