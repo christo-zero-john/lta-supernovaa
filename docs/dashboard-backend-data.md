@@ -56,8 +56,8 @@ There is one tier question: is the student verified by LTA or not. A verified st
 - **Verified:** Course Shortlisting and Zenna.
 - The frontend derives every lock, lock screen and access tag from this one field, so no separate entitlement endpoint is needed.
 - ✅ `GET users/me/` already returns it as `is_approved`, so no new field is needed. This is not `is_email_verified`, which only records the email OTP check.
-- **Decided:** a student is verified when `is_approved` is true and they have an active Zenna or Dashboard membership (`service_statuses.admissions` in `users/me/`). Email verification is not required: an approved student must be able to use the products.
-- The backend's Zenna permission still requires a verified email, so it must drop that condition for approved students ([backend-gaps.md](backend-gaps.md#7-the-verified-rule-decided)).
+- The backend's own Zenna gate also requires a verified email and an active Zenna or Dashboard membership. Should the dashboard check those too, or is `is_approved` enough? **Decided:** a student is verified when `is_approved` is true and they have an active Zenna or Dashboard membership (`service_statuses.admissions` in `users/me/`). Email verification is not required: an approved student must be able to use the products.
+- The backend's Zenna permission still requires a verified email, so it must drop that condition for approved students ([backend-gaps.md](backend-gaps.md#8-the-verified-rule)).
 - Once LTA Connect is live, is it for everyone or only for verified students?
     - Format (already in `users/me/`):
     ```json
@@ -167,7 +167,7 @@ There is one tier question: is the student verified by LTA or not. A verified st
 
 ### Feature: document vault list
 - Which documents has the user uploaded?
-- Which documents has LTA verified?
+- Which documents has LTA verified? **Decided:** the student's assigned assistant verifies them.
 - Which products or applications use each document? (the "USED IN" badges)
 - Is there a required-documents checklist? Applications show "1 doc missing", so the backend must know what is required.
     - Format: 🆕 `GET documents/`
@@ -203,7 +203,7 @@ There is one tier question: is the student verified by LTA or not. A verified st
 - What notifications does the user have, across every product?
 - Which page and item should each notification open? For example, the DIT deadline notice should open that application.
 - Does the backend create notifications when things happen (booking confirmed, offer received, AI found a deadline)?
-- Should the page update live (WebSocket/SSE), or refresh on page load or by polling?
+- Should the page update live (WebSocket/SSE), or refresh on page load or by polling? **Decided: live**, with the list endpoint as the fallback on page load.
     - Format: 🆕 `GET notifications/?page=`
     ```json
     [
@@ -342,7 +342,7 @@ There is one tier question: is the student verified by LTA or not. A verified st
     ```
 
 ### Feature: book / reschedule a 1:1
-- **Key decision:** are bookings made inside the dashboard, or does the dashboard link out to `connect.letterstoabroad.com` as the Figma dialog does? If inside the dashboard:
+- **Key decision:** are bookings made inside the dashboard, or does the dashboard link out to `connect.letterstoabroad.com` as the Figma dialog does? **Decided: inside the dashboard**, so the student never leaves it:
     - Which slots does this mentor have free in a given month? 🆕 `GET connect/mentors/{id}/availability/?month=` returns `[ { "slot_id", "start_at", "end_at" } ]`
     - Is booking paid? `order_status` and `amount` suggest Razorpay. If so, what is the order and payment flow?
     - Book: `POST booked-slot/` `{ "slot_id" }`. Reschedule: 🆕 `PATCH booked-slot/{id}/` `{ "slot_id" }`. What is the cancellation or reschedule policy?
@@ -407,7 +407,9 @@ The account tier needs nothing new: every lock, lock screen and access tag reads
 
 **Could stay as fixed frontend text if the team prefers:** testimonials, FAQs and help channels. Each is listed as a question above so the team can decide rather than build them by default.
 
-**Decisions needed before backend work starts:**
-- Are Connect bookings made inside the dashboard, or by linking to the Connect site?
-- Does the backend calculate Course Shortlisting percentages (the current frontend formula is fake), and do the results feed the dashboard carousel?
-- Do notifications update live, or on page load?
+**Decisions needed before backend work starts, with the answers so far:**
+- Are Connect bookings made inside the dashboard, or by linking to the Connect site? **Decided: inside the dashboard.**
+- Does the backend calculate Course Shortlisting percentages (the current frontend formula is fake), and do the results feed the dashboard carousel? **Answered by the code:** yes to both. `POST public/student-submissions/` calculates them and `shortlisted-courses/` returns them; the frontend must switch to it.
+- Do notifications update live, or on page load? **Decided: live.**
+- Is Zenna AI in scope? **Decided: future scope.**
+- Is LTA Connect for everyone or only for verified students? **Open.**
