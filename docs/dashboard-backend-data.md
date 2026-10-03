@@ -56,7 +56,8 @@ There is one tier question: is the student verified by LTA or not. A verified st
 - **Verified:** Course Shortlisting and Zenna.
 - The frontend derives every lock, lock screen and access tag from this one field, so no separate entitlement endpoint is needed.
 - ✅ `GET users/me/` already returns it as `is_approved`, so no new field is needed. This is not `is_email_verified`, which only records the email OTP check.
-- The backend's own Zenna gate also requires a verified email and an active Zenna or Dashboard membership. Should the dashboard check those too, or is `is_approved` enough?
+- **Decided:** a student is verified when `is_approved` is true and they have an active Zenna or Dashboard membership (`service_statuses.admissions` in `users/me/`). Email verification is not required: an approved student must be able to use the products.
+- The backend's Zenna permission still requires a verified email, so it must drop that condition for approved students ([backend-gaps.md](backend-gaps.md#7-the-verified-rule-decided)).
 - Once LTA Connect is live, is it for everyone or only for verified students?
     - Format (already in `users/me/`):
     ```json
