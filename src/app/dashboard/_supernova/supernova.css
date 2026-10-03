@@ -1421,7 +1421,8 @@ body:has(.sn-root) {
   gap: 13px;
   margin: 18px 0;
 }
-.sn-detail-grid > div {
+.sn-detail-grid > div,
+.sn-detail-grid > label {
   background: white;
   border-radius: 12px;
   padding: 13px;
@@ -1430,6 +1431,27 @@ body:has(.sn-root) {
 .sn-detail-grid small {
   display: block;
   font-size: 9px;
+  color: #9e87ca;
+}
+/* Editable cells: the whole cell is the field, so it carries the focus ring. */
+.sn-detail-grid > label {
+  cursor: text;
+}
+.sn-detail-grid > label:focus-within {
+  outline: 2px solid #8867db;
+  outline-offset: 3px;
+}
+.sn-detail-grid input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  outline: none;
+}
+.sn-detail-grid input::placeholder {
   color: #9e87ca;
 }
 .sn-calendar-head {

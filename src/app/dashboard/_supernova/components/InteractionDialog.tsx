@@ -18,8 +18,11 @@ import type { GateContent } from "./Gate";
 import UserAvatar from "./UserAvatar";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useJourneyStage } from "../hooks/useJourneyStage";
+import { handleUpdateProfile } from "@/actions/profile.actions";
+import useStore from "@/store/useStore";
 export default function InteractionDialog() {
   const { user } = useCurrentUser();
+  const { setUser } = useStore();
   const demo = useDemoData();
   const stage = useJourneyStage();
   const {
@@ -33,7 +36,40 @@ export default function InteractionDialog() {
       openDialog,
       reset,
     } = useApp(),
-    [whatsapp, setWhatsapp] = useState(state[persona].whatsapp);
+    [whatsapp, setWhatsapp] = useState(state[persona].whatsapp),
+    [firstName, setFirstName] = useState(user?.first_name ?? ""),
+    [lastName, setLastName] = useState(user?.last_name ?? ""),
+    [saving, setSaving] = useState(false),
+    [error, setError] = useState("");
+  const saveAccount = async () => {
+    const names = { first_name: firstName.trim(), last_name: lastName.trim() };
+    const renamed =
+      !!user &&
+      (names.first_name !== (user.first_name ?? "").trim() ||
+        names.last_name !== (user.last_name ?? "").trim());
+    if (user && renamed) {
+      if (!names.first_name) {
+        setError("Please enter your first name.");
+        return;
+      }
+      setError("");
+      setSaving(true);
+      const result = await handleUpdateProfile(names);
+      setSaving(false);
+      if (!result.success) {
+        setError(result.error || "Could not save your name. Please try again.");
+        return;
+      }
+      setUser({ ...user, ...names });
+    }
+    dispatch({ type: "preference", persona, value: whatsapp });
+    closeDialog();
+    notify(
+      renamed
+        ? "Your account details are saved."
+        : "Your preferences are saved for this session.",
+    );
+  };
   if (!dialog) return null;
   if (dialog.kind === "booking")
     return (
@@ -91,14 +127,28 @@ export default function InteractionDialog() {
           <UserAvatar />
         </span>
         <div className="sn-detail-grid">
-          <div>
+          <label>
             <small>First name</small>
-            {user?.first_name?.trim() || "Not added yet"}
-          </div>
-          <div>
+            <input
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="Not added yet"
+              autoComplete="given-name"
+              maxLength={100}
+              disabled={!user || saving}
+            />
+          </label>
+          <label>
             <small>Last name</small>
-            {user?.last_name?.trim() || "Not added yet"}
-          </div>
+            <input
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Not added yet"
+              autoComplete="family-name"
+              maxLength={100}
+              disabled={!user || saving}
+            />
+          </label>
           <div>
             <small>Current role</small>
             {PERSONAS[persona].role}
@@ -117,14 +167,13 @@ export default function InteractionDialog() {
           WhatsApp updates
         </label>
         <p>Deadline reminders and status updates, together in one place.</p>
-        <Button
-          onClick={() => {
-            dispatch({ type: "preference", persona, value: whatsapp });
-            closeDialog();
-            notify("Your preferences are saved for this session.");
-          }}
-        >
-          Save preferences
+        {error && (
+          <p className="sn-error" role="alert">
+            {error}
+          </p>
+        )}
+        <Button disabled={saving} onClick={saveAccount}>
+          {saving ? "Saving…" : "Save changes"}
         </Button>
       </Modal>
     );
