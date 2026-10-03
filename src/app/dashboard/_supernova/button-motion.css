@@ -1,6 +1,14 @@
-/* Move the existing inset reflection around the edge, without another overlay. */
+/* Glass-pill buttons: a still inset edge reflection, and on hover or focus a
+   ray of light that travels round the border. */
+@property --lta-ray {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
 .sn-root :is(.sn-button.primary, .primary-cta, .product-action) {
   --lta-edge-shade: rgba(214, 198, 255, 0.9);
+  --lta-ray-color: #ffffff;
+  --lta-ray-glow: rgba(226, 214, 255, 0.95);
   background:
     linear-gradient(
       180deg,
@@ -15,6 +23,8 @@
 }
 .sn-root :is(.sn-button.secondary, .chat-cta) {
   --lta-edge-shade: rgba(255, 255, 255, 0.95);
+  --lta-ray-color: #8764de;
+  --lta-ray-glow: rgba(135, 100, 222, 0.7);
   background:
     linear-gradient(
       180deg,
@@ -26,6 +36,63 @@
   backdrop-filter: blur(10px) saturate(1.15);
   box-shadow: inset 0 3px 1px var(--lta-edge-shade);
 }
+/* The ray needs a positioned button; .product-action is already absolute. */
+.sn-root :is(.sn-button.primary, .sn-button.secondary, .chat-cta) {
+  position: relative;
+}
+/* ::after is the ray on the border itself, ::before its soft glow. Both are
+   rings: the mask keeps only the padding band of each. */
+.sn-root
+  :is(
+    .sn-button.primary,
+    .sn-button.secondary,
+    .primary-cta,
+    .product-action,
+    .chat-cta
+  )::before,
+.sn-root
+  :is(
+    .sn-button.primary,
+    .sn-button.secondary,
+    .primary-cta,
+    .product-action,
+    .chat-cta
+  )::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  padding: 2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--lta-ray),
+    transparent 0 62%,
+    var(--lta-ray-glow) 80%,
+    var(--lta-ray-color) 92%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease-out;
+}
+.sn-root
+  :is(
+    .sn-button.primary,
+    .sn-button.secondary,
+    .primary-cta,
+    .product-action,
+    .chat-cta
+  )::before {
+  inset: -5px;
+  padding: 7px;
+  filter: blur(4px);
+}
 @media (hover: hover) {
   .sn-root
     :is(
@@ -34,8 +101,17 @@
       .primary-cta,
       .product-action,
       .chat-cta
-    ):not(:disabled):hover {
-    animation: lta-edge-reflection 2.6s linear infinite;
+    ):not(:disabled):hover::before,
+  .sn-root
+    :is(
+      .sn-button.primary,
+      .sn-button.secondary,
+      .primary-cta,
+      .product-action,
+      .chat-cta
+    ):not(:disabled):hover::after {
+    opacity: 1;
+    animation: lta-border-ray 2.4s linear infinite;
   }
 }
 .sn-root
@@ -45,32 +121,41 @@
     .primary-cta,
     .product-action,
     .chat-cta
-  ):not(:disabled):focus-visible {
-  animation: lta-edge-reflection 2.6s linear infinite;
+  ):not(:disabled):focus-visible::before,
+.sn-root
+  :is(
+    .sn-button.primary,
+    .sn-button.secondary,
+    .primary-cta,
+    .product-action,
+    .chat-cta
+  ):not(:disabled):focus-visible::after {
+  opacity: 1;
+  animation: lta-border-ray 2.4s linear infinite;
 }
-@keyframes lta-edge-reflection {
-  0%,
-  100% {
-    box-shadow: inset 0 3px 1px var(--lta-edge-shade);
-  }
-  25% {
-    box-shadow: inset -3px 0 1px var(--lta-edge-shade);
-  }
-  50% {
-    box-shadow: inset 0 -3px 1px var(--lta-edge-shade);
-  }
-  75% {
-    box-shadow: inset 3px 0 1px var(--lta-edge-shade);
+.sn-root
+  :is(
+    .sn-button.primary,
+    .sn-button.secondary,
+    .primary-cta,
+    .product-action,
+    .chat-cta
+  ):not(:disabled):is(:hover, :focus-visible)::before {
+  opacity: 0.75;
+}
+@keyframes lta-border-ray {
+  to {
+    --lta-ray: 360deg;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .sn-root
-    :is(.sn-button, .primary-cta, .product-action, .chat-cta) {
-    animation: none !important;
+  .sn-root :is(.sn-button, .primary-cta, .product-action, .chat-cta)::before,
+  .sn-root :is(.sn-button, .primary-cta, .product-action, .chat-cta)::after {
+    display: none;
   }
 }
 
-/* Keep the glass fill constant while its existing edge reflection moves. */
+/* Keep the glass fill constant while the ray moves. */
 .sn-root
   :is(.sn-button.primary, .primary-cta, .product-action):hover {
   background-color: rgba(118, 82, 214, 0.97);
