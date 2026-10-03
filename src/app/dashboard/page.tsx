@@ -59,11 +59,10 @@ export default function DashboardPage(): React.ReactElement {
     useEffect(() => {
         if (!user?.id) return;
         const userId = user.id;
-        const firstVisit = loaded?.userId !== userId;
 
-        // A return visit refreshes the courses quietly behind the page.
+        // The loader is already up on a first visit; a return visit, or an
+        // account that arrives late, refreshes the courses behind the page.
         const fetchAll = async () => {
-            if (firstVisit) setLoading(true);
             let result: ShortlistedCourse[] = [];
 
             await Promise.all([
