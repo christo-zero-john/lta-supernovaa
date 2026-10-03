@@ -29,10 +29,15 @@ const FIRST_SCREEN_IMAGES = [
     "/assets/icons/loading-supernova.png",
 ];
 
+// The last user's courses, kept while the dashboard stays open, so coming
+// back to the home page does not show the full-screen loader again.
+let loaded: {userId: number | string; courses: ShortlistedCourse[]} | null = null;
+
 export default function DashboardPage(): React.ReactElement {
     const {user} = useStore();
-    const [loading, setLoading] = useState(true);
-    const [courses, setCourses] = useState<ShortlistedCourse[]>([]);
+    const cached = loaded && loaded.userId === user?.id ? loaded.courses : null;
+    const [loading, setLoading] = useState(!cached);
+    const [courses, setCourses] = useState<ShortlistedCourse[]>(cached ?? []);
 
     // Without a name on the account, greet the user by their email.
     const displayName = user?.first_name?.trim().split(" ")[0] || user?.email || "";
@@ -48,9 +53,12 @@ export default function DashboardPage(): React.ReactElement {
 
     useEffect(() => {
         if (!user?.id) return;
+        const userId = user.id;
+        const firstVisit = loaded?.userId !== userId;
 
+        // A return visit refreshes the courses quietly behind the page.
         const fetchAll = async () => {
-            setLoading(true);
+            if (firstVisit) setLoading(true);
             let result: ShortlistedCourse[] = [];
 
             await Promise.all([
@@ -59,6 +67,7 @@ export default function DashboardPage(): React.ReactElement {
                 }),
                 ...FIRST_SCREEN_IMAGES.map(preloadImage),
             ]);
+            loaded = {userId, courses: result};
             setCourses(result);
             setLoading(false);
         };
