@@ -28,12 +28,14 @@ shortlisted courses and preloads the first-screen images. Then it renders
 `_supernova/home/Dashboard.tsx`.
 
 - **Greeting:** based on the time of day and the user's first name.
+- **Status:** the journey strip, the next-step banner and four numbers
+  (`HomeStatus.tsx`). Only the shortlisted-course numbers are real.
 - **Zenna row:** Zenna and her bubble always show. Each shortlisted course
   becomes one of the four Figma card designs, repeated in order
   (`universityCard.ts`). With no courses, the bubble says so, and the LTA
   suite cards fill the row.
 - **Upcoming Events:** the user's booked sessions (`booked-slot/`), month by
-  month (`events.ts`).
+  month (`events.ts`). Hidden for the `free` persona, who has nothing booked.
 - **Testimonials:** real student testimonials (`testimonials.ts`), three per
   view, scrolling sideways.
 - **Footer:** Book a session and Chat with a Mentor open the shared booking and
@@ -68,19 +70,21 @@ browser memory that is lost on reload.
 | All | Search results | Fixed mentors, Demo applications and documents, Local uploads |
 | Home | University cards | Real (`shortlisted-courses/`); Demo **replaces** them when on |
 | Home | Calendar events | Real (`booked-slot/`); Demo **replaces** them when on |
-| Home | LTA suite cards, testimonials, footer | Fixed |
+| Home | Journey, next step, key numbers | Fixed and Demo; course numbers are Real |
+| Home | LTA suite cards (only without course matches), testimonials, footer | Fixed |
 | Documents | Document list | Demo + Local uploads (object URLs) |
+| Documents | Required-document progress, missing documents | Fixed, shown with the Demo documents |
 | Notifications | Feed | Demo + Local (booking and AI confirmations) |
 | Support | Help channels, FAQs | Fixed |
 | Support | Team call booking | Local |
 | Zenna | Applications, stats, filters | Demo |
-| Zenna | AI deadline findings, counsellor | Fixed; confirm/dismiss is Local |
+| Zenna | Counsellor, application steps, after-the-offer steps | Fixed; the after-the-offer card needs the Demo "Offer accepted" switch |
 | LTA Connect | Mentors | Fixed |
 | LTA Connect | Next session | Demo; bookings and reschedules are Local |
-| Course Shortlisting | Form options, universities | Fixed |
-| Course Shortlisting | Admit chances | Local, from a made-up formula (`calculateChances`) |
-| Course Shortlisting | Saved report | Demo |
-| Project004 | Jobs, leaderboard, profile | Fixed |
+| LTA Connect | Follow-ups (review, resume booking, session count) | Fixed |
+| Course Shortlisting | Form options | Fixed (`SHORTLIST_OPTIONS`), with the backend submission's fields |
+| Course Shortlisting | Results, eligibility and reasons | Demo; submitting the form shows the same dummy report |
+| Project004 | Jobs, leaderboard, profile, job-profile progress | Fixed |
 
 What the backend must provide to replace each placeholder is in
 [dashboard-backend-data.md](dashboard-backend-data.md). Known issues to fix as
