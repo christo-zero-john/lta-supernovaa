@@ -2264,6 +2264,9 @@ body:has(.sn-root) {
     #ffffff;
   box-shadow: inset 0 3px 1px #ffffff;
   color: #000000;
+  /* On the violet card the travelling light is white. */
+  --lta-ray-color: #ffffff;
+  --lta-ray-tail: rgba(255, 255, 255, 0.5);
 }
 .sn-focus .sn-suite-icon {
   width: 44px;
