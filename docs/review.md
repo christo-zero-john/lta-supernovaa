@@ -115,10 +115,10 @@ is the `verified` persona. Derive the persona from the user, not the URL, and ke
 
 ### L2. Demo controls ship to every user
 
-**Where:** `components/PersonaSwitcher.tsx` (rendered by `SupernovaPage`),
+**Where:** `components/PersonaSelect.tsx` (rendered by `Topbar` and the home header),
 `demo/DemoDataSwitch.tsx` (rendered by `Topbar` and the home header).
 
-Every signed-in user sees the "Concept demo" persona tabs on section pages and
+Every signed-in user sees the persona dropdown in the navbar and
 the **Choose options** dummy-data switch. Nothing gates them by environment
 or role.
 
