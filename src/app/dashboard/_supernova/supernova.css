@@ -1944,3 +1944,163 @@ body:has(.sn-root) {
   border-radius: 12px;
   padding-inline: 12px;
 }
+
+/* Home status: journey, the next step and four numbers, under the greeting. */
+.sn-home-status {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sn-home-status .sn-journey {
+  margin-top: 0;
+  scrollbar-width: none;
+}
+.sn-home-status .sn-stats {
+  margin-bottom: 0;
+}
+.sn-home-status .sn-journey-step {
+  font-size: 11px;
+}
+.sn-home-status .sn-focus-copy h2 {
+  font-size: 20px;
+  letter-spacing: -0.3px;
+}
+/* The next-step banner carries the website's violet. */
+.sn-focus {
+  background: linear-gradient(120deg, #8764de, #4d3783);
+  border-color: #ffffff30;
+  color: #fff;
+}
+.sn-focus-copy .sn-eyebrow {
+  color: #ffffffb8;
+}
+.sn-focus-copy h2 {
+  color: #fff;
+  font-family: var(--sn-heading), sans-serif;
+  font-weight: 600;
+}
+.sn-focus-copy p {
+  color: #f4f1fa;
+  font-size: 12px;
+}
+/* The extra .sn-root outranks the glass-pill button motion rules. */
+.sn-root .sn-focus > .sn-button.primary {
+  border-color: #ffffff;
+  background: #fff;
+  color: #1d172c;
+  box-shadow: none;
+}
+.sn-root .sn-focus > .sn-button.primary:hover {
+  background: #f4f1fa;
+}
+.sn-focus .sn-suite-icon {
+  color: #fff;
+}
+/* Checklists: application steps, after-the-offer steps, saved answers. */
+.sn-checks {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+  font-size: 12px;
+  color: #3f3654;
+}
+.sn-checks li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.sn-checks li::before {
+  content: "";
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border: 1.5px solid #dcd6ec;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 700;
+}
+.sn-checks .done::before {
+  content: "✓";
+  border-color: transparent;
+  background: #dff5ea;
+  color: #1f8a62;
+}
+.sn-checks .doing::before {
+  border-color: #8764de;
+  box-shadow: 0 0 0 3px #ebe4fa;
+}
+.sn-checks .todo {
+  color: #8f89a1;
+}
+.sn-checks .sn-badge {
+  margin-left: auto;
+}
+.sn-modal .sn-checks {
+  margin: 16px 0;
+}
+/* Connect: what to do after or between sessions. */
+.sn-followups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+/* Course Shortlisting: chip groups inside the form, and the result rows. */
+.sn-form .sn-filter {
+  margin-bottom: 0;
+}
+.sn-form .sn-filter button {
+  background: #f4f1fb;
+}
+.sn-form .sn-filter [aria-pressed="true"] {
+  background: #8764de;
+  color: #fff;
+}
+.sn-form-steps {
+  justify-content: space-between;
+}
+button.sn-chance-row {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  text-align: left;
+  transition: background-color 150ms ease-out;
+}
+button.sn-chance-row:hover {
+  background: #f7f4fc;
+}
+.sn-chance-row .sn-badge {
+  display: flex;
+  width: fit-content;
+  margin-top: 5px;
+}
+.sn-chance-why {
+  margin: 0 0 8px;
+}
+.sn-doc-progress {
+  margin-bottom: 12px;
+}
+.sn-doc-progress .sn-progress {
+  margin-top: 12px;
+}
+.sn-job-profile {
+  display: grid;
+  gap: 6px;
+  width: min(340px, 100%);
+  margin: 4px auto 14px;
+  text-align: left;
+}
+.sn-job-profile small {
+  font-size: 11px;
+  color: #8f89a1;
+}
+@media (max-width: 900px) {
+  .sn-followups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -195,3 +195,31 @@
     transition: none;
   }
 }
+
+/* The persona switch reuses the dropdown, with one choice at a time. */
+.sn-demo + .sn-demo {
+  margin-left: -4px;
+}
+.sn-demo-icon {
+  color: #735daa;
+}
+.sn-demo-panel .sn-demo-choice {
+  width: 100%;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+}
+.sn-demo-choice > i {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #cfc6da;
+  border-radius: 50%;
+}
+.sn-demo-choice[aria-pressed="true"] > i {
+  border-color: #735daa;
+  background: #735daa;
+  box-shadow: inset 0 0 0 3px #fff;
+}
