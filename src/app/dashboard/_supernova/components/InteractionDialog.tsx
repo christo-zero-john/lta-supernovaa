@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useApp } from "./AppProvider";
-import { MENTORS, GATES, PERSONAS } from "../lib/fixtures";
+import {
+  MENTORS,
+  GATES,
+  PERSONAS,
+  APPLICATION_STEPS,
+  STEPS_DONE,
+} from "../lib/fixtures";
 import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import { JOBS } from "../lib/jobs";
 import { Button, StatusBadge, ProgressBar } from "./ui";
@@ -52,6 +58,20 @@ export default function InteractionDialog() {
           </div>
         </div>
         <ProgressBar value={a.prog} />
+        <ul className="sn-checks" aria-label="Application steps">
+          {APPLICATION_STEPS.map((step, i) => {
+            const done = STEPS_DONE[a.status];
+            return (
+              <li
+                className={i < done ? "done" : i === done ? "doing" : "todo"}
+                key={step}
+              >
+                {step}
+                {i === done && <StatusBadge>In progress</StatusBadge>}
+              </li>
+            );
+          })}
+        </ul>
         {persona === "p004" && (
           <p>Your archived admissions record is read-only.</p>
         )}

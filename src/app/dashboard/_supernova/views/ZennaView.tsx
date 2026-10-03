@@ -6,16 +6,15 @@ import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import Gate from "../components/Gate";
 import ApplicationRow from "../components/ApplicationRow";
 import { Button, Card, EmptyState, Icon, StatusBadge } from "../components/ui";
+import { AFTER_OFFER, COUNSELLOR } from "../lib/fixtures";
 import { downloadText } from "../lib/download";
 export default function ZennaView() {
-  const { persona, state, dispatch, notify } = useApp(),
+  const { persona, notify, openDialog } = useApp(),
+    demo = useDemoData(),
     [filter, setFilter] = useState("all"),
-    applications = useDemoData().has("applications")
-      ? DEMO_DATA.applications
-      : [];
+    applications = demo.has("applications") ? DEMO_DATA.applications : [];
   if (persona === "free") return <Gate />;
   const archived = persona === "p004",
-    s = state[persona],
     count = (status: string) =>
       applications.filter((a) => a.status === status).length,
     offers = count("ok"),
@@ -115,73 +114,40 @@ export default function ZennaView() {
         </div>
         {!archived && (
           <div className="sn-stack">
-            <Card className="sn-ai">
-              <div className="sn-ai-heading">
-                <Icon name="zenna" size={19} />
-                <b>Zenna AI Agent</b>
-                <StatusBadge tone="free">
-                  {s.ai === "watching"
-                    ? "Watching for you"
-                    : s.ai === "confirmed"
-                      ? "Confirmed ✓"
-                      : "Dismissed"}
-                </StatusBadge>
+            {demo.has("offer") && (
+              <Card>
+                <h3>After the offer</h3>
+                <p className="sn-body-copy">What is left before you fly.</p>
+                <ul className="sn-checks">
+                  {AFTER_OFFER.map((step) => (
+                    <li className={step.state} key={step.label}>
+                      {step.label}
+                      {step.state === "doing" && (
+                        <StatusBadge>In progress</StatusBadge>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            )}
+            <Card className="sn-session">
+              <span className="sn-avatar">{COUNSELLOR.initials}</span>
+              <div>
+                <b>Your counsellor — {COUNSELLOR.name}</b>
+                <small>Replies on WhatsApp</small>
               </div>
-              {s.ai === "watching" ? (
-                <>
-                  <div className="sn-ai-item">
-                    <Icon name="documents" size={16} />
-                    <div>
-                      <b>Blocked-account proof due 10 Jul</b>
-                      <small>
-                        Found in: Visa Checklist — Deggendorf IT.pdf
-                      </small>
-                    </div>
-                    <StatusBadge>91% sure</StatusBadge>
-                  </div>
-                  <div className="sn-ai-item">
-                    <Icon name="documents" size={16} />
-                    <div>
-                      <b>Enrolment confirmation due 15 Aug</b>
-                      <small>
-                        Found in: Offer Letter — OTH Amberg-Weiden.pdf
-                      </small>
-                    </div>
-                    <StatusBadge>96% sure</StatusBadge>
-                  </div>
-                  <div className="sn-actions">
-                    <Button
-                      onClick={() => {
-                        dispatch({ type: "ai", persona, value: "confirmed" });
-                        notify("Deadline reminders confirmed locally.");
-                      }}
-                    >
-                      Confirm & notify
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      onClick={() => {
-                        dispatch({ type: "ai", persona, value: "dismissed" });
-                        notify("AI findings dismissed.");
-                      }}
-                    >
-                      Dismiss
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <p className="sn-body-copy">
-                  {s.ai === "confirmed"
-                    ? "Your two deadline reminders are confirmed."
-                    : "These findings have been dismissed."}
-                </p>
-              )}
+              <Button
+                variant="secondary"
+                onClick={() => openDialog({ kind: "contact" })}
+              >
+                Message
+              </Button>
             </Card>
             <Card>
               <h3>📱 WhatsApp updates</h3>
               <p className="sn-body-copy">
                 Deadline reminders and status changes go to you{" "}
-                <b>and your application mentor Jisha</b> — so nothing ever
+                <b>and your counsellor {COUNSELLOR.name}</b> — so nothing ever
                 depends on one person checking an app.
               </p>
             </Card>
