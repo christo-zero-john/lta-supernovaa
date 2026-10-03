@@ -74,7 +74,8 @@ The earlier request doc asked for these as new work. They are already in the bac
 | `TeamCallSlot` | `start_time`, `end_time`, `staff` | Free LTA team slots. |
 | `TeamCallBooking` | `slot`, `student_profile`, `context`, `meet_link` | The free 15-minute call. |
 | `ConnectWaitlist` | `student_profile`, `created_at` | Only if Connect stays closed to unverified students. |
-| `AIFinding` | `student_profile`, `source_document`, `title`, `due_date`, `confidence`, `state` | Only if the AI deadline feature is kept. |
+
+Zenna AI (deadlines found in documents) is future scope, so it needs no table now.
 
 ### Project004 (when the product is defined)
 
@@ -120,8 +121,7 @@ Proposed, computed on the server so every client agrees:
 2. Is LTA Connect open to every student or only to verified students?
 3. Are Connect bookings made inside the dashboard, or by linking to the Connect site?
 4. Do notifications update live, or on page load?
-5. Is the AI deadline feature in scope?
-6. Who sets document verification status: the assigned assistant, or any admin?
+5. Who sets document verification status: the assigned assistant, or any admin?
 
 ## 8. Suggested order
 
