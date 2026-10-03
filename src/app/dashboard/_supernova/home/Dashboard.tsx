@@ -19,6 +19,7 @@ import DemoDataSwitch from "../demo/DemoDataSwitch";
 import PersonaSelect from "../components/PersonaSelect";
 import NotificationBell from "../components/NotificationBell";
 import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
+import { LTA_WHATSAPP } from "../lib/fixtures";
 import type { ViewId } from "../lib/types";
 import SmoothScrollArea from "@/components/SmoothScroll/SmoothScrollArea";
 import TruncatedText from "@/components/TruncatedText/TruncatedText";
@@ -531,15 +532,17 @@ export default function Dashboard({
                     >
                       Book a session
                     </button>
-                    <button
+                    <a
                       className="chat-cta"
-                      onClick={() => openDialog({ kind: "contact" })}
+                      href={LTA_WHATSAPP.href}
+                      target="_blank"
+                      rel="noreferrer"
                     >
                       <span>
                         <img src={asset("1-1042-imgGroup35.svg")} alt="" />
                       </span>
                       Chat with a Mentor
-                    </button>
+                    </a>
                   </div>
                 </div>
                 <div className="footer-brand">
