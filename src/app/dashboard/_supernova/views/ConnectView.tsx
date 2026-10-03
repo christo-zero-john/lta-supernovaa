@@ -7,7 +7,7 @@ import { useDemoData } from "../demo/DemoDataProvider";
 import Gate from "../components/Gate";
 import MentorCard from "../components/MentorCard";
 export default function ConnectView() {
-  const { persona, state, openDialog } = useApp(),
+  const { persona, state, openDialog, notify } = useApp(),
     demo = useDemoData();
   if (persona === "free") return <Gate />;
   // A rescheduled session replaces the dummy one it came from.
@@ -70,6 +70,43 @@ export default function ConnectView() {
             Reschedule
           </Button>
         </Card>
+      )}
+      {persona === "verified" && session && (
+        <div className="sn-followups">
+          <Card className="sn-session">
+            <span className="sn-avatar">GT</span>
+            <div>
+              <b>Rate your last session</b>
+              <small>Gladia Thomas · 9 days ago</small>
+            </div>
+            <Button
+              variant="secondary"
+              onClick={() => notify("Reviews open once sessions are live.")}
+            >
+              Review
+            </Button>
+          </Card>
+          <Card className="sn-session">
+            <span className="sn-avatar">RN</span>
+            <div>
+              <b>Finish your booking</b>
+              <small>Rahul Nair · payment pending</small>
+            </div>
+            <Button
+              variant="secondary"
+              onClick={() => openDialog({ kind: "booking", id: "mentor-3" })}
+            >
+              Resume
+            </Button>
+          </Card>
+          <Card className="sn-session">
+            <span className="sn-avatar">2</span>
+            <div>
+              <b>Sessions completed</b>
+              <small>with 2 mentors · 1 saved mentor</small>
+            </div>
+          </Card>
+        </div>
       )}
       {local
         .filter((s) => s.id !== "source-session")
