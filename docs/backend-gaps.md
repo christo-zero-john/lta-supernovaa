@@ -8,7 +8,7 @@ The dashboard combines every LTA product (Course Shortlisting, Zenna, LTA Connec
 
 | Area | State |
 | --- | --- |
-| Account tier | "Verified student" is the existing `is_approved` plus an active membership. One permission change (section 8). |
+| Account tier | "Verified student" follows the backend's existing Zenna rule: `is_approved`, an active membership and a verified email. No backend change (section 8). |
 | Profile (name, photo, phone, gender) | Nothing needed. `PATCH profiles/me/` already covers it. |
 | Course Shortlisting | Works. Needs university and course display fields. |
 | Zenna applications | Works. Needs deadlines, next action, and student access to steps. |
@@ -48,7 +48,6 @@ The earlier request doc asked for these as new work. They are already in the bac
 | `students/me/stats/` | Add `offers_received`, `average_completion`, `status_counts`. All derivable from existing data. | Zenna summary tiles. |
 | `shortlisted-courses/` | Add `created_at`. | Report date. |
 | `mentors/` | Add `sessions_count` (count of paid, completed bookings). | Mentor cards. |
-| Zenna permission (`IsZennaAllowed`) | Stop requiring a verified email for approved students. See section 8. | An approved student must not be locked out. |
 | `users/me/` | Add a computed `journey_stage`. See section 6 for the rule. | Sidebar and Home journey strip. |
 | `profiles/me/` photo upload | Enforce file type and size (suggested JPG, PNG, WebP; 5 MB). | No limits were visible in the serializer. |
 
@@ -124,7 +123,7 @@ Decisions are by Christo John, October 2026. One question is still open.
 
 | # | Question | Decision | What the backend needs |
 | --- | --- | --- | --- |
-| 1 | Is `is_approved` alone the "verified" check for the dashboard, or should it also require a verified email and an active membership, as the Zenna permission does? | **Decided:** `is_approved` plus an active Zenna or Dashboard membership. A verified email is not required. | Change `IsZennaAllowed`. See section 8. |
+| 1 | Is `is_approved` alone the "verified" check for the dashboard, or should it also require a verified email and an active membership, as the Zenna permission does? | **Decided:** keep the backend's rule as it is: `is_approved`, an active Zenna or Dashboard membership, and a verified email. (An earlier decision to drop the email check was withdrawn.) | Nothing. The dashboard follows `IsZennaAllowed`. See section 8. |
 | 2 | Is LTA Connect open to every student, or only to verified students? | **Open.** | Depends on the answer. |
 | 3 | Are Connect bookings made inside the dashboard, or by linking to the Connect site? | **Decided:** inside the dashboard, so the student never leaves it. | The booking, checkout, payment and cancellation endpoints already exist. Missing: a reschedule action (move a paid booking to another free slot of the same mentor, with the same 24-hour rule as cancellation). |
 | 4 | Do notifications update live, or on page load? | **Decided:** live. | A live channel that pushes each new `Notification` to the signed-in student: a WebSocket (Django Channels) or server-sent events. Neither is set up today; Redis is already a dependency. The list endpoint stays as the fallback on page load. |
@@ -135,18 +134,19 @@ One follow-up on question 6: a student with no assistant assigned yet has nobody
 
 ## 8. The "verified" rule
 
-A student is verified when both are true:
+A student is verified when all three are true, exactly as `IsZennaAllowed` in `users/permissions.py` checks today:
 
-- `is_approved` is true, and
-- they have an active Zenna or Dashboard membership.
+- `is_approved` is true,
+- they have an active Zenna or Dashboard membership, and
+- their email is verified (`is_email_verified`).
 
-Email verification is not part of the rule. An approved student is already an LTA client and must be able to use the products even if they never confirmed their email.
+The backend stays as it is; the dashboard follows it, so a lock in the dashboard always matches what the API allows.
 
-This needs one backend change: `IsZennaAllowed` in `users/permissions.py` also requires `is_email_verified` today, so it would refuse an approved student with an unverified email. Either drop that condition for approved students, or mark the email as verified when an admin approves the student.
+One thing to know: a dashboard signup is marked email-verified at once, without a code being sent (`users/views/auth/auth.py`, the `portal_type == "dashboard"` branch). So for dashboard accounts the email condition is always met today. If signup is changed to send a real verification code, an approved student who has not confirmed their email would be locked out of Zenna until they do.
 
 ## 9. Suggested order
 
-1. Section 2 changes (the Zenna permission first) and `dashboard/summary/`. Mostly existing data; unblocks Home and Zenna.
+1. Section 2 changes and `dashboard/summary/`. Mostly existing data; unblocks Home and Zenna.
 2. `Application` deadline columns and student access to steps.
 3. University and course display columns.
 4. Document verification columns and `GET documents/`.
