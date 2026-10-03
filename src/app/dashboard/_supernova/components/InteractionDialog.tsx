@@ -150,6 +150,23 @@ export default function InteractionDialog() {
             />
           </label>
           <div>
+            <small>Email</small>
+            <span className="sn-detail-value">
+              {user?.email || "Not added yet"}
+              {user?.email && (
+                <StatusBadge tone={user.is_email_verified ? "ok" : "warn"}>
+                  {user.is_email_verified ? "Verified" : "Not verified"}
+                </StatusBadge>
+              )}
+            </span>
+          </div>
+          <div>
+            <small>Phone</small>
+            <span className="sn-detail-value">
+              {user?.phone_number || "Not added yet"}
+            </span>
+          </div>
+          <div>
             <small>Current role</small>
             {PERSONAS[persona].role}
           </div>

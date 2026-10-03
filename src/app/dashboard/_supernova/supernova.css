@@ -1433,6 +1433,18 @@ body:has(.sn-root) {
   font-size: 9px;
   color: #9e87ca;
 }
+/* A read-only value with its status beside it. */
+.sn-detail-value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.sn-detail-value .sn-badge {
+  flex-shrink: 0;
+}
 /* Editable cells: the whole cell is the field, so it carries the focus ring. */
 .sn-detail-grid > label {
   cursor: text;
