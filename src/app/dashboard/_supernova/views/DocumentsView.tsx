@@ -76,11 +76,13 @@ export default function DocumentsView() {
       )}
       <Card>
         {!documents.length && !uploads.files.length && (
-          <EmptyState>
-            No documents yet. Start with your passport and latest transcripts —
-            they’ll be ready the moment you need them for an application or a
-            chance check.
-          </EmptyState>
+          <>
+            <h3>No documents yet</h3>
+            <EmptyState>
+              Start with your passport and latest transcripts. They will be
+              ready the moment an application or a chance check needs them.
+            </EmptyState>
+          </>
         )}
         {documents.map((d) => (
           <div
@@ -96,7 +98,7 @@ export default function DocumentsView() {
               <small>{d.meta}</small>
             </div>
             <div className="sn-doc-used">
-              <small>USED IN</small>
+              <small>Used in</small>
               {d.used.map((u) => (
                 <StatusBadge key={u}>{u}</StatusBadge>
               ))}
@@ -106,7 +108,9 @@ export default function DocumentsView() {
         {documents.length > 0 &&
           MISSING_DOCUMENTS.map((d) => (
             <div className="sn-doc" key={d.name}>
-              <span className="sn-doc-icon">—</span>
+              <span className="sn-doc-icon">
+                <Icon name="documents" size={18} />
+              </span>
               <div className="sn-doc-main">
                 <b>{d.name}</b>
                 <small>{d.reason}</small>
