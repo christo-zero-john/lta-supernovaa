@@ -5,6 +5,7 @@ import useStore from "@/store/useStore";
 import PageLoader from "@/components/PageLoader/PageLoader";
 import Dashboard from "@/app/dashboard/_supernova/home/Dashboard";
 
+import {useApp} from "@/app/dashboard/_supernova/components/AppProvider";
 import {handleGetShortlistedCourses} from "@/actions/course.actions";
 import {ShortlistedCourse} from "@/lib/services/course.service";
 
@@ -31,10 +32,14 @@ const FIRST_SCREEN_IMAGES = [
 
 // The last user's courses, kept while the dashboard stays open, so coming
 // back to the home page does not show the full-screen loader again.
+// How long the loader may cover the page when the server does not answer.
+const LOADER_LIMIT_MS = 10_000;
+
 let loaded: {userId: number | string; courses: ShortlistedCourse[]} | null = null;
 
 export default function DashboardPage(): React.ReactElement {
     const {user} = useStore();
+    const {notify} = useApp();
     const cached = loaded && loaded.userId === user?.id ? loaded.courses : null;
     const [loading, setLoading] = useState(!cached);
     const [courses, setCourses] = useState<ShortlistedCourse[]>(cached ?? []);
@@ -74,6 +79,17 @@ export default function DashboardPage(): React.ReactElement {
 
         fetchAll();
     }, [user?.id]);
+
+    // An unreachable server must not leave the loader up for good: open the
+    // page with what there is and say so.
+    useEffect(() => {
+        if (!loading) return;
+        const timer = setTimeout(() => {
+            setLoading(false);
+            notify("We could not reach the server. Some of your data may be missing.");
+        }, LOADER_LIMIT_MS);
+        return () => clearTimeout(timer);
+    }, [loading, notify]);
 
     if (loading) return <PageLoader/>;
 
