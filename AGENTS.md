@@ -1,5 +1,24 @@
 # Letters to Abroad frontend
 
+## LTA workspace (read first)
+
+This repository is one of about five Letters to Abroad repositories. They are cloned side by side and opened together in one multi-root VS Code workspace, so the folder you started in is not the whole workspace.
+
+| Repository | Path from this repo | What it is | Origin / upstream |
+| --- | --- | --- | --- |
+| `lta-supernovaa` (this repo) | `.` | Student dashboard frontend: Next.js 16, React 19, TypeScript | `christo-zero-john/lta-supernovaa` / `letterstoabroad/dashboard` |
+| `lta-backend` | `../lta-backend` | Backend API: Django, Docker. Apps: `admissions`, `candidates`, `common`, `course_shortlisting`, `mentoring`, `users` | `christo-zero-john/lta-backend` / `letterstoabroad/LTA` |
+
+The remaining LTA repositories are not listed yet. Add a row here when one joins the workspace.
+
+Rules for every agent, in every session:
+
+- Before changing any code, ask the user which codebase to work on, even when the request seems to name one. Do not assume it is the folder the session started in.
+- Change only the codebase the user chose. Every other LTA repository is read-only: no edits, commits, installs, migrations or other mutating commands there.
+- Read the other repositories freely for context, such as what the backend exposes or what features another app has. Follow each repository's own `AGENTS.md` while reading it.
+- When asked about "the workspace" or "the codebases", check the sibling folders, not only the current one.
+- Keep this section in every LTA repository's `AGENTS.md`, each written from that repository's point of view. When a repository is added or changes purpose, update every copy.
+
 ## Project
 
 - Next.js 16 App Router, React 19, strict TypeScript, Tailwind 4 and scoped component CSS.
