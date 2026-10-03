@@ -1568,6 +1568,10 @@ body:has(.sn-root) {
   color: inherit;
   outline: none;
 }
+/* Outranks the global `.supernova :focus-visible` ring, which the cell already draws. */
+.sn-detail-grid input:focus-visible {
+  outline: none;
+}
 .sn-detail-grid input::placeholder {
   color: #9e87ca;
 }
