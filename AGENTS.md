@@ -13,8 +13,9 @@ The remaining LTA repositories are not listed yet. Add a row here when one joins
 
 Rules for every agent, in every session:
 
-- Before changing any code, ask the user which codebase to work on, even when the request seems to name one. Do not assume it is the folder the session started in.
-- Change only the codebase the user chose. Every other LTA repository is read-only: no edits, commits, installs, migrations or other mutating commands there.
+- At the start of every new chat, before anything else, ask the user which codebase this chat works on. Do not assume it is the folder the session started in.
+- That codebase is the only writable one for the whole chat; do not ask again in the same chat. Every other LTA repository is read-only: no edits, commits, installs, migrations or other mutating commands there.
+- If the user wants changes in another codebase, do not switch in place. Tell them to open a new chat for it.
 - Read the other repositories freely for context, such as what the backend exposes or what features another app has. Follow each repository's own `AGENTS.md` while reading it.
 - When asked about "the workspace" or "the codebases", check the sibling folders, not only the current one.
 - Keep this section in every LTA repository's `AGENTS.md`, each written from that repository's point of view. When a repository is added or changes purpose, update every copy.
