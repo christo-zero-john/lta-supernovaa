@@ -4,6 +4,7 @@ import {
   MENTORS,
   GATES,
   PERSONAS,
+  JOURNEY,
   APPLICATION_STEPS,
   STEPS_DONE,
 } from "../lib/fixtures";
@@ -16,9 +17,11 @@ import { downloadText } from "../lib/download";
 import type { GateContent } from "./Gate";
 import UserAvatar from "./UserAvatar";
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import { useJourneyStage } from "../hooks/useJourneyStage";
 export default function InteractionDialog() {
   const { user } = useCurrentUser();
   const demo = useDemoData();
+  const stage = useJourneyStage();
   const {
       dialog,
       persona,
@@ -99,6 +102,10 @@ export default function InteractionDialog() {
           <div>
             <small>Current role</small>
             {PERSONAS[persona].role}
+          </div>
+          <div>
+            <small>Current status</small>
+            {JOURNEY[stage]}
           </div>
         </div>
         <label className="sn-settings-label">
