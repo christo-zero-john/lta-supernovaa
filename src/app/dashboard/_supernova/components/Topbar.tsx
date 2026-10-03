@@ -4,10 +4,11 @@ import { useApp } from "./AppProvider";
 import DashboardSearch from "./DashboardSearch";
 import UserAvatar from "./UserAvatar";
 import DemoDataSwitch from "../demo/DemoDataSwitch";
+import PersonaSelect from "./PersonaSelect";
 import NotificationBell from "./NotificationBell";
 import { Icon } from "./ui";
 
-/** The section pages' top bar: search, dummy data, notifications, profile. */
+/** The section pages' top bar: search, persona, dummy data, notifications, profile. */
 export default function Topbar({ onMenu }: { onMenu: () => void }) {
   const { openDialog } = useApp();
   return (
@@ -21,6 +22,7 @@ export default function Topbar({ onMenu }: { onMenu: () => void }) {
       </button>
       <DashboardSearch />
       <div className="sn-topbar-right">
+        <PersonaSelect />
         <DemoDataSwitch />
         <NotificationBell />
         <button
