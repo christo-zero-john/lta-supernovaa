@@ -91,8 +91,10 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .calendar-day:nth-last-child(-n+7) { border-bottom: 0; }
 /* Blank cells that belong to the previous or next month. */
 .calendar-day.empty { background: rgba(232,235,239,.4); }
-.calendar-day.has-session { background: rgba(135,100,222,.27); border-radius: 7px; display: flex; align-items: flex-start; justify-content: space-between; gap: 2px; padding: 10px 9px; }
-.calendar-day.has-session > span { font-size: 22px; color: #1a191a; font-weight: 600; }
+.calendar-day.has-session { background: rgba(135,100,222,.27); border-radius: 7px; display: flex; flex-direction: column; align-items: stretch; justify-content: space-between; gap: 0; padding: 10px 9px; }
+.calendar-day.has-session > span { font-size: 22px; line-height: 24px; color: #1a191a; font-weight: 600; text-align: left; }
+/* The title sits under the day number, cut to two lines so it never reaches it. */
+.calendar-day.has-session small { position: static; max-width: 100%; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
 .calendar-day small { font: 400 12px/16px var(--figma-geist), sans-serif; text-align: right; align-self: flex-end; color: #242a33; position: absolute; right: 9px; bottom: 10px; max-width: calc(100% - 18px); }
 .calendar-day { transition: background-color 150ms ease-out; }
 .calendar-day:not(.empty):hover { background-color: rgba(232,235,239,.4); }
