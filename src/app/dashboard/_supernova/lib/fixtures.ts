@@ -292,9 +292,8 @@ export const PAGE_COPY = {
     },
     documents: {
       crumb: "Documents",
-      title: "One vault, every product",
-      subtitle:
-        "Upload a document once and it follows you everywhere — applications today, job search tomorrow. You will never email the same PDF twice.",
+      title: "My documents",
+      subtitle: "Upload a document once and use it for every application.",
     },
     notifications: {
       crumb: "Notifications",
@@ -342,9 +341,8 @@ export const PAGE_COPY = {
     },
     documents: {
       crumb: "Documents",
-      title: "One vault, every product",
-      subtitle:
-        "Upload a document once and it follows you everywhere — applications today, job search tomorrow. You will never email the same PDF twice.",
+      title: "My documents",
+      subtitle: "Upload a document once and use it for every application.",
     },
     notifications: {
       crumb: "Notifications",
@@ -392,9 +390,8 @@ export const PAGE_COPY = {
     },
     documents: {
       crumb: "Documents",
-      title: "One vault, every product",
-      subtitle:
-        "Upload a document once and it follows you everywhere — applications today, job search tomorrow. You will never email the same PDF twice.",
+      title: "My documents",
+      subtitle: "Upload a document once and use it for every application.",
     },
     notifications: {
       crumb: "Notifications",
