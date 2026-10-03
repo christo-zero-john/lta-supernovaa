@@ -9,6 +9,7 @@ import DarmstadtCard from "./DarmstadtCard";
 import FourthCard from "./FourthCard";
 import ZennaIntro from "./ZennaIntro";
 import HomeStatus from "./HomeStatus";
+import VideoPlayer from "./VideoPlayer";
 import { universityCardProps } from "./universityCard";
 import { MONTH_NAMES, toCalendarEvent, type CalendarEvent } from "./events";
 import { TESTIMONIALS } from "./testimonials";
@@ -32,6 +33,10 @@ import "./testimonial-gradients.css";
 const asset = (name: string) => `/assets/dashboard/${name}`;
 const VIDEO_URL =
   "https://lta-dev-kj2hs6dasja.s3.ap-south-1.amazonaws.com/LTA+WEB.mp4";
+const VIDEO_TITLE = "Zenna, your Personal Application Tracker";
+// The file is 16:9 with black bars above and below its picture; this is the
+// picture's own shape, so the player can leave the bars out.
+const VIDEO_PICTURE_RATIO = 1920 / 776;
 
 // The four Figma card designs, repeated in order.
 const CARD_DESIGNS = [MunichCard, SorbonneCard, DarmstadtCard, FourthCard];
@@ -88,6 +93,8 @@ function Dialog({
   onClose: () => void;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
+  // The video's own width / height, once known: it sizes the dialog.
+  const [ratio, setRatio] = useState<number | null>(null);
   useEffect(() => {
     const dialog = ref.current;
     dialog?.showModal();
@@ -96,7 +103,10 @@ function Dialog({
   return (
     <dialog
       ref={ref}
-      className="reference-dialog"
+      className={`reference-dialog ${state.video ? "video-dialog" : ""}`}
+      style={
+        ratio ? ({ "--video-ratio": ratio } as React.CSSProperties) : undefined
+      }
       aria-label={state.title}
       onCancel={onClose}
       onClick={(event) => {
@@ -121,12 +131,11 @@ function Dialog({
       </button>
       <h2>{state.title}</h2>
       {state.video ? (
-        <video
-          controls
-          autoPlay
-          playsInline
-          aria-label={`${state.title} introduction`}
+        <VideoPlayer
           src={state.video}
+          label={state.title}
+          pictureRatio={VIDEO_PICTURE_RATIO}
+          onRatio={setRatio}
         />
       ) : (
         <p>{state.detail}</p>
@@ -367,10 +376,7 @@ export default function Dashboard({
                 className="product-action"
                 aria-label={`Watch ${product.title} video`}
                 onClick={() =>
-                  setDialog({
-                    title: product.title,
-                    video: product.videoUrl,
-                  })
+                  setDialog({ title: VIDEO_TITLE, video: product.videoUrl })
                 }
               >
                 <img src={asset("1-799-imgMaskGroup.svg")} alt="" />
@@ -522,8 +528,8 @@ export default function Dashboard({
               <div className="footer-row">
                 <div className="mentor-card">
                   <p>
-                    Every university weighs these differently. to understand
-                    which university truly fits you best.
+                    Every university weighs these differently. Talk to a
+                    mentor to see which one truly fits you best.
                   </p>
                   <div className="mentor-actions">
                     <button
@@ -576,7 +582,7 @@ export default function Dashboard({
                       className="social-button"
                       aria-label="YouTube"
                       onClick={() =>
-                        setDialog({ title: "LTA videos", video: VIDEO_URL })
+                        setDialog({ title: VIDEO_TITLE, video: VIDEO_URL })
                       }
                     >
                       <img src={asset("1-1042-imgMaskGroup.svg")} alt="" />
