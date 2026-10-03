@@ -4,7 +4,15 @@ import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useApp } from "../components/AppProvider";
 import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
-import { Button, Card, Icon, StatusBadge, EmptyState } from "../components/ui";
+import {
+  Button,
+  Card,
+  Icon,
+  ProgressBar,
+  StatusBadge,
+  EmptyState,
+} from "../components/ui";
+import { MISSING_DOCUMENTS } from "../lib/fixtures";
 export default function DocumentsView() {
   const { persona, uploads, notify } = useApp(),
     item = useSearchParams().get("item"),
@@ -17,6 +25,28 @@ export default function DocumentsView() {
   }, [item, persona]);
   return (
     <>
+      {documents.length > 0 && (
+        <Card className="sn-doc-progress">
+          <div className="sn-actions">
+            <h3>
+              {documents.length} of{" "}
+              {documents.length + MISSING_DOCUMENTS.length} required documents
+              uploaded
+            </h3>
+            <StatusBadge tone="ok">
+              {documents.filter((d) => d.meta.includes("verified")).length}{" "}
+              verified
+            </StatusBadge>
+          </div>
+          <ProgressBar
+            value={Math.round(
+              (documents.length /
+                (documents.length + MISSING_DOCUMENTS.length)) *
+                100,
+            )}
+          />
+        </Card>
+      )}
       <label
         className="sn-drop"
         onDragOver={(e) => e.preventDefault()}
@@ -73,6 +103,19 @@ export default function DocumentsView() {
             </div>
           </div>
         ))}
+        {documents.length > 0 &&
+          MISSING_DOCUMENTS.map((d) => (
+            <div className="sn-doc" key={d.name}>
+              <span className="sn-doc-icon">—</span>
+              <div className="sn-doc-main">
+                <b>{d.name}</b>
+                <small>{d.reason}</small>
+              </div>
+              <div className="sn-doc-used">
+                <StatusBadge tone="bad">Missing</StatusBadge>
+              </div>
+            </div>
+          ))}
         {uploads.files.map((f) => (
           <div
             className={`sn-doc ${item === f.id ? "sn-doc-selected" : ""}`}
