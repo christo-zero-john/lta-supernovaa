@@ -85,7 +85,7 @@ export default function DashboardPage(): React.ReactElement {
         if (!loading) return;
         const timer = setTimeout(() => {
             setLoading(false);
-            notify("We could not reach the server. Some of your data may be missing.");
+            notify("Still connecting to the server. Your details appear as soon as it answers.");
         }, LOADER_LIMIT_MS);
         return () => clearTimeout(timer);
     }, [loading, notify]);
