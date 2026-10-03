@@ -7,6 +7,7 @@ import {
   JOURNEY,
   APPLICATION_STEPS,
   STEPS_DONE,
+  LTA_WHATSAPP,
 } from "../lib/fixtures";
 import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import { JOBS } from "../lib/jobs";
@@ -439,14 +440,26 @@ export default function InteractionDialog() {
       </p>
       <div className="sn-detail-grid">
         <div>
-          <small>WhatsApp replies</small>Usually within 2 hours, IST daytime
+          <small>WhatsApp · replies within 2 hours, IST daytime</small>
+          {LTA_WHATSAPP.display}
         </div>
         <div>
           <small>Email</small>info@letterstoabroad.com
         </div>
       </div>
       <div className="sn-actions">
-        <Button onClick={() => openDialog({ kind: "booking" })}>
+        <a
+          className="sn-button primary"
+          href={LTA_WHATSAPP.href}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Chat on WhatsApp
+        </a>
+        <Button
+          variant="secondary"
+          onClick={() => openDialog({ kind: "booking" })}
+        >
           Book a free call
         </Button>
         <a
