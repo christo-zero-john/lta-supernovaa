@@ -3,10 +3,10 @@ import axios from "axios";
 
 export const handleUpdateProfile = async (
     payload: ProfileNamePayload
-): Promise<{ success: boolean; error?: string }> => {
+): Promise<{ success: boolean; profilePicture?: string; error?: string }> => {
     try {
-        await updateProfile(payload);
-        return { success: true };
+        const profilePicture = await updateProfile(payload);
+        return { success: true, profilePicture };
     } catch (error: unknown) {
         const message = axios.isAxiosError<{ message?: unknown }>(error)
             ? error.response?.data?.message
@@ -16,7 +16,7 @@ export const handleUpdateProfile = async (
             error:
                 typeof message === "string" && message
                     ? message
-                    : "Could not save your name. Please try again.",
+                    : "Could not save your profile. Please try again.",
         };
     }
 };
