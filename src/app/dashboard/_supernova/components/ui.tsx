@@ -50,6 +50,17 @@ export function ProgressBar({ value }: { value: number }) {
     </div>
   );
 }
+/** Stands in for a value that is still on its way from the server. */
+export function LoadingText() {
+  return (
+    <span className="sn-loading-text" role="status">
+      Loading
+      <i />
+      <i />
+      <i />
+    </span>
+  );
+}
 export function EmptyState({ children }: { children: ReactNode }) {
   return <p className="sn-empty">{children}</p>;
 }

@@ -11,7 +11,7 @@ import {
 } from "../lib/fixtures";
 import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import { JOBS } from "../lib/jobs";
-import { Button, StatusBadge, ProgressBar } from "./ui";
+import { Button, LoadingText, StatusBadge, ProgressBar } from "./ui";
 import Modal from "./Modal";
 import BookingDialog from "./BookingDialog";
 import { downloadText } from "../lib/download";
@@ -209,38 +209,41 @@ export default function InteractionDialog() {
           <UserAvatar />
         </span>
         <div className="sn-detail-grid">
+          {/* Until the account arrives every value is loading, not missing. */}
           <div>
             <small>First name</small>
-            {user?.first_name || "Not added yet"}
+            {user ? user.first_name || "Not added yet" : <LoadingText />}
           </div>
           <div>
             <small>Last name</small>
-            {user?.last_name || "Not added yet"}
+            {user ? user.last_name || "Not added yet" : <LoadingText />}
           </div>
           <div>
             <small>Email</small>
-            <span className="sn-detail-value">
-              {user?.email || "Not added yet"}
-              {user?.email && (
-                <StatusBadge tone={user.is_email_verified ? "ok" : "warn"}>
-                  {user.is_email_verified ? "Verified" : "Not verified"}
-                </StatusBadge>
-              )}
-            </span>
+            {user ? (
+              <span className="sn-detail-value">
+                {user.email || "Not added yet"}
+                {user.email && (
+                  <StatusBadge tone={user.is_email_verified ? "ok" : "warn"}>
+                    {user.is_email_verified ? "Verified" : "Not verified"}
+                  </StatusBadge>
+                )}
+              </span>
+            ) : (
+              <LoadingText />
+            )}
           </div>
           <div>
             <small>Phone</small>
-            <span className="sn-detail-value">
-              {user?.phone_number || "Not added yet"}
-            </span>
+            {user ? user.phone_number || "Not added yet" : <LoadingText />}
           </div>
           <div>
             <small>Current role</small>
-            {PERSONAS[persona].role}
+            {user ? PERSONAS[persona].role : <LoadingText />}
           </div>
           <div>
             <small>Current status</small>
-            {JOURNEY[stage]}
+            {user ? JOURNEY[stage] : <LoadingText />}
           </div>
         </div>
         <label className="sn-settings-label">

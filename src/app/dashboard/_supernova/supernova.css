@@ -1433,6 +1433,38 @@ body:has(.sn-root) {
   font-size: 9px;
   color: #9e87ca;
 }
+/* A value still on its way: the word with three dots that take turns. */
+.sn-loading-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  color: var(--sn-muted);
+}
+.sn-loading-text i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #8764de;
+  animation: sn-loading-dot 1.2s ease-in-out infinite;
+}
+.sn-loading-text i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.sn-loading-text i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes sn-loading-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
 /* Update profile: the photo with its picker beside it. */
 .sn-profile-photo {
   display: flex;
