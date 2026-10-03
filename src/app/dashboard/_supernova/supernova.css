@@ -1433,6 +1433,21 @@ body:has(.sn-root) {
   font-size: 9px;
   color: #9e87ca;
 }
+/* Update profile: the photo with its picker beside it. */
+.sn-profile-photo {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+.sn-profile-photo label {
+  cursor: pointer;
+}
+.sn-profile-photo input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
 /* A read-only value with its status beside it. */
 .sn-detail-value {
   display: flex;

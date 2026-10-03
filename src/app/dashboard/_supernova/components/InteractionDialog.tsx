@@ -39,36 +39,44 @@ export default function InteractionDialog() {
     [whatsapp, setWhatsapp] = useState(state[persona].whatsapp),
     [firstName, setFirstName] = useState(user?.first_name ?? ""),
     [lastName, setLastName] = useState(user?.last_name ?? ""),
+    [editing, setEditing] = useState(false),
+    [photo, setPhoto] = useState<{ file: File; url: string } | null>(null),
     [saving, setSaving] = useState(false),
     [error, setError] = useState("");
-  const saveAccount = async () => {
+  const startEditing = () => {
+    setFirstName(user?.first_name ?? "");
+    setLastName(user?.last_name ?? "");
+    setPhoto(null);
+    setError("");
+    setEditing(true);
+  };
+  const saveProfile = async () => {
+    if (!user) return;
     const names = { first_name: firstName.trim(), last_name: lastName.trim() };
-    const renamed =
-      !!user &&
-      (names.first_name !== (user.first_name ?? "").trim() ||
-        names.last_name !== (user.last_name ?? "").trim());
-    if (user && renamed) {
-      if (!names.first_name) {
-        setError("Please enter your first name.");
-        return;
-      }
-      setError("");
-      setSaving(true);
-      const result = await handleUpdateProfile(names);
-      setSaving(false);
-      if (!result.success) {
-        setError(result.error || "Could not save your name. Please try again.");
-        return;
-      }
-      setUser({ ...user, ...names });
+    if (!names.first_name) {
+      setError("Please enter your first name.");
+      return;
     }
-    dispatch({ type: "preference", persona, value: whatsapp });
-    closeDialog();
-    notify(
-      renamed
-        ? "Your account details are saved."
-        : "Your preferences are saved for this session.",
-    );
+    setError("");
+    setSaving(true);
+    const result = await handleUpdateProfile({
+      ...names,
+      ...(photo ? { profile_picture: photo.file } : {}),
+    });
+    setSaving(false);
+    if (!result.success) {
+      setError(
+        result.error || "Could not save your profile. Please try again.",
+      );
+      return;
+    }
+    setUser({
+      ...user,
+      ...names,
+      profile_picture: result.profilePicture || user.profile_picture,
+    });
+    setEditing(false);
+    notify("Your profile is updated.");
   };
   if (!dialog) return null;
   if (dialog.kind === "booking")
@@ -120,22 +128,47 @@ export default function InteractionDialog() {
       </Modal>
     );
   }
-  if (dialog.kind === "settings")
+  if (dialog.kind === "settings" && editing)
     return (
-      <Modal title="Your LTA Account" onClose={closeDialog}>
-        <span className="sn-avatar sn-profile-avatar">
-          <UserAvatar />
-        </span>
+      <Modal title="Update profile" onClose={closeDialog}>
+        <div className="sn-profile-photo">
+          <span className="sn-avatar sn-profile-avatar">
+            {photo ? (
+              // eslint-disable-next-line @next/next/no-img-element -- A local preview.
+              <img className="sn-avatar-img" src={photo.url} alt="" />
+            ) : (
+              <UserAvatar />
+            )}
+          </span>
+          <label className="sn-button secondary compact">
+            Change photo
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              disabled={saving}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                e.target.value = "";
+                if (!file) return;
+                if (file.size > 5 * 1024 * 1024) {
+                  setError("Please choose a photo smaller than 5 MB.");
+                  return;
+                }
+                setError("");
+                setPhoto({ file, url: URL.createObjectURL(file) });
+              }}
+            />
+          </label>
+        </div>
         <div className="sn-detail-grid">
           <label>
             <small>First name</small>
             <input
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              placeholder="Not added yet"
               autoComplete="given-name"
               maxLength={100}
-              disabled={!user || saving}
+              disabled={saving}
             />
           </label>
           <label>
@@ -143,12 +176,46 @@ export default function InteractionDialog() {
             <input
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              placeholder="Not added yet"
               autoComplete="family-name"
               maxLength={100}
-              disabled={!user || saving}
+              disabled={saving}
             />
           </label>
+        </div>
+        {error && (
+          <p className="sn-error" role="alert">
+            {error}
+          </p>
+        )}
+        <div className="sn-actions">
+          <Button disabled={saving} onClick={saveProfile}>
+            {saving ? "Saving…" : "Save"}
+          </Button>
+          <Button
+            variant="secondary"
+            disabled={saving}
+            onClick={() => setEditing(false)}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Modal>
+    );
+  if (dialog.kind === "settings")
+    return (
+      <Modal title="Your LTA Account" onClose={closeDialog}>
+        <span className="sn-avatar sn-profile-avatar">
+          <UserAvatar />
+        </span>
+        <div className="sn-detail-grid">
+          <div>
+            <small>First name</small>
+            {user?.first_name || "Not added yet"}
+          </div>
+          <div>
+            <small>Last name</small>
+            {user?.last_name || "Not added yet"}
+          </div>
           <div>
             <small>Email</small>
             <span className="sn-detail-value">
@@ -179,18 +246,20 @@ export default function InteractionDialog() {
           <input
             type="checkbox"
             checked={whatsapp}
-            onChange={(e) => setWhatsapp(e.target.checked)}
+            onChange={(e) => {
+              setWhatsapp(e.target.checked);
+              dispatch({
+                type: "preference",
+                persona,
+                value: e.target.checked,
+              });
+            }}
           />
           WhatsApp updates
         </label>
         <p>Deadline reminders and status updates, together in one place.</p>
-        {error && (
-          <p className="sn-error" role="alert">
-            {error}
-          </p>
-        )}
-        <Button disabled={saving} onClick={saveAccount}>
-          {saving ? "Saving…" : "Save changes"}
+        <Button disabled={!user} onClick={startEditing}>
+          Update profile
         </Button>
       </Modal>
     );
