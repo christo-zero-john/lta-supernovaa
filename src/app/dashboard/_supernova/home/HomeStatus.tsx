@@ -2,6 +2,7 @@
 
 import { useApp } from "../components/AppProvider";
 import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
+import { useJourneyStage } from "../hooks/useJourneyStage";
 import { JOURNEY } from "../lib/fixtures";
 import type { ViewId } from "../lib/types";
 import type { ShortlistedCourse } from "@/lib/services/course.service";
@@ -82,8 +83,7 @@ export default function HomeStatus({
         { value: topChance, label: "Top admit chance" },
       ]
     : [startShortlisting, askTheTeam];
-  const stage =
-    persona === "p004" ? 3 : offerAccepted ? 2 : verified ? 1 : 0;
+  const stage = useJourneyStage();
 
   let focus: Focus;
   let stats: Stat[];
