@@ -1,6 +1,6 @@
 "use client";
 
-import { FAQS, HELP_CARDS } from "../lib/fixtures";
+import { FAQS, HELP_CARDS, LTA_WHATSAPP } from "../lib/fixtures";
 import { useApp } from "../components/AppProvider";
 import { Button, Card, Icon } from "../components/ui";
 export default function SupportView() {
@@ -38,15 +38,25 @@ export default function SupportView() {
               <b>{h.title}</b>
               <p>{h.text}</p>
             </a>
+          ) : i === 0 ? (
+            <a
+              className="sn-help"
+              key={h.title}
+              href={LTA_WHATSAPP.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon name="support" size={26} />
+              <b>{h.title}</b>
+              <p>{h.text}</p>
+            </a>
           ) : (
             <button
               className="sn-help"
               key={h.title}
-              onClick={() =>
-                openDialog({ kind: i === 0 ? "contact" : "booking" })
-              }
+              onClick={() => openDialog({ kind: "booking" })}
             >
-              <Icon name={i === 0 ? "support" : "calendar"} size={26} />
+              <Icon name="calendar" size={26} />
               <b>{h.title}</b>
               <p>{h.text}</p>
             </button>
