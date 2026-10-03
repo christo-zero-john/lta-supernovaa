@@ -89,7 +89,7 @@ export default function HomeStatus({
       eyebrow: "Your next step",
       title: "Find out your real admit chances.",
       text: "Answer a few questions and get one clear number per course. It takes about three minutes.",
-      action: "Start shortlisting",
+      action: "Explore chances",
       view: "cst",
     };
   }
