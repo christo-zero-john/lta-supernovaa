@@ -4,17 +4,10 @@ import { useApp } from "../components/AppProvider";
 import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import { Button } from "../components/ui";
 import { useJourneyStage } from "../hooks/useJourneyStage";
-import { JOURNEY } from "../lib/fixtures";
+import { JOURNEY, MISSING_DOCUMENTS } from "../lib/fixtures";
+import { homeStats } from "./homeStats";
 import type { ViewId } from "../lib/types";
 import type { ShortlistedCourse } from "@/lib/services/course.service";
-
-/**
- * One of the student's own numbers. With nothing to count yet, the tile
- * keeps its name and offers the screen where that number starts.
- */
-type Stat =
-  | { label: string; value: string }
-  | { label: string; action: string; view: ViewId };
 
 type Focus = {
   eyebrow: string;
@@ -26,25 +19,20 @@ type Focus = {
 
 /**
  * The top of the home page: where the student is on their journey, the one
- * thing that matters next, and the student's own numbers. Everything but the shortlisted
- * courses is placeholder data until the backend provides it.
+ * thing that matters next, and the four numbers that matter most to this
+ * student (see homeStats). Everything but the shortlisted courses is
+ * placeholder data until the backend provides it.
  */
 export default function HomeStatus({
   courses,
 }: {
   courses: ShortlistedCourse[];
 }) {
-  const { persona, navigate, uploads } = useApp();
+  const { persona, navigate, state, uploads } = useApp();
   const demo = useDemoData();
   const verified = persona !== "free";
   const applications =
     verified && demo.has("applications") ? DEMO_DATA.applications : [];
-  const offers = applications.filter((a) => a.status === "ok").length;
-  const average = applications.length
-    ? Math.round(
-        applications.reduce((sum, a) => sum + a.prog, 0) / applications.length,
-      )
-    : 0;
   const next = applications.find(
     (a) => (a.status === "warn" || a.status === "info") && a.dl !== "—",
   );
@@ -52,28 +40,8 @@ export default function HomeStatus({
   const topChance = courses.length
     ? `${Math.max(...courses.map((c) => c.admission_percentage))}%`
     : "";
-  const shortlistStats: Stat[] = courses.length
-    ? [
-        { value: String(courses.length), label: "Courses shortlisted" },
-        { value: topChance, label: "Top admit chance" },
-      ]
-    : [
-        {
-          label: "Courses shortlisted",
-          action: "Start shortlisting",
-          view: "cst",
-        },
-      ];
-  const documentCount =
-    (demo.has("documents") ? DEMO_DATA.documents.length : 0) +
-    uploads.files.length;
-  const documentStat: Stat = documentCount
-    ? { value: String(documentCount), label: "Documents uploaded" }
-    : { label: "Documents uploaded", action: "Upload a document", view: "documents" };
   const stage = useJourneyStage();
-
   let focus: Focus;
-  let stats: Stat[];
   if (persona === "p004") {
     focus = {
       eyebrow: "What matters today",
@@ -82,12 +50,6 @@ export default function HomeStatus({
       action: "Open Project004",
       view: "p004",
     };
-    stats = [
-      { value: "6 / 9", label: "Job profile steps" },
-      { value: "3", label: "Matched jobs" },
-      { value: "3", label: "Job applications in review" },
-      { value: "#7", label: "Logistics Challenge rank" },
-    ];
   } else if (offerAccepted) {
     focus = {
       eyebrow: "What matters today",
@@ -96,12 +58,6 @@ export default function HomeStatus({
       action: "See my checklist",
       view: "zenna",
     };
-    stats = [
-      { value: String(applications.length), label: "Applications" },
-      { value: "1", label: "Offer accepted" },
-      { value: "1 / 5", label: "After-the-offer steps done" },
-      documentStat,
-    ];
   } else if (applications.length) {
     focus = {
       eyebrow: "What matters today",
@@ -112,14 +68,6 @@ export default function HomeStatus({
       action: "Open in Zenna",
       view: "zenna",
     };
-    stats = [
-      { value: String(applications.length), label: "Applications" },
-      { value: String(offers), label: "Offers received" },
-      next
-        ? { value: next.dl, label: `Next deadline · ${next.mono}` }
-        : { value: "On track", label: "No open deadlines" },
-      { value: `${average}%`, label: "Average completion" },
-    ];
   } else if (verified) {
     focus = {
       eyebrow: "Your next step",
@@ -128,11 +76,6 @@ export default function HomeStatus({
       action: "Open Zenna",
       view: "zenna",
     };
-    stats = [
-      ...shortlistStats,
-      documentStat,
-      { value: "0", label: "Applications" },
-    ];
   } else if (courses.length) {
     focus = {
       eyebrow: "Your next step",
@@ -141,7 +84,6 @@ export default function HomeStatus({
       action: "See my shortlist",
       view: "cst",
     };
-    stats = [...shortlistStats, documentStat];
   } else {
     focus = {
       eyebrow: "Your next step",
@@ -150,8 +92,23 @@ export default function HomeStatus({
       action: "Start shortlisting",
       view: "cst",
     };
-    stats = [...shortlistStats, documentStat];
   }
+
+  // The demo documents come with a list of what is still missing; without
+  // it nothing says how many documents this student needs.
+  const demoDocuments = demo.has("documents") ? DEMO_DATA.documents.length : 0;
+  const stats = homeStats({
+    persona,
+    stage,
+    courses,
+    applications,
+    offerAccepted,
+    sessions: (demo.session ? 1 : 0) + state[persona].sessions.length,
+    documents: {
+      uploaded: demoDocuments + uploads.files.length,
+      required: demoDocuments ? demoDocuments + MISSING_DOCUMENTS.length : 0,
+    },
+  });
 
   return (
     <div className="supernova sn-home-status">
