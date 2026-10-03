@@ -113,7 +113,7 @@ const HOME_STATS: ((facts: HomeStatFacts) => HomeStat | null)[] = [
       ? { label: "Courses shortlisted", value: String(courses.length) }
       : {
           label: "Courses shortlisted",
-          action: "Start shortlisting",
+          action: "Explore chances",
           view: "cst",
         },
   ({ courses }) =>
