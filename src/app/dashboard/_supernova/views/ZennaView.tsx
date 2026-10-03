@@ -20,7 +20,7 @@ export default function ZennaView() {
     offers = count("ok"),
     average = applications.length
       ? `${Math.round(applications.reduce((sum, a) => sum + a.prog, 0) / applications.length)}%`
-      : "—",
+      : "0%",
     next = applications.find(
       (a) => (a.status === "warn" || a.status === "info") && a.dl !== "—",
     ),
@@ -55,15 +55,15 @@ export default function ZennaView() {
             Download full record
           </Button>
         </Card>
-      ) : (
+      ) : applications.length > 0 ? (
         <div className="sn-stats">
           {[
             [String(applications.length), "Total applications"],
-            [String(offers), offers ? "Offers received 🎉" : "Offers received"],
+            [String(offers), "Offers received"],
             [average, "Average completion"],
             [
-              next?.dl || "—",
-              next ? `Next deadline · ${next.mono}` : "Next deadline",
+              next?.dl || "On track",
+              next ? `Next deadline · ${next.mono}` : "No open deadlines",
             ],
           ].map(([v, l]) => (
             <div className="sn-stat" key={l}>
@@ -72,7 +72,7 @@ export default function ZennaView() {
             </div>
           ))}
         </div>
-      )}
+      ) : null}
       <div className={archived ? "" : "sn-two-col"}>
         <div>
           {archived ? (
@@ -101,10 +101,13 @@ export default function ZennaView() {
             </div>
           )}
           {!applications.length && (
-            <EmptyState>
-              No applications yet. Once you apply through LTA, every
-              application, its status and its deadlines show up here.
-            </EmptyState>
+            <Card>
+              <h3>No applications yet</h3>
+              <EmptyState>
+                Once you apply through LTA, every application, its status and
+                its deadlines show up here.
+              </EmptyState>
+            </Card>
           )}
           {applications
             .filter((a) => archived || filter === "all" || a.status === filter)
@@ -133,8 +136,8 @@ export default function ZennaView() {
             <Card className="sn-session">
               <span className="sn-avatar">{COUNSELLOR.initials}</span>
               <div>
-                <b>Your counsellor — {COUNSELLOR.name}</b>
-                <small>Replies on WhatsApp</small>
+                <b>{COUNSELLOR.name}</b>
+                <small>Your counsellor · replies on WhatsApp</small>
               </div>
               <Button
                 variant="secondary"
@@ -144,10 +147,10 @@ export default function ZennaView() {
               </Button>
             </Card>
             <Card>
-              <h3>📱 WhatsApp updates</h3>
+              <h3>WhatsApp updates</h3>
               <p className="sn-body-copy">
                 Deadline reminders and status changes go to you{" "}
-                <b>and your counsellor {COUNSELLOR.name}</b> — so nothing ever
+                <b>and your counsellor {COUNSELLOR.name}</b>, so nothing ever
                 depends on one person checking an app.
               </p>
             </Card>

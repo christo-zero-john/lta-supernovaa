@@ -24,7 +24,7 @@ export default function ApplicationRow({
         <ProgressBar value={a.prog} />
       </span>
       <span className="sn-application-deadline">
-        <b>{a.dl}</b>
+        {a.dl !== "—" && <b>{a.dl}</b>}
         <small>{a.dld}</small>
       </span>
     </button>
