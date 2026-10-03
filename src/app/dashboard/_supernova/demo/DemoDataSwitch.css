@@ -13,7 +13,7 @@
   border: 0;
   border-radius: 44px;
   background: white;
-  color: #242a33;
+  color: #1d172c;
   font: 600 12px/1 var(--sn-body), sans-serif;
   white-space: nowrap;
   cursor: pointer;
@@ -21,10 +21,10 @@
 }
 .sn-demo-trigger:hover,
 .sn-demo-trigger[aria-expanded="true"] {
-  background: #f3f1f6;
+  background: #f2eff8;
 }
 .sn-demo-trigger:focus-visible {
-  outline: 2px solid #8764de;
+  outline: 2px solid #8867db;
   outline-offset: 2px;
 }
 .sn-demo-track {
@@ -32,7 +32,7 @@
   width: 28px;
   height: 16px;
   border-radius: 16px;
-  background: #d8d2e0;
+  background: #d4cbe7;
   transition: background-color 150ms ease-out;
 }
 .sn-demo-track > span {
@@ -46,7 +46,7 @@
   transition: transform 150ms ease-out;
 }
 .sn-demo-track.on {
-  background: #735daa;
+  background: #6338cf;
 }
 .sn-demo-track.on > span {
   transform: translateX(12px);
@@ -58,8 +58,8 @@
   height: 18px;
   padding: 0 5px;
   border-radius: 9px;
-  background: #ede6f3;
-  color: #735daa;
+  background: #e9e1f8;
+  color: #6338cf;
   font-size: 10px;
 }
 .sn-demo-panel {
@@ -77,7 +77,7 @@
   border-radius: 16px;
   background: white;
   box-shadow: 0 12px 32px rgb(58 42 92 / 0.16);
-  color: #242a33;
+  color: #1d172c;
 }
 .sn-demo-title {
   margin: 4px 8px 6px;
@@ -89,7 +89,7 @@
 .sn-demo-panel .sn-demo-option small {
   display: block;
   margin-top: 2px;
-  color: #8b7c9c;
+  color: #8372a6;
   font-size: 11px;
   font-weight: 500;
   line-height: 1.35;
@@ -109,7 +109,7 @@
   transition: background-color 150ms ease-out;
 }
 .sn-demo-panel .sn-demo-option:hover {
-  background: #f3f1f6;
+  background: #f2eff8;
 }
 /* Fully reset: header rules for the search input also match inputs here. */
 .sn-demo-panel .sn-demo-option input[type="checkbox"] {
@@ -122,7 +122,7 @@
   height: 18px;
   margin: 0;
   padding: 0;
-  border: 1.5px solid #cfc6da;
+  border: 1.5px solid #c9bde3;
   border-radius: 5px;
   background: white;
   box-shadow: none;
@@ -140,14 +140,14 @@
   opacity: 0;
 }
 .sn-demo-panel .sn-demo-option input[type="checkbox"]:checked {
-  border-color: #735daa;
-  background: #735daa;
+  border-color: #6338cf;
+  background: #6338cf;
 }
 .sn-demo-panel .sn-demo-option input[type="checkbox"]:checked::after {
   opacity: 1;
 }
 .sn-demo-panel .sn-demo-option input[type="checkbox"]:focus-visible {
-  outline: 2px solid #8764de;
+  outline: 2px solid #8867db;
   outline-offset: 2px;
 }
 .sn-demo-actions {
@@ -155,21 +155,21 @@
   gap: 8px;
   margin-top: 4px;
   padding: 8px 8px 4px;
-  border-top: 1px solid #f0ecf4;
+  border-top: 1px solid #ede8f8;
 }
 .sn-demo-actions button {
   flex: 1;
   height: 30px;
   border: 0;
   border-radius: 30px;
-  background: #f3f1f6;
-  color: #5b4b7a;
+  background: #f2eff8;
+  color: #5f4b93;
   font: 600 11px/1 var(--sn-body), sans-serif;
   cursor: pointer;
   transition: background-color 150ms ease-out;
 }
 .sn-demo-actions button:hover:not(:disabled) {
-  background: #ebe6f1;
+  background: #e8e1f6;
 }
 .sn-demo-actions button:disabled {
   opacity: 0.5;

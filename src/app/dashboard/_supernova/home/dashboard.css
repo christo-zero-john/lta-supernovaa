@@ -1,8 +1,8 @@
 /* The page background comes from the shared route root (supernova.css). */
 .figma-dashboard {
   --reference-panel: rgba(255, 255, 255, .35);
-  --reference-text: #242a33;
-  --reference-purple: #735daa;
+  --reference-text: #1d172c;
+  --reference-purple: #6338cf;
   color-scheme: light;
   color: var(--reference-text);
   min-height: 100dvh;
@@ -21,7 +21,7 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .figma-dashboard button, .figma-dashboard input, .figma-dashboard a { -webkit-tap-highlight-color: transparent; }
 .figma-dashboard button, .figma-dashboard a { cursor: pointer; }
 .figma-dashboard a { text-decoration: none; color: inherit; }
-.figma-dashboard :focus-visible { outline: 2px solid #8764de; outline-offset: 4px; }
+.figma-dashboard :focus-visible { outline: 2px solid #8867db; outline-offset: 4px; }
 /* Exported SVGs include their native dimensions, including vector overhangs. */
 .figma-dashboard img[src$=".svg"] { width: auto; height: auto; max-width: none; }
 /* The shared Supernova sidebar (247px) sits beside this frame. */
@@ -32,15 +32,15 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 }
 .reference-main { min-width: 0; padding: 12px; container-type: inline-size; }
 .reference-header { display: flex; align-items: center; justify-content: space-between; height: 36px; padding-right: 2px; gap: 12px; }
-.reference-header input { width: 297px; min-width: 0; height: 36px; padding: 8px 20px; border: 0; border-radius: 44px; background: white; font: 400 14px/normal var(--figma-inter), sans-serif; color: #242a33; outline: none; box-shadow: none; }
+.reference-header input { width: 297px; min-width: 0; height: 36px; padding: 8px 20px; border: 0; border-radius: 44px; background: white; font: 400 14px/normal var(--figma-inter), sans-serif; color: #1d172c; outline: none; box-shadow: none; }
 .reference-header input:focus-visible { outline: none; box-shadow: none; }
 .reference-header input::placeholder { color: #888c92; }
 /* Pinned while scrolling: the padding sits in .reference-main's own padding, so nothing moves at the top. */
 .reference-header { position: sticky; top: 0; z-index: 30; box-sizing: content-box; margin: -12px; padding: 12px 14px 12px 12px; background: rgba(232, 230, 233, .86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
 .reference-header-actions { display: flex; align-items: center; gap: 12px; }
 /* The bell matches the header's white search and switch pills. */
-.reference-header .sn-icon-button { width: 36px; height: 36px; background: white; color: #242a33; }
-.profile-button { background: #efe9f7; border: 0; padding: 0; flex: 0 0 36px; height: 36px; border-radius: 50%; overflow: hidden; }
+.reference-header .sn-icon-button { width: 36px; height: 36px; background: white; color: #1d172c; }
+.profile-button { background: #ebe4fc; border: 0; padding: 0; flex: 0 0 36px; height: 36px; border-radius: 50%; overflow: hidden; }
 /* Beats the intrinsic-size rule for SVGs (the placeholder is one). */
 .figma-dashboard .profile-button img { width: 36px; height: 36px; max-width: none; object-fit: cover; }
 .mobile-menu { display: none; }
@@ -58,20 +58,20 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .no-results { align-self: center; font-size: 16px; width: 250px; }
 .products-section { display: flex; flex-direction: column; gap: 16px; }
 .products-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 250px)); gap: 24px; align-items: center; }
-.product-card { background: #fff; border: 1.378px solid #f7f7f7; padding: 3px; border-radius: 18px; box-shadow: 5px 8px 24.9px rgba(237,230,214,.5); min-width: 0; }
+.product-card { background: #ffffff; border: 1.378px solid #f7f7f7; padding: 3px; border-radius: 18px; box-shadow: 5px 8px 24.9px rgba(237,230,214,.5); min-width: 0; }
 .product-card h3 { font-size: 16px; font-weight: 600; line-height: 24px; padding: 20px 16px 0; margin: 0 0 12px; white-space: nowrap; }
-.product-media { position: relative; height: 172px; border-radius: 18.033px; overflow: hidden; background: #cfbce2; }
+.product-media { position: relative; height: 172px; border-radius: 18.033px; overflow: hidden; background: #c4afef; }
 .product-card:nth-child(2) .product-media { height: 143.443px; }
 .product-photo { width: 100%; height: 100%; object-fit: cover; }
-.access-tag { position: absolute; top: 5.738px; left: 0; display: flex; align-items: center; gap: 6px; backdrop-filter: blur(13.361px); background: rgba(255,255,255,.2); padding: 4.918px 9.836px; border-radius: 0 42.623px 42.623px 0; font: 500 11.475px/13.115px var(--figma-geist), sans-serif; color: #ebe8ef; }
-.figma-dashboard .product-action, .figma-dashboard .primary-cta { position: relative; display: inline-flex; align-items: center; justify-content: center; border: 2px solid rgba(78,73,89,.65); border-radius: 63px; background: linear-gradient(180deg, rgba(77,55,131,.2), rgba(238,227,255,.2) 51.442%), #6b5a89; color: white; box-shadow: inset 0 3px 1px #a392c7; font-weight: 600; }
-.figma-dashboard .product-action { position: absolute; bottom: 6px; right: 6px; gap: 7px; height: 28px; padding: 5.6px 6.3px; border-width: 1.4px; font-size: 8.4px; line-height: 12.6px; letter-spacing: -.168px; box-shadow: inset 0 2.1px .7px #a392c7; }
+.access-tag { position: absolute; top: 5.738px; left: 0; display: flex; align-items: center; gap: 6px; backdrop-filter: blur(13.361px); background: rgba(255,255,255,.2); padding: 4.918px 9.836px; border-radius: 0 42.623px 42.623px 0; font: 500 11.475px/13.115px var(--figma-geist), sans-serif; color: #e9e4f3; }
+.figma-dashboard .product-action, .figma-dashboard .primary-cta { position: relative; display: inline-flex; align-items: center; justify-content: center; border: 2px solid rgba(78,73,89,.65); border-radius: 63px; background: linear-gradient(180deg, rgba(77,55,131,.2), rgba(238,227,255,.2) 51.442%), #735daa; color: white; box-shadow: inset 0 3px 1px #9779e0; font-weight: 600; }
+.figma-dashboard .product-action { position: absolute; bottom: 6px; right: 6px; gap: 7px; height: 28px; padding: 5.6px 6.3px; border-width: 1.4px; font-size: 8.4px; line-height: 12.6px; letter-spacing: -.168px; box-shadow: inset 0 2.1px .7px #9779e0; }
 .figma-dashboard .product-action:not(:has(img)) { padding: 6.557px 13.115px; font-size: 8.06px; letter-spacing: -.1612px; }
 .events-section { display: flex; flex-direction: column; gap: 16px; }
 .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 27px; }
 .month-controls { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
 .month-controls > span { font-size: 14px; line-height: 20px; font-weight: 600; }
-.month-controls button { background: #fff; border: 0; border-radius: 100px; width: 27px; height: 27px; display: flex; justify-content: center; align-items: center; padding: 0; }
+.month-controls button { background: #ffffff; border: 0; border-radius: 100px; width: 27px; height: 27px; display: flex; justify-content: center; align-items: center; padding: 0; }
 .month-controls button:last-child { transform: rotate(180deg); }
 .event-empty { margin: 0; padding: 8px 0; color: #6a6e74; font-size: 14px; line-height: 20px; }
 .events-panel { display: grid; grid-template-columns: minmax(0, 417fr) minmax(0, 641fr); gap: 24px; padding: 12px; background: white; border-radius: 18px; min-height: 306px; }
@@ -95,7 +95,7 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .calendar-day.has-session > span { font-size: 22px; line-height: 24px; color: #1a191a; font-weight: 600; text-align: left; }
 /* The title sits under the day number, cut to two lines so it never reaches it. */
 .calendar-day.has-session small { position: static; max-width: 100%; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
-.calendar-day small { font: 400 12px/16px var(--figma-geist), sans-serif; text-align: right; align-self: flex-end; color: #242a33; position: absolute; right: 9px; bottom: 10px; max-width: calc(100% - 18px); }
+.calendar-day small { font: 400 12px/16px var(--figma-geist), sans-serif; text-align: right; align-self: flex-end; color: #1d172c; position: absolute; right: 9px; bottom: 10px; max-width: calc(100% - 18px); }
 .calendar-day { transition: background-color 150ms ease-out; }
 .calendar-day:not(.empty):hover { background-color: rgba(232,235,239,.4); }
 .testimonials-section { display: flex; flex-direction: column; gap: 18px; }
@@ -121,7 +121,7 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .recommendations { --zenna-leg: 25px; }
 .recommendations > .products-grid { align-self: end; margin-bottom: var(--zenna-leg); }
 /* Readable, tappable suite actions wherever the cards show (Figma's are 8px text). */
-.figma-dashboard .products-grid .product-action { bottom: 10px; right: 10px; height: 36px; gap: 8px; padding: 8px 18px; border-width: 1.5px; font-size: 13px; line-height: 18px; letter-spacing: -.2px; box-shadow: inset 0 2.5px 1px #a392c7; }
+.figma-dashboard .products-grid .product-action { bottom: 10px; right: 10px; height: 36px; gap: 8px; padding: 8px 18px; border-width: 1.5px; font-size: 13px; line-height: 18px; letter-spacing: -.2px; box-shadow: inset 0 2.5px 1px #9779e0; }
 .figma-dashboard .products-grid .product-action img { width: 18px; height: 18px; }
 @container (max-width: 1060px) { .recommendations { --zenna-leg: 21px; } }
 /* Narrower: the cards move under Zenna, three across. */
@@ -132,16 +132,16 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 }
 /* Coming soon (like Project004): muted artwork, action not clickable. */
 .figma-dashboard .product-card.coming-soon .product-photo { filter: grayscale(.55) brightness(.92); }
-.figma-dashboard .product-action:disabled, .figma-dashboard .product-action:disabled:hover { cursor: not-allowed; background: linear-gradient(180deg, rgba(77,55,131,.2), rgba(238,227,255,.2) 51.442%), #8b7fa0; opacity: .85; animation: none; }
-.figma-dashboard .primary-cta:hover, .figma-dashboard .product-action:hover { background-color: #5b4b7a; }
+.figma-dashboard .product-action:disabled, .figma-dashboard .product-action:disabled:hover { cursor: not-allowed; background: linear-gradient(180deg, rgba(77,55,131,.2), rgba(238,227,255,.2) 51.442%), #8575aa; opacity: .85; animation: none; }
+.figma-dashboard .primary-cta:hover, .figma-dashboard .product-action:hover { background-color: #5f4b93; }
 .reference-footer { display: flex; flex-direction: column; gap: 8px; width: calc(100% + 24px); }
 .footer-row { display: flex; align-items: stretch; justify-content: space-between; gap: 24px; min-height: 170px; }
 .mentor-card { padding: 24px; border-radius: 17px; background: rgba(235,230,227,.36); width: 476px; min-width: 0; }
 .mentor-card > p { font: 500 18px/27px var(--figma-geist), sans-serif; letter-spacing: -.54px; margin: 0 0 24px; max-width: 371.997px; }
 .mentor-actions { display: flex; gap: 12px; align-items: center; }
 .figma-dashboard .primary-cta { padding: 10px 24px; min-height: 44px; width: 196px; flex-shrink: 0; line-height: 20px; font-size: 14px; letter-spacing: -.28px; }
-.chat-cta { display: inline-flex; align-items: center; gap: 13px; border: 1px solid rgba(255,255,255,.65); padding: 3px 23px 3px 3px; border-radius: 39px; background: linear-gradient(180deg, rgba(162,162,162,.2),rgba(229,229,229,.2) 51.442%),#fff; box-shadow: inset 0 3px 1px white; white-space: nowrap; font: 600 14px/35px var(--figma-manrope), sans-serif; letter-spacing: .14px; color: black; }
-.chat-cta > span { display: flex; align-items: center; justify-content: center; width: 36.206px; height: 36px; border-radius: 30.09px; background: #27d045; }
+.chat-cta { display: inline-flex; align-items: center; gap: 13px; border: 1px solid rgba(255,255,255,.65); padding: 3px 23px 3px 3px; border-radius: 39px; background: linear-gradient(180deg, rgba(162,162,162,.2),rgba(229,229,229,.2) 51.442%),#ffffff; box-shadow: inset 0 3px 1px white; white-space: nowrap; font: 600 14px/35px var(--figma-manrope), sans-serif; letter-spacing: .14px; color: black; }
+.chat-cta > span { display: flex; align-items: center; justify-content: center; width: 36.206px; height: 36px; border-radius: 30.09px; background: #1cc339; }
 .footer-brand { width: 340.791px; min-width: 0; padding: 17px 0; display: flex; flex-direction: column; align-items: center; }
 .footer-brand > p { font: 500 14px/18px var(--figma-manrope), sans-serif; letter-spacing: .14px; text-align: center; margin: 13px 0 0; color: black; }
 .social-links { display: flex; gap: 16.875px; align-items: center; justify-content: center; margin-top: auto; padding-top: 20px; }
@@ -149,8 +149,8 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .social-links a:nth-child(2) { width: 33.75px; height: 33.75px; align-items: flex-start; padding-top: 4.21875px; }
 .social-button { width: 33.75px; height: 28.125px; }
 .social-button { border: 0; padding: 0; background: none; }
-.reference-dialog { position: fixed; inset: 0; margin: auto; padding: 32px; background: #f5f2f8; color: #242a33; border: 1px solid #cfc4dd; border-radius: 24px; width: min(640px,calc(100vw - 32px)); max-height: calc(100dvh - 32px); box-shadow: 0 24px 80px #242a3340; }
-.reference-dialog::backdrop { background: #242a3370; backdrop-filter: blur(5px); }
+.reference-dialog { position: fixed; inset: 0; margin: auto; padding: 32px; background: #f3effb; color: #1d172c; border: 1px solid #c8bae7; border-radius: 24px; width: min(640px,calc(100vw - 32px)); max-height: calc(100dvh - 32px); box-shadow: 0 24px 80px #1d172c40; }
+.reference-dialog::backdrop { background: #1d172c70; backdrop-filter: blur(5px); }
 .reference-dialog h2 { font-size: 22px; line-height: 30px; margin: 0 30px 16px 0; }
 .reference-dialog p { font-size: 15px; line-height: 24px; margin-bottom: 24px; }
 .reference-dialog video { width: 100%; max-height: 60dvh; border-radius: 12px; background: #171717; }
@@ -201,7 +201,7 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
   .reference-content { --content-inset: 20px; }
 }
 @media (max-width: 700px) {
-  .mobile-menu { display: block; background: #fff; border: 0; border-radius: 50%; width: 36px; height: 36px; flex-shrink: 0; }
+  .mobile-menu { display: block; background: #ffffff; border: 0; border-radius: 50%; width: 36px; height: 36px; flex-shrink: 0; }
   .reference-header input { flex: 1; }
   .reference-content { --content-inset: 16px; }
   .university-carousel { width: 100%; }
