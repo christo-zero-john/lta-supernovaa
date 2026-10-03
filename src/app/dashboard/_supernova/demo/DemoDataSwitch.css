@@ -13,7 +13,7 @@
   border: 0;
   border-radius: 44px;
   background: white;
-  color: #1d172c;
+  color: #2a1f4d;
   font: 600 12px/1 var(--sn-body), sans-serif;
   white-space: nowrap;
   cursor: pointer;
@@ -77,7 +77,7 @@
   border-radius: 16px;
   background: white;
   box-shadow: 0 12px 32px rgb(58 42 92 / 0.16);
-  color: #1d172c;
+  color: #2a1f4d;
 }
 .sn-demo-title {
   margin: 4px 8px 6px;
@@ -89,7 +89,7 @@
 .sn-demo-panel .sn-demo-option small {
   display: block;
   margin-top: 2px;
-  color: #8372a6;
+  color: #7d6aaf;
   font-size: 11px;
   font-weight: 500;
   line-height: 1.35;
@@ -215,7 +215,7 @@
   place-items: center;
   width: 18px;
   height: 18px;
-  border: 1.5px solid #cfc6da;
+  border: 1.5px solid #c9bfe1;
   border-radius: 50%;
 }
 .sn-demo-choice[aria-pressed="true"] > i {

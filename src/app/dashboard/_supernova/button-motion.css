@@ -1,14 +1,14 @@
 /* Move the existing inset reflection around the edge, without another overlay. */
 .sn-root :is(.sn-button.primary, .primary-cta, .product-action) {
-  --lta-edge-shade: rgba(202, 183, 236, 0.78);
+  --lta-edge-shade: rgba(214, 198, 255, 0.9);
   background:
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.24),
-      rgba(238, 227, 255, 0.1) 51%,
-      rgba(77, 55, 131, 0.1)
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.03) 51%,
+      rgba(77, 55, 131, 0.16)
     ),
-    rgba(107, 90, 137, 0.86);
+    rgba(135, 100, 222, 0.95);
   -webkit-backdrop-filter: blur(10px) saturate(1.15);
   backdrop-filter: blur(10px) saturate(1.15);
   box-shadow: inset 0 3px 1px var(--lta-edge-shade);
@@ -73,7 +73,7 @@
 /* Keep the glass fill constant while its existing edge reflection moves. */
 .sn-root
   :is(.sn-button.primary, .primary-cta, .product-action):hover {
-  background-color: rgba(107, 90, 137, 0.86);
+  background-color: rgba(118, 82, 214, 0.97);
 }
 .sn-root :is(.sn-button.secondary, .chat-cta):hover {
   background:
