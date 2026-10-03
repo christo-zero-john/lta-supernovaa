@@ -51,15 +51,16 @@ Shown everywhere: the greeting ("Good Morning, Tino!"), the sidebar user card, t
 - Dismiss prompt: 🆕 `POST users/me/profile-prompt/dismiss/`, or a `profile_prompt_dismissed_at` field set with the `PATCH`.
 
 ## Feature: user tier
-There is one tier question: is the user a paid LTA client or not.
-- **Free:** Course Shortlisting.
-- **Paid:** Course Shortlisting and Zenna.
+There is one tier question: is the student verified by LTA or not. A verified student is one an LTA admin has approved; the dashboard never talks about payment.
+- **Not verified:** Course Shortlisting.
+- **Verified:** Course Shortlisting and Zenna.
 - The frontend derives every lock, lock screen and access tag from this one field, so no separate entitlement endpoint is needed.
-- Is the user a paid client?
-- Once LTA Connect is live, is it for everyone or only for paid users?
-    - Format needed (added to `users/me/`):
+- ✅ `GET users/me/` already returns it as `is_approved`, so no new field is needed. This is not `is_email_verified`, which only records the email OTP check.
+- The backend's own Zenna gate also requires a verified email and an active Zenna or Dashboard membership. Should the dashboard check those too, or is `is_approved` enough?
+- Once LTA Connect is live, is it for everyone or only for verified students?
+    - Format (already in `users/me/`):
     ```json
-    { "is_paid": true }
+    { "is_approved": true }
     ```
 
 ## Feature: WhatsApp updates toggle (topbar and settings dialog)
@@ -242,7 +243,7 @@ There is one tier question: is the user a paid LTA client or not.
 # Page: Zenna (application tracker)
 
 ### Feature: access
-- Zenna is unlocked when `is_paid` is true. Nothing else is needed for the lock screen.
+- Zenna is unlocked when `is_approved` is true. Nothing else is needed for the lock screen.
 
 ### Feature: summary stats
 - How many applications does the user have?
@@ -313,7 +314,7 @@ There is one tier question: is the user a paid LTA client or not.
 # Page: LTA Connect
 
 ### Feature: access / waitlist
-- Connect is not open yet. Once it opens, free users see it locked only if it is paid-only (see the tier question).
+- Connect is not open yet. Once it opens, unverified students see it locked only if it is for verified students only (see the tier question).
 - Join the waitlist: 🆕 `POST connect/waitlist/`. Can `users/me/` return `"connect_waitlisted": true`, so the button shows "You're on the list"?
 
 ### Feature: next session + booked sessions
@@ -387,18 +388,19 @@ There is one tier question: is the user a paid LTA client or not.
 
 # Summary
 
-**Already there, needs extra fields:** `users/me/` (journey stage, `is_paid`, gender, phone number, `whatsapp_enabled`, missing profile fields; plus new endpoints to update the name, WhatsApp setting and photo), `booked-slot/` (mentor name and photo, topic), `shortlisted-courses/` (logo, image, location, duration, fee, deadline), `applications/` (status group, deadline, next action, short code), `students/me/stats/` (Zenna summary shape), and `booked-slot/` / `booked-slot/upcoming/` (topic, join link, month filter).
+**Already there, needs extra fields:** `users/me/` (journey stage, gender, phone number, `whatsapp_enabled`, missing profile fields; plus new endpoints to update the name, WhatsApp setting and photo), `booked-slot/` (mentor name and photo, topic), `shortlisted-courses/` (logo, image, location, duration, fee, deadline), `applications/` (status group, deadline, next action, short code), `students/me/stats/` (Zenna summary shape), and `booked-slot/` / `booked-slot/upcoming/` (topic, join link, month filter).
 
 **Entirely new, roughly in priority order:**
-1. `is_paid`. Every lock, lock screen and access tag depends on it, so it unblocks the most.
-2. Profile update: name and photo upload. It's small, and every page shows the name and photo.
-3. Notifications.
-4. Documents.
-5. Events.
-6. Connect: mentors, availability and booking.
-7. Team-call booking.
-8. Course Shortlisting check.
-9. Zenna AI findings.
+1. Profile update: name and photo upload. It's small, and every page shows the name and photo.
+2. Notifications.
+3. Documents.
+4. Events.
+5. Connect: mentors, availability and booking.
+6. Team-call booking.
+7. Course Shortlisting check.
+8. Zenna AI findings.
+
+The account tier needs nothing new: every lock, lock screen and access tag reads the existing `is_approved`.
 
 **Could stay as fixed frontend text if the team prefers:** testimonials, FAQs and help channels. Each is listed as a question above so the team can decide rather than build them by default.
 
