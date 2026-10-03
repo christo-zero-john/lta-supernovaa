@@ -1,7 +1,7 @@
 // Exact UTF-8 fixtures extracted from the supplied HTML.
 export const PERSONAS = {
   free: {
-    tab: "Free user",
+    tab: "Not verified",
     sub: "2025 · Lead",
     role: "Explorer",
     ent: {
@@ -408,12 +408,12 @@ export const PAGE_COPY = {
 export const GATES = {
   free: {
     zenna: {
-      title: "Zenna unlocks when you apply through LTA",
-      text: "Most consultancies keep you in the dark. Zenna is the opposite: live status for every application, auto-tracked deadlines, WhatsApp alerts for you and your parents, and an AI agent that reads your offer letters for critical dates.",
+      title: "Zenna opens once LTA verifies your account",
+      text: "Most consultancies keep you in the dark. Zenna is the opposite: live status for every application, every deadline tracked, and WhatsApp alerts for you and your parents.",
       features: [
         "Live application status",
         "Deadline alerts on WhatsApp",
-        "AI reads your documents",
+        "Step-by-step checklist",
         "Parents can follow along",
       ],
       primary: "Apply with LTA",
@@ -493,3 +493,85 @@ export const HELP_CARDS = [
     text: "info@letterstoabroad.com · replies within 1 day",
   },
 ] as const;
+
+/** The steps every application moves through, in order. */
+export const APPLICATION_STEPS = [
+  "Account created",
+  "SOP completed",
+  "Payment done",
+  "Application submitted",
+  "Admission decision",
+  "Enrolment completed",
+] as const;
+
+/** How many steps are done for each application status. */
+export const STEPS_DONE = { warn: 3, info: 4, ok: 5, bad: 6 } as const;
+
+/** What is left between accepting an offer and flying out. */
+export const AFTER_OFFER = [
+  { label: "APS certificate", state: "done" },
+  { label: "Blocked account", state: "doing" },
+  { label: "Health insurance", state: "todo" },
+  { label: "Visa appointment", state: "todo" },
+  { label: "Enrolment at the university", state: "todo" },
+] as const;
+
+export const COUNSELLOR = { name: "Jisha S.", initials: "JS" } as const;
+
+/** Required documents that the vault does not hold yet. */
+export const MISSING_DOCUMENTS = [
+  {
+    name: "APS certificate",
+    reason: "Needed for every German university application",
+  },
+  {
+    name: "Statement of purpose",
+    reason: "Needed for Hochschule Furtwangen",
+  },
+] as const;
+
+/** Course Shortlisting form options; the backend's lists replace these. */
+export const SHORTLIST_OPTIONS = {
+  seasons: ["Summer", "Winter"],
+  levels: {
+    Bachelors: [
+      "Mechanical Engineering",
+      "Computer Science",
+      "Business Administration",
+      "Nursing",
+    ],
+    Masters: [
+      "Logistics and Supply Chain",
+      "Mechanical and Production Engineering",
+      "Computer Science and Data",
+      "Electrical Engineering",
+      "Management",
+    ],
+    Diploma: [
+      "Nursing (Ausbildung)",
+      "Mechatronics (Ausbildung)",
+      "Hospitality (Ausbildung)",
+    ],
+  },
+  interests: [
+    "Supply chain",
+    "Robotics",
+    "Data analysis",
+    "Sustainability",
+    "Automotive",
+    "Healthcare",
+    "Artificial intelligence",
+    "Finance",
+  ],
+  ielts: ["Not taken yet", "Below 6", "6 to 6.5", "7 to 7.5", "8 and above"],
+  german: ["None", "A1", "A2", "B1", "B2", "C1"],
+  work: ["None", "Under 1 year", "1 to 2 years", "3 years or more"],
+  universities: [
+    "TU Munich",
+    "TH Ingolstadt",
+    "TH Nürnberg",
+    "Uni Duisburg-Essen",
+    "TU Darmstadt",
+    "RWTH Aachen",
+  ],
+} as const;

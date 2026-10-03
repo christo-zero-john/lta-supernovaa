@@ -66,11 +66,11 @@
     }
   ],
   "shortlisted_courses": [
-    { "mono": "TUM", "university": "TU Munich", "course": "M.Sc. Technical Logistics", "pct": 80 },
-    { "mono": "THI", "university": "TH Ingolstadt", "course": "M.Sc. Industrial Engineering", "pct": 71 },
-    { "mono": "THN", "university": "TH Nürnberg", "course": "M.Sc. Logistics", "pct": 64 },
-    { "mono": "UDE", "university": "Uni Duisburg-Essen", "course": "M.Sc. Technical Logistics", "pct": 53 },
-    { "mono": "TUD", "university": "TU Darmstadt", "course": "M.Sc. Logistics & SCM", "pct": 34 }
+    {"mono": "TUM", "university": "TU Munich", "course": "M.Sc. Technical Logistics", "pct": 80, "eligible": true, "why": "Your B.Tech in Mechanical Engineering is an accepted background, and your IELTS band clears the 6.5 minimum.", "gap": ""},
+    {"mono": "THI", "university": "TH Ingolstadt", "course": "M.Sc. Industrial Engineering", "pct": 71, "eligible": true, "why": "Your degree and work experience both match. No German is required for this course.", "gap": ""},
+    {"mono": "THN", "university": "TH Nürnberg", "course": "M.Sc. Logistics", "pct": 64, "eligible": true, "why": "Good subject match. The course prefers applicants with some work experience.", "gap": "One year of work experience would raise this."},
+    {"mono": "UDE", "university": "Uni Duisburg-Essen", "course": "M.Sc. Technical Logistics", "pct": 53, "eligible": true, "why": "Subject match is strong, but the course asks for German B1.", "gap": "German B1 would raise this. You have A2."},
+    {"mono": "TUD", "university": "TU Darmstadt", "course": "M.Sc. Logistics & SCM", "pct": 34, "eligible": false, "why": "The course needs IELTS 7.5 and a higher grade average than your current one.", "gap": "Not eligible yet: IELTS 7.5 needed."}
   ],
   "documents": [
     { "id": "doc-0", "name": "Passport_TinoSunny.pdf", "meta": "Uploaded Mar 2026 · verified ✓", "used": ["Zenna"] },

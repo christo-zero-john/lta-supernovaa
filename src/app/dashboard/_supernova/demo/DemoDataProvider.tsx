@@ -23,6 +23,7 @@ export const DEMO_OPTIONS = [
   { id: "documents", label: "Documents uploaded", hint: "Documents" },
   { id: "events", label: "Events scheduled", hint: "Home · 4 events this month" },
   { id: "applications", label: "Applications", hint: "Zenna" },
+  { id: "offer", label: "Offer accepted", hint: "Zenna · after-the-offer checklist" },
   { id: "session", label: "Mentor session booked", hint: "LTA Connect" },
   { id: "notifications", label: "Notifications", hint: "Notifications" },
 ] as const;
@@ -58,10 +59,10 @@ export type DemoSession = {
 
 export const DEMO_DATA = {
   colleges: raw.shortlisted_colleges as ShortlistedCourse[],
-  courses: raw.shortlisted_courses as Pick<
+  courses: raw.shortlisted_courses as (Pick<
     ChanceResult,
     "mono" | "university" | "course" | "pct"
-  >[],
+  > & { eligible: boolean; why: string; gap: string })[],
   documents: raw.documents as DemoDocument[],
   applications: raw.applications as DemoApplication[],
   notifications: raw.notifications as Notice[],
