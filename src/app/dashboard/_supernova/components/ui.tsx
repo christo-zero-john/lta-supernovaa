@@ -15,17 +15,14 @@ export function Card({
   return <div {...props} className={`sn-card ${className}`} />;
 }
 export function PageHeader({
-  crumb,
   title,
   subtitle,
 }: {
-  crumb: string;
   title: string;
   subtitle: string;
 }) {
   return (
     <header className="sn-page-header">
-      <p className="sn-eyebrow">{crumb}</p>
       <h1>{title}</h1>
       <p>{subtitle}</p>
     </header>

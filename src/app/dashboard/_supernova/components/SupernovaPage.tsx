@@ -21,13 +21,14 @@ export default function SupernovaPage({
 }) {
   const { persona } = useApp();
   const { openNavigation } = useShellNavigation();
+  const { title, subtitle } = PAGE_COPY[persona][view];
   return (
     <div className="supernova">
       <div className="sn-main">
         <Topbar key={persona} onMenu={openNavigation} />
         {/* Keyed so a persona switch starts the page fresh, as before. */}
         <main className="sn-content" key={`${persona}-${view}`}>
-          <PageHeader {...PAGE_COPY[persona][view]} />
+          <PageHeader title={title} subtitle={subtitle} />
           {children}
         </main>
       </div>
