@@ -52,7 +52,7 @@ marked dismissed. `navigate()` first calls `closeDialog()`, which marks the
 stays dismissed.
 
 **Reach today:** Search only lists mentors and applications when the persona
-has access (`paid` or `p004`), and applications also need the demo switch.
+has access (`verified` or `p004`), and applications also need the demo switch.
 With the default `free` persona, search offers only documents, which have no
 dialog, so the bug cannot be triggered.
 
@@ -64,7 +64,7 @@ dialog directly from search instead of routing through the URL.
 
 **Where:** `src/app/dashboard/_supernova/views/ConnectView.tsx:14-16, 41`.
 
-**What happens:** As `?persona=paid`, with the demo "Mentor session booked"
+**What happens:** As `?persona=verified`, with the demo "Mentor session booked"
 switch off, book a 1:1 with a mentor. The page shows the empty message
 "No sessions booked yet…" and, directly below it, the new "Session
 booked — <mentor>" card.
@@ -110,8 +110,8 @@ plus `is_email_verified`, `is_onboarding_completed` and `is_approved`. The
 redesign ignores those flags. Locks for Zenna, Connect and Project004 depend
 only on `?persona=`, which any user can edit.
 
-**Fix when:** The backend returns `is_paid`. Derive the persona from the
-user, not the URL, and keep the query parameter only for internal previews.
+**Fix:** `users/me/` already returns `is_approved`, and an approved student
+is the `verified` persona. Derive the persona from the user, not the URL, and keep the query parameter only for internal previews.
 
 ### L2. Demo controls ship to every user
 
@@ -214,7 +214,7 @@ Use this list when a feature moves from placeholder to real data.
 
 | When you wire… | Also fix |
 | --- | --- |
-| Account tier (`is_paid`) | L1 |
+| Account tier (`is_approved`) | L1 |
 | LTA Connect (mentors, booking) | B1, B2, C2, L4 (mentor names) |
 | Zenna (applications, stats) | B1, C2, L4 (counsellor) |
 | Project004 | L4 (leaderboard, profile download) |
