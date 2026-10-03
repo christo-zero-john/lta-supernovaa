@@ -1967,112 +1967,582 @@ body:has(.sn-root) {
   padding-inline: 12px;
 }
 
-/* Home status: journey, the next step and four numbers, under the greeting. */
+/* ------------------------------------------------------------------
+   Section pages in the home page's Figma language: its type scale
+   (28 / 18 / 16 / 14 / 12), white 18px cards with the warm shadow, 12px
+   tiles, hairline dividers and 44px glass-pill buttons.
+   ------------------------------------------------------------------ */
+.supernova {
+  font:
+    400 14px/20px var(--sn-body),
+    sans-serif;
+}
+.supernova h2 {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 700;
+}
+.supernova h3 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+.sn-eyebrow {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  color: var(--sn-muted);
+}
+.sn-page-header {
+  margin-bottom: 32px;
+}
+.sn-page-header h1 {
+  font:
+    500 28px/36.48px var(--sn-heading),
+    sans-serif;
+  letter-spacing: -0.84px;
+  margin: 0 0 4px;
+}
+.sn-page-header > p:last-child {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--sn-muted);
+  max-width: 640px;
+}
+.sn-card,
+.sn-application,
+.sn-help,
+.sn-gate {
+  background: #ffffff;
+  border: 1.378px solid #f7f7f7;
+  border-radius: 18px;
+  box-shadow: 5px 8px 24.9px rgba(237, 230, 214, 0.5);
+}
+.sn-card {
+  padding: 24px;
+}
+.supernova .sn-section-title {
+  align-items: center;
+  justify-content: space-between;
+  margin: 32px 0 16px;
+  font-size: 14px;
+  line-height: 24px;
+}
+.sn-section-title small {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--sn-muted);
+}
+.sn-body-copy,
+.sn-empty {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--sn-muted);
+}
+.sn-body-copy {
+  margin-top: 4px !important;
+}
+.sn-empty {
+  padding: 0;
+}
+.sn-error {
+  font-size: 12px;
+  line-height: 18px;
+}
+.sn-two-col,
+.sn-form-grid {
+  gap: 24px;
+}
+.sn-stack {
+  gap: 16px;
+}
+.sn-actions {
+  gap: 12px;
+}
+
+/* Buttons: the home page's 44px glass pill, and its 36px in-card size. */
+.sn-button {
+  min-height: 44px;
+  padding: 10px 24px;
+  border-radius: 63px;
+  font-size: 14px !important;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+}
+.sn-button.secondary {
+  border: 1px solid #e9e4f3;
+  color: var(--sn-ink);
+}
+.sn-button.compact,
+.sn-session .sn-button,
+.sn-mentor-foot .sn-button,
+.sn-doc .sn-button {
+  min-height: 36px;
+  padding: 8px 18px;
+  border-width: 1.5px;
+  font-size: 13px !important;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+}
+.sn-button.secondary.compact,
+.sn-session .sn-button.secondary,
+.sn-doc .sn-button.secondary {
+  border-width: 1px;
+}
+.sn-button.quiet {
+  min-height: 36px;
+  padding: 8px;
+  color: var(--sn-muted);
+}
+.sn-badge,
+.sn-mentor-tags .sn-badge,
+.sn-ai-item .sn-badge {
+  padding: 4px 10px;
+  font:
+    500 12px/16px var(--sn-body),
+    sans-serif;
+}
+.sn-progress {
+  height: 6px;
+  background: #efeaf8;
+}
+.sn-progress > span {
+  background: #8764de;
+}
+/* Square tiles, like the photos in the home page's event rows. */
+.sn-mono,
+.sn-doc-icon,
+.sn-card .sn-avatar {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: #ebe4fc;
+  color: #6338cf !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+.sn-card .sn-avatar,
+.sn-mentor-head .sn-avatar {
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  font-size: 16px !important;
+}
+.sn-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Home status: journey, the next step and the numbers, under the greeting. */
 .sn-home-status {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
-.sn-home-status .sn-journey {
+.sn-journey {
   margin-top: 0;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 44px;
+  background: #ffffff;
   scrollbar-width: none;
+}
+.sn-journey-step {
+  gap: 8px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: #a39db5;
+}
+.sn-journey-step i {
+  width: 8px;
+  height: 8px;
+  background: #e2dcf1;
+}
+.sn-journey-step.done {
+  color: var(--sn-muted);
+}
+.sn-journey-step.done i {
+  background: #b9a4ee;
+}
+.sn-journey-step.now {
+  color: var(--sn-ink);
+  font-weight: 600;
+}
+.sn-journey-step.now i {
+  background: #8764de;
+  box-shadow: 0 0 0 4px #ebe4fc;
+}
+.sn-journey-line {
+  background: rgba(0, 0, 0, 0.07);
+}
+/* The next step: a violet card with the home page's white glass button. */
+.sn-focus {
+  gap: 24px;
+  padding: 24px;
+  border: 0;
+  border-radius: 18px;
+  background: linear-gradient(110deg, #9475ea, #7652d6);
+  box-shadow: inset 0 1.432px 2.865px rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+.sn-focus-copy .sn-eyebrow {
+  color: rgba(255, 255, 255, 0.8);
+}
+.sn-focus .sn-focus-copy h2 {
+  margin: 2px 0 4px;
+  font:
+    500 18px/27px var(--sn-body),
+    sans-serif;
+  letter-spacing: -0.54px;
+  color: #ffffff;
+}
+.sn-focus-copy p {
+  max-width: 600px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #f4f1fa;
+}
+/* The extra classes outrank the glass-pill button motion rules. */
+.sn-root .sn-focus > .sn-button.secondary,
+.sn-root .sn-focus > .sn-button.secondary:hover {
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(162, 162, 162, 0.2),
+      rgba(229, 229, 229, 0.2) 51.442%
+    ),
+    #ffffff;
+  box-shadow: inset 0 3px 1px #ffffff;
+  color: #000000;
+}
+.sn-focus .sn-suite-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+/* The numbers share one white panel, split by the calendar's hairline. */
+.sn-stats {
+  gap: 0;
+  margin-bottom: 24px;
+  padding: 12px;
+  border-radius: 18px;
+  background: #ffffff;
 }
 .sn-home-status .sn-stats {
   margin-bottom: 0;
 }
-.sn-home-status .sn-journey-step {
-  font-size: 11px;
+.sn-stat {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 0;
+  background: none;
 }
-.sn-home-status .sn-focus-copy h2 {
-  font-size: 20px;
-  letter-spacing: -0.3px;
+.sn-stat + .sn-stat {
+  border-left: 1px solid rgba(0, 0, 0, 0.07);
 }
-/* A tile with nothing to count yet offers the way to start instead. */
-.sn-stat-action {
+.sn-stat strong {
+  font:
+    700 24px/36px var(--sn-body),
+    sans-serif;
+  letter-spacing: 0;
+  color: var(--sn-ink);
+}
+.sn-stat small {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--sn-muted);
+}
+
+/* Chips: the filter above a list, and the choices inside a form. */
+.sn-filter {
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.sn-filter button {
+  padding: 8px 16px;
+  border-radius: 44px;
+  background: #ffffff;
+  color: var(--sn-muted);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  transition: background-color 150ms ease-out;
+}
+.sn-filter [aria-pressed="true"] {
+  background: #8764de;
+  color: #ffffff;
+  font-weight: 600;
+}
+.sn-form .sn-filter {
+  margin-bottom: 0;
+}
+.sn-form .sn-filter button {
+  border: 1px solid #e9e4f3;
+  color: var(--sn-ink);
+}
+.sn-form .sn-filter [aria-pressed="true"] {
+  border-color: #8764de;
+  color: #ffffff;
+}
+
+/* Zenna: application rows. */
+.sn-application {
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.sn-application-main b,
+.sn-session b,
+.sn-chance-row b,
+.sn-doc-main b,
+.sn-notice b {
+  display: block;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+.sn-application-main small,
+.sn-session small,
+.sn-chance-row small,
+.sn-doc-main small,
+.sn-notice small,
+.sn-application-progress small,
+.sn-application-deadline small,
+.sn-mentor-head small {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--sn-muted);
+}
+.sn-application-progress small {
+  margin: 0 0 6px;
+}
+.sn-application-deadline {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+.sn-session {
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.sn-session > div:nth-child(2) {
+  min-width: 140px;
+}
+.sn-stack .sn-session {
+  margin-bottom: 0;
+}
+/* Follow-ups share one card, a row each, like the home page's event list. */
+.sn-followups {
+  margin-bottom: 16px;
+  padding-block: 8px;
+}
+.sn-followups .sn-session {
+  margin: 0;
+  padding: 16px 0;
+}
+.sn-followups .sn-session + .sn-session {
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+/* Connect: mentor cards. */
+.sn-mentor-grid {
+  gap: 24px;
+}
+.sn-mentor {
+  gap: 16px;
+}
+.sn-mentor-head {
+  gap: 12px;
+  align-items: center;
+}
+.sn-mentor-head b {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+.sn-mentor-tags {
+  gap: 6px;
+}
+.sn-mentor-foot {
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+.sn-mentor-foot > span {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--sn-muted);
+}
+
+/* Course Shortlisting: the form and the result rows. */
+.sn-form {
+  gap: 20px;
+}
+.sn-field {
+  gap: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--sn-ink);
+}
+.sn-field input,
+.sn-field select {
+  height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #e9e4f3;
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--sn-ink);
+  font-size: 14px;
+}
+.sn-field input::placeholder {
+  color: #888c92;
+}
+.sn-form-steps {
+  justify-content: space-between;
+}
+.sn-disclaimer {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f6f3fc;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--sn-muted);
+}
+.sn-chance-row {
+  grid-template-columns: 44px minmax(0, 1fr) 84px;
+  gap: 12px;
+  padding: 16px 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+button.sn-chance-row {
   width: 100%;
+  border-width: 0 0 1px;
+  border-radius: 12px 12px 0 0;
+  background: none;
   text-align: left;
   transition: background-color 150ms ease-out;
 }
-.sn-stat-action strong {
-  display: block;
-  font-size: 16px;
-  line-height: 38px;
-  letter-spacing: -0.2px;
+button.sn-chance-row:hover {
+  background: rgba(232, 235, 239, 0.4);
+}
+.sn-chance-row .sn-badge {
+  display: flex;
+  width: fit-content;
+  margin-top: 8px;
+}
+.sn-chance-pct {
+  font:
+    700 24px/32px var(--sn-body),
+    sans-serif;
+}
+.sn-chance-why {
+  margin: 0 0 8px;
+}
+
+/* Documents. */
+.sn-doc-progress {
+  margin-bottom: 16px;
+}
+.sn-doc-progress .sn-progress {
+  margin-top: 16px;
+}
+.sn-drop {
+  gap: 4px;
+  margin-bottom: 16px;
+  padding: 32px 24px;
+  border: 1.5px dashed #cfc4ee;
+  background: #ffffff;
   color: #8764de;
 }
-.sn-stat-action:hover {
-  background: #fff;
-}
-/* The next-step banner carries the website's violet. */
-.sn-focus {
-  background: linear-gradient(120deg, #8764de, #4d3783);
-  border-color: #ffffff30;
-  color: #fff;
-}
-.sn-focus-copy .sn-eyebrow {
-  color: #ffffffb8;
-}
-.sn-focus-copy h2 {
-  color: #fff;
-  font-family: var(--sn-heading), sans-serif;
+.sn-drop b {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 20px;
   font-weight: 600;
+  color: var(--sn-ink);
 }
-.sn-focus-copy p {
-  color: #f4f1fa;
+.sn-drop small {
   font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--sn-muted);
 }
-/* The extra .sn-root outranks the glass-pill button motion rules. */
-.sn-root .sn-focus > .sn-button.primary {
-  border-color: #ffffff;
-  background: #fff;
-  color: #2a1f4d;
-  box-shadow: none;
+.sn-doc {
+  gap: 12px;
+  border-bottom-color: rgba(0, 0, 0, 0.07);
 }
-.sn-root .sn-focus > .sn-button.primary:hover {
-  background: #f4f1fa;
+.sn-doc:first-child {
+  padding-top: 0;
 }
-.sn-focus .sn-suite-icon {
-  color: #fff;
+.sn-doc:last-child {
+  padding-bottom: 0;
 }
+.sn-doc-used {
+  gap: 6px;
+}
+.sn-doc-used > small {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--sn-muted);
+}
+
 /* Checklists: application steps, after-the-offer steps, saved answers. */
 .sn-checks {
   list-style: none;
-  margin: 12px 0 0;
+  margin: 16px 0 0;
   padding: 0;
   display: grid;
-  gap: 9px;
-  font-size: 12px;
-  color: #3f3654;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 20px;
 }
 .sn-checks li {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 12px;
 }
 .sn-checks li::before {
   content: "";
-  display: grid;
-  place-items: center;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
   border: 1.5px solid #dcd6ec;
   border-radius: 50%;
-  font-size: 9px;
-  font-weight: 700;
 }
 .sn-checks .done::before {
-  content: "✓";
-  border-color: transparent;
-  background: #dff5ea;
-  color: #1f8a62;
+  border-color: #8764de;
+  background: #8764de
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12l5 5L19 7'/></svg>")
+    center / 12px no-repeat;
 }
 .sn-checks .doing::before {
   border-color: #8764de;
-  box-shadow: 0 0 0 3px #ebe4fa;
+  box-shadow: 0 0 0 4px #ebe4fc;
 }
 .sn-checks .todo {
-  color: #8775b5;
+  color: var(--sn-muted);
 }
 .sn-checks .sn-badge {
   margin-left: auto;
@@ -2080,65 +2550,149 @@ body:has(.sn-root) {
 .sn-modal .sn-checks {
   margin: 16px 0;
 }
-/* Connect: what to do after or between sessions. */
-.sn-followups {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 12px;
+
+/* Locked pages, notifications, support and Project004. */
+.sn-gate {
+  margin: 0 auto;
+  padding: 48px 32px;
 }
-/* Course Shortlisting: chip groups inside the form, and the result rows. */
-.sn-form .sn-filter {
-  margin-bottom: 0;
+.sn-gate-icon {
+  border-radius: 18px;
+  background: #ebe4fc;
+  color: #8764de;
 }
-.sn-form .sn-filter button {
-  background: #f4f1fb;
+.sn-gate h2 {
+  font:
+    500 24px/32px var(--sn-heading),
+    sans-serif;
+  letter-spacing: -0.6px;
+  color: var(--sn-ink);
 }
-.sn-form .sn-filter [aria-pressed="true"] {
-  background: #8764de;
-  color: #fff;
+.sn-gate p {
+  margin: 8px auto 24px;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--sn-muted);
 }
-.sn-form-steps {
-  justify-content: space-between;
-}
-button.sn-chance-row {
-  width: 100%;
-  border: 0;
-  border-radius: 12px;
-  background: none;
-  text-align: left;
-  transition: background-color 150ms ease-out;
-}
-button.sn-chance-row:hover {
-  background: #f7f4fc;
-}
-.sn-chance-row .sn-badge {
-  display: flex;
-  width: fit-content;
-  margin-top: 5px;
-}
-.sn-chance-why {
-  margin: 0 0 8px;
-}
-.sn-doc-progress {
-  margin-bottom: 12px;
-}
-.sn-doc-progress .sn-progress {
-  margin-top: 12px;
+.sn-gate-features {
+  gap: 8px;
+  margin: 24px 0;
 }
 .sn-job-profile {
   display: grid;
-  gap: 6px;
+  gap: 8px;
   width: min(340px, 100%);
-  margin: 4px auto 14px;
+  margin: 0 auto 24px;
   text-align: left;
 }
 .sn-job-profile small {
-  font-size: 11px;
-  color: #8775b5;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--sn-muted);
+}
+.sn-notice {
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom-color: rgba(0, 0, 0, 0.07);
+}
+.sn-notice-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #ebe4fc;
+  color: #8764de;
+}
+.sn-notice-dot {
+  width: 8px;
+  height: 8px;
+  margin-top: 18px;
+  background: #8764de;
+}
+.sn-help-grid {
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.sn-help {
+  padding: 24px;
+}
+.sn-help > svg {
+  color: #8764de;
+  margin-bottom: 16px;
+}
+.sn-help b {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+.sn-help p {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--sn-muted);
+}
+.sn-faq {
+  padding: 16px 0;
+  border-top-color: rgba(0, 0, 0, 0.07);
+}
+.sn-faq summary {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--sn-ink);
+}
+.sn-faq p {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--sn-muted);
+}
+.sn-leaderboard {
+  padding: 12px;
+  border-bottom-color: rgba(0, 0, 0, 0.07);
+  font-size: 14px;
+  line-height: 20px;
+}
+.sn-leaderboard > span:last-child {
+  font-size: 12px;
+}
+@media (min-width: 1400px) {
+  .sn-application {
+    grid-template-columns: 44px minmax(0, 1fr) auto 120px 96px;
+  }
 }
 @media (max-width: 900px) {
-  .sn-followups {
-    grid-template-columns: minmax(0, 1fr);
+  .sn-stat:nth-child(odd) {
+    border-left: 0;
+  }
+}
+@media (max-width: 520px) {
+  .sn-focus {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 16px;
+  }
+  .sn-focus-copy {
+    flex-basis: auto;
+  }
+  .sn-focus > .sn-button {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+  .sn-journey {
+    padding: 12px 16px;
+  }
+  .sn-stat {
+    padding: 12px;
+  }
+  .sn-stat strong {
+    font-size: 20px;
+    line-height: 30px;
+  }
+  .sn-card {
+    padding: 16px;
+  }
+  .sn-doc-used {
+    padding-left: 56px;
   }
 }
