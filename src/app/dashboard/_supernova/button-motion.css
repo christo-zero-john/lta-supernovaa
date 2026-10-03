@@ -1,14 +1,14 @@
-/* Glass-pill buttons: a still inset edge reflection, and on hover or focus a
-   ray of light that travels round the border. */
+/* Glass-pill buttons: a soft lit top edge and a shaded bottom edge, and on
+   hover or focus a soft sheen, in the button's own tint, that travels round
+   the border. */
 @property --lta-ray {
   syntax: "<angle>";
   inherits: false;
   initial-value: 0deg;
 }
 .sn-root :is(.sn-button.primary, .primary-cta, .product-action) {
-  --lta-edge-shade: rgba(214, 198, 255, 0.9);
-  --lta-ray-color: #ffffff;
-  --lta-ray-glow: rgba(226, 214, 255, 0.95);
+  --lta-ray-color: rgba(214, 198, 255, 0.85);
+  --lta-ray-tail: rgba(176, 150, 240, 0.35);
   background:
     linear-gradient(
       180deg,
@@ -19,12 +19,15 @@
     rgba(135, 100, 222, 0.95);
   -webkit-backdrop-filter: blur(10px) saturate(1.15);
   backdrop-filter: blur(10px) saturate(1.15);
-  box-shadow: inset 0 3px 1px var(--lta-edge-shade);
+  /* The lit top edge is a lighter tint of the button's own violet, blurred
+     a little, so it reads as depth and not as a white line. */
+  box-shadow:
+    inset 0 3px 2px rgba(190, 170, 255, 0.62),
+    inset 0 -2px 3px rgba(64, 38, 150, 0.28) !important;
 }
 .sn-root :is(.sn-button.secondary, .chat-cta) {
-  --lta-edge-shade: rgba(255, 255, 255, 0.95);
-  --lta-ray-color: #8764de;
-  --lta-ray-glow: rgba(135, 100, 222, 0.7);
+  --lta-ray-color: rgba(135, 100, 222, 0.6);
+  --lta-ray-tail: rgba(135, 100, 222, 0.18);
   background:
     linear-gradient(
       180deg,
@@ -34,22 +37,16 @@
     rgba(248, 246, 250, 0.65);
   -webkit-backdrop-filter: blur(10px) saturate(1.15);
   backdrop-filter: blur(10px) saturate(1.15);
-  box-shadow: inset 0 3px 1px var(--lta-edge-shade);
+  box-shadow:
+    inset 0 3px 2px #ffffff,
+    inset 0 -2px 3px rgba(42, 31, 77, 0.06) !important;
 }
 /* The ray needs a positioned button; .product-action is already absolute. */
 .sn-root :is(.sn-button.primary, .sn-button.secondary, .chat-cta) {
   position: relative;
 }
-/* ::after is the ray on the border itself, ::before its soft glow. Both are
-   rings: the mask keeps only the padding band of each. */
-.sn-root
-  :is(
-    .sn-button.primary,
-    .sn-button.secondary,
-    .primary-cta,
-    .product-action,
-    .chat-cta
-  )::before,
+/* The ray is a ring exactly over the border: the mask keeps only the
+   padding band. */
 .sn-root
   :is(
     .sn-button.primary,
@@ -60,14 +57,15 @@
   )::after {
   content: "";
   position: absolute;
-  inset: -2px;
-  padding: 2px;
+  inset: -1.5px;
+  padding: 1.5px;
   border-radius: inherit;
   background: conic-gradient(
     from var(--lta-ray),
-    transparent 0 62%,
-    var(--lta-ray-glow) 80%,
-    var(--lta-ray-color) 92%,
+    transparent 0 58%,
+    var(--lta-ray-tail) 72%,
+    var(--lta-ray-color) 80%,
+    var(--lta-ray-tail) 88%,
     transparent 100%
   );
   -webkit-mask:
@@ -79,19 +77,7 @@
     linear-gradient(#000 0 0);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 200ms ease-out;
-}
-.sn-root
-  :is(
-    .sn-button.primary,
-    .sn-button.secondary,
-    .primary-cta,
-    .product-action,
-    .chat-cta
-  )::before {
-  inset: -5px;
-  padding: 7px;
-  filter: blur(4px);
+  transition: opacity 400ms ease-out;
 }
 @media (hover: hover) {
   .sn-root
@@ -101,27 +87,11 @@
       .primary-cta,
       .product-action,
       .chat-cta
-    ):not(:disabled):hover::before,
-  .sn-root
-    :is(
-      .sn-button.primary,
-      .sn-button.secondary,
-      .primary-cta,
-      .product-action,
-      .chat-cta
     ):not(:disabled):hover::after {
     opacity: 1;
-    animation: lta-border-ray 2.4s linear infinite;
+    animation: lta-border-ray 3.2s linear infinite;
   }
 }
-.sn-root
-  :is(
-    .sn-button.primary,
-    .sn-button.secondary,
-    .primary-cta,
-    .product-action,
-    .chat-cta
-  ):not(:disabled):focus-visible::before,
 .sn-root
   :is(
     .sn-button.primary,
@@ -131,17 +101,7 @@
     .chat-cta
   ):not(:disabled):focus-visible::after {
   opacity: 1;
-  animation: lta-border-ray 2.4s linear infinite;
-}
-.sn-root
-  :is(
-    .sn-button.primary,
-    .sn-button.secondary,
-    .primary-cta,
-    .product-action,
-    .chat-cta
-  ):not(:disabled):is(:hover, :focus-visible)::before {
-  opacity: 0.75;
+  animation: lta-border-ray 3.2s linear infinite;
 }
 @keyframes lta-border-ray {
   to {
@@ -149,7 +109,6 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .sn-root :is(.sn-button, .primary-cta, .product-action, .chat-cta)::before,
   .sn-root :is(.sn-button, .primary-cta, .product-action, .chat-cta)::after {
     display: none;
   }
