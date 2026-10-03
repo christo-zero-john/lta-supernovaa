@@ -1,7 +1,6 @@
-# Letters to Abroad Dashboard
+# Supernova - Letters to Abroad Student Dashboard
 
-Student dashboard frontend for Letters to Abroad (LTA), maintained in the
-`lta-supernovaa` repository. It brings together course shortlists, university
+Supernova is the student dashboard for Letters to Abroad (LTA). It brings together course shortlists, university
 applications, admission statistics, booked mentoring sessions, and LTA product
 information.
 
@@ -11,15 +10,15 @@ account validation, and data persistence belong to the backend.
 
 ## Technology
 
-| Area | Implementation |
-| --- | --- |
-| Framework | Next.js 16.1.6 |
-| UI | React 19.2.3 and TypeScript |
-| Styling | Global and component CSS; Tailwind CSS 4 tooling |
-| HTTP | Axios with shared request and response interceptors |
-| User state | Zustand, held in memory |
-| Tooltips | Radix UI |
-| Static assets | Images, SVG icons, and fonts in `public/` |
+| Area          | Implementation                                      |
+| ------------- | --------------------------------------------------- |
+| Framework     | Next.js 16.1.6                                      |
+| UI            | React 19.2.3 and TypeScript                         |
+| Styling       | Global and component CSS; Tailwind CSS 4 tooling    |
+| HTTP          | Axios with shared request and response interceptors |
+| User state    | Zustand, held in memory                             |
+| Tooltips      | Radix UI                                            |
+| Static assets | Images, SVG icons, and fonts in `public/`           |
 
 ## Local setup
 
@@ -67,12 +66,12 @@ API keys in this variable. OTP email credentials are configured on the backend.
 
 ## Commands
 
-| Command | Purpose |
-| --- | --- |
-| `npm.cmd run dev` | Start the development server |
-| `npm.cmd run build` | Create a production build |
+| Command             | Purpose                            |
+| ------------------- | ---------------------------------- |
+| `npm.cmd run dev`   | Start the development server       |
+| `npm.cmd run build` | Create a production build          |
 | `npm.cmd run start` | Serve an existing production build |
-| `npm.cmd run lint` | Run ESLint |
+| `npm.cmd run lint`  | Run ESLint                         |
 
 `pnpm.cmd test:model` checks the dashboard's model and reducer (currently
 broken, see [review T1](docs/review.md#t1-the-model-test-script-does-not-run)).
@@ -85,16 +84,16 @@ onboarding, and dashboard data in a browser against the intended backend.
 The `(auth)` directory is an App Router route group; it adds no `/auth` prefix
 to URLs.
 
-| Route | Purpose |
-| --- | --- |
-| `/` | Redirect to signup |
-| `/signup` | Create an account with email and password |
-| `/signup-otp?email=...` | Public signup OTP verification and resend UI |
-| `/login` | Sign in with email and password |
+| Route                                    | Purpose                                                 |
+| ---------------------------------------- | ------------------------------------------------------- |
+| `/`                                      | Redirect to signup                                      |
+| `/signup`                                | Create an account with email and password               |
+| `/signup-otp?email=...`                  | Public signup OTP verification and resend UI            |
+| `/login`                                 | Sign in with email and password                         |
 | `/verify-otp?email=...&invite_token=...` | Invite onboarding; sends an initial OTP and verifies it |
-| `/set-password?uid=...&temp_token=...` | Set a password after invite verification |
-| `/welcome` | Welcome screen after password setup |
-| `/dashboard` | Authenticated student dashboard |
+| `/set-password?uid=...&temp_token=...`   | Set a password after invite verification                |
+| `/welcome`                               | Welcome screen after password setup                     |
+| `/dashboard`                             | Authenticated student dashboard                         |
 
 ### Session handling
 
@@ -131,23 +130,23 @@ the [dashboard guide](docs/dashboard.md#data-status) for what each page shows.
 All paths below are relative to `NEXT_PUBLIC_LTA_API_BASE_URL`. The table describes
 frontend calls, rather than guaranteeing that every route is deployed.
 
-| Method | Path | Used for |
-| --- | --- | --- |
-| POST | `auth/signin/` | Login |
-| POST | `auth/signup/` | Public account creation |
-| POST | `auth/signup/verify-otp/` | Public signup verification |
-| POST | `auth/signup/resend-otp/` | Public signup OTP resend |
-| POST | `auth/pre-register/send-otp/` | Invite OTP send and resend |
-| POST | `auth/pre-register/verify-otp/` | Invite OTP verification |
-| POST | `auth/pre-register/set-password/` | Invite password setup |
-| POST | `token/refresh/` | Access-token refresh |
-| GET | `users/me/` | Current user profile |
-| GET | `shortlisted-courses/` | Course shortlist |
-| GET | `shortlisted-courses/{id}/` | Individual shortlisted course |
-| GET | `applications/` | Applications, with `id` and optional `search` parameters |
-| GET | `students/me/stats/` | Admission statistics |
-| GET | `booked-slot/` | Calendar bookings |
-| GET | `booked-slot/upcoming/` | Upcoming mentoring session |
+| Method | Path                              | Used for                                                 |
+| ------ | --------------------------------- | -------------------------------------------------------- |
+| POST   | `auth/signin/`                    | Login                                                    |
+| POST   | `auth/signup/`                    | Public account creation                                  |
+| POST   | `auth/signup/verify-otp/`         | Public signup verification                               |
+| POST   | `auth/signup/resend-otp/`         | Public signup OTP resend                                 |
+| POST   | `auth/pre-register/send-otp/`     | Invite OTP send and resend                               |
+| POST   | `auth/pre-register/verify-otp/`   | Invite OTP verification                                  |
+| POST   | `auth/pre-register/set-password/` | Invite password setup                                    |
+| POST   | `token/refresh/`                  | Access-token refresh                                     |
+| GET    | `users/me/`                       | Current user profile                                     |
+| GET    | `shortlisted-courses/`            | Course shortlist                                         |
+| GET    | `shortlisted-courses/{id}/`       | Individual shortlisted course                            |
+| GET    | `applications/`                   | Applications, with `id` and optional `search` parameters |
+| GET    | `students/me/stats/`              | Admission statistics                                     |
+| GET    | `booked-slot/`                    | Calendar bookings                                        |
+| GET    | `booked-slot/upcoming/`           | Upcoming mentoring session                               |
 
 Services generally extract the payload from `response.data.data`. Action
 wrappers turn results into `{ success, data?, error? }` for components. Despite
@@ -228,12 +227,12 @@ successful frontend build.
 
 ## Documentation
 
-| Document | Contents |
-| --- | --- |
-| [docs/architecture.md](docs/architecture.md) | How the code is organised: auth, API layer, dashboard runtime, state |
-| [docs/dashboard.md](docs/dashboard.md) | Dashboard pages, home page data, and what is real or placeholder |
-| [docs/dashboard-backend-data.md](docs/dashboard-backend-data.md) | What the backend must provide to replace placeholder data |
-| [docs/review.md](docs/review.md) | Review of this branch: bugs and items to fix as features go live |
-| [AGENTS.md](AGENTS.md) | Project guidance for contributors and coding agents |
+| Document                                                         | Contents                                                             |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [docs/architecture.md](docs/architecture.md)                     | How the code is organised: auth, API layer, dashboard runtime, state |
+| [docs/dashboard.md](docs/dashboard.md)                           | Dashboard pages, home page data, and what is real or placeholder     |
+| [docs/dashboard-backend-data.md](docs/dashboard-backend-data.md) | What the backend must provide to replace placeholder data            |
+| [docs/review.md](docs/review.md)                                 | Review of this branch: bugs and items to fix as features go live     |
+| [AGENTS.md](AGENTS.md)                                           | Project guidance for contributors and coding agents                  |
 
 Local skills, caches and browser evidence remain ignored by Git.
