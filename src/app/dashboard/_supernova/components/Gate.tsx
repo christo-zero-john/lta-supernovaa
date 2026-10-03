@@ -1,6 +1,6 @@
 import { GATES } from "../lib/fixtures";
 import { useApp } from "./AppProvider";
-import { Button, Icon, StatusBadge } from "./ui";
+import { Button, Icon, ProgressBar, StatusBadge } from "./ui";
 export type GateContent = {
   title: string;
   text: string;
@@ -25,6 +25,12 @@ export default function Gate() {
           <StatusBadge key={f}>{f}</StatusBadge>
         ))}
       </div>
+      {view === "p004" && (
+        <div className="sn-job-profile">
+          <small>Your job profile · 4 of 9 steps done</small>
+          <ProgressBar value={44} />
+        </div>
+      )}
       <div className="sn-actions">
         <Button
           onClick={() =>
