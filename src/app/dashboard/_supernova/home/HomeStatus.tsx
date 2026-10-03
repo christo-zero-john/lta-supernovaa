@@ -2,6 +2,7 @@
 
 import { useApp } from "../components/AppProvider";
 import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
+import { Button } from "../components/ui";
 import { useJourneyStage } from "../hooks/useJourneyStage";
 import { JOURNEY } from "../lib/fixtures";
 import type { ViewId } from "../lib/types";
@@ -197,24 +198,19 @@ export default function HomeStatus({
           <h2>{focus.title}</h2>
           <p>{focus.text}</p>
         </div>
-        <button
-          className="sn-button primary"
-          onClick={() => navigate(focus.view)}
-        >
-          {focus.action} →
-        </button>
+        <Button variant="secondary" onClick={() => navigate(focus.view)}>
+          {focus.action}
+        </Button>
       </section>
       <div className="sn-stats">
         {stats.map((stat) =>
           "action" in stat ? (
-            <button
-              className="sn-stat sn-stat-action"
-              key={stat.label}
-              onClick={() => navigate(stat.view)}
-            >
-              <strong>{stat.action} →</strong>
+            <div className="sn-stat" key={stat.label}>
+              <Button className="compact" onClick={() => navigate(stat.view)}>
+                {stat.action}
+              </Button>
               <small>{stat.label}</small>
-            </button>
+            </div>
           ) : (
             <div className="sn-stat" key={stat.label}>
               <strong>{stat.value}</strong>
