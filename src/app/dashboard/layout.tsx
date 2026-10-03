@@ -24,20 +24,27 @@ export default function DashboardLayout({
     const { setUser } = useStore();
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await axiosInstance.get("users/me/");
-                if (response.data?.data) {
-                    setUser(response.data.data);
-                }
-            } catch (error) {
-                console.error("Failed to fetch user profile:", error);
-            } finally {
+        let cancelled = false;
 
+        // A slow or dropped connection gets two more tries before giving up.
+        const fetchUser = async () => {
+            for (let attempt = 1; attempt <= 3 && !cancelled; attempt++) {
+                try {
+                    const response = await axiosInstance.get("users/me/", {timeout: 15000});
+                    if (response.data?.data && !cancelled) {
+                        setUser(response.data.data);
+                    }
+                    return;
+                } catch (error) {
+                    console.error(`Failed to fetch user profile (attempt ${attempt}):`, error);
+                }
             }
         };
 
         fetchUser();
+        return () => {
+            cancelled = true;
+        };
     }, [setUser]);
 
     return (
