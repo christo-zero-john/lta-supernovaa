@@ -8,7 +8,7 @@ The dashboard combines every LTA product (Course Shortlisting, Zenna, LTA Connec
 
 | Area | State |
 | --- | --- |
-| Account tier | Nothing needed. "Verified student" is the existing `is_approved`. |
+| Account tier | "Verified student" is the existing `is_approved` plus an active membership. One permission change (section 7). |
 | Profile (name, photo, phone, gender) | Nothing needed. `PATCH profiles/me/` already covers it. |
 | Course Shortlisting | Works. Needs university and course display fields. |
 | Zenna applications | Works. Needs deadlines, next action, and student access to steps. |
@@ -48,6 +48,7 @@ The earlier request doc asked for these as new work. They are already in the bac
 | `students/me/stats/` | Add `offers_received`, `average_completion`, `status_counts`. All derivable from existing data. | Zenna summary tiles. |
 | `shortlisted-courses/` | Add `created_at`. | Report date. |
 | `mentors/` | Add `sessions_count` (count of paid, completed bookings). | Mentor cards. |
+| Zenna permission (`IsZennaAllowed`) | Stop requiring a verified email for approved students. See section 7. | An approved student must not be locked out. |
 | `users/me/` | Add a computed `journey_stage`. See section 6 for the rule. | Sidebar and Home journey strip. |
 | `profiles/me/` photo upload | Enforce file type and size (suggested JPG, PNG, WebP; 5 MB). | No limits were visible in the serializer. |
 
@@ -115,17 +116,27 @@ Proposed, computed on the server so every client agrees:
 | `in_germany` | `arrived_in_germany_on` is set |
 | `working` | `employment_started_on` is set |
 
-## 7. Decisions needed from the team
+## 7. The "verified" rule (decided)
 
-1. Is `is_approved` alone the "verified" check for the dashboard, or should it also require a verified email and an active membership, as the Zenna permission does?
-2. Is LTA Connect open to every student or only to verified students?
-3. Are Connect bookings made inside the dashboard, or by linking to the Connect site?
-4. Do notifications update live, or on page load?
-5. Who sets document verification status: the assigned assistant, or any admin?
+A student is verified when both are true:
 
-## 8. Suggested order
+- `is_approved` is true, and
+- they have an active Zenna or Dashboard membership.
 
-1. Section 2 changes and `dashboard/summary/`. Mostly existing data; unblocks Home and Zenna.
+Email verification is not part of the rule. An approved student is already an LTA client and must be able to use the products even if they never confirmed their email.
+
+This needs one backend change: `IsZennaAllowed` in `users/permissions.py` also requires `is_email_verified` today, so it would refuse an approved student with an unverified email. Either drop that condition for approved students, or mark the email as verified when an admin approves the student.
+
+## 8. Decisions needed from the team
+
+1. Is LTA Connect open to every student or only to verified students?
+2. Are Connect bookings made inside the dashboard, or by linking to the Connect site?
+3. Do notifications update live, or on page load?
+4. Who sets document verification status: the assigned assistant, or any admin?
+
+## 9. Suggested order
+
+1. Section 2 changes (the Zenna permission first) and `dashboard/summary/`. Mostly existing data; unblocks Home and Zenna.
 2. `Application` deadline columns and student access to steps.
 3. University and course display columns.
 4. Document verification columns and `GET documents/`.
