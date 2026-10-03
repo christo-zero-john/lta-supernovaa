@@ -8,7 +8,7 @@ The dashboard combines every LTA product (Course Shortlisting, Zenna, LTA Connec
 
 | Area | State |
 | --- | --- |
-| Account tier | "Verified student" is the existing `is_approved` plus an active membership. One permission change (section 7). |
+| Account tier | "Verified student" is the existing `is_approved` plus an active membership. One permission change (section 8). |
 | Profile (name, photo, phone, gender) | Nothing needed. `PATCH profiles/me/` already covers it. |
 | Course Shortlisting | Works. Needs university and course display fields. |
 | Zenna applications | Works. Needs deadlines, next action, and student access to steps. |
@@ -48,7 +48,7 @@ The earlier request doc asked for these as new work. They are already in the bac
 | `students/me/stats/` | Add `offers_received`, `average_completion`, `status_counts`. All derivable from existing data. | Zenna summary tiles. |
 | `shortlisted-courses/` | Add `created_at`. | Report date. |
 | `mentors/` | Add `sessions_count` (count of paid, completed bookings). | Mentor cards. |
-| Zenna permission (`IsZennaAllowed`) | Stop requiring a verified email for approved students. See section 7. | An approved student must not be locked out. |
+| Zenna permission (`IsZennaAllowed`) | Stop requiring a verified email for approved students. See section 8. | An approved student must not be locked out. |
 | `users/me/` | Add a computed `journey_stage`. See section 6 for the rule. | Sidebar and Home journey strip. |
 | `profiles/me/` photo upload | Enforce file type and size (suggested JPG, PNG, WebP; 5 MB). | No limits were visible in the serializer. |
 
@@ -98,6 +98,8 @@ The existing candidate onboarding (nine steps, draft or submitted) is enough to 
 | `GET dashboard/summary/` | One call for Home: journey stage, days to intake, application counts by status, average completion, next deadline, next session, unread notifications, document progress. Avoids five calls on every load. |
 | `GET documents/` | One list across every document model: type, file name, upload date, verification status, where it is used. Plus the missing required documents. |
 | `GET notifications/`, `PATCH notifications/{id}/`, `POST notifications/mark-all-read/` | The feed. |
+| Live notification channel (WebSocket or server-sent events) | Pushes each new notification to the signed-in student. |
+| `POST booked-slot/{id}/reschedule/` | Moves a paid booking to another free slot of the same mentor. |
 | `GET students/me/checklist/` | After-the-offer steps with their status. |
 | `GET connect/mentors/recommended/` | Mentors ranked for this student's field, target university and intake. |
 | `POST events/{id}/register/`, `DELETE events/{id}/register/` | Event registration. `GET events/` also needs `?from=&to=` and `is_registered`. |
@@ -116,7 +118,22 @@ Proposed, computed on the server so every client agrees:
 | `in_germany` | `arrived_in_germany_on` is set |
 | `working` | `employment_started_on` is set |
 
-## 7. The "verified" rule (decided)
+## 7. Questions for the team, with the decisions made
+
+Decisions are by Christo John, October 2026. One question is still open.
+
+| # | Question | Decision | What the backend needs |
+| --- | --- | --- | --- |
+| 1 | Is `is_approved` alone the "verified" check for the dashboard, or should it also require a verified email and an active membership, as the Zenna permission does? | **Decided:** `is_approved` plus an active Zenna or Dashboard membership. A verified email is not required. | Change `IsZennaAllowed`. See section 8. |
+| 2 | Is LTA Connect open to every student, or only to verified students? | **Open.** | Depends on the answer. |
+| 3 | Are Connect bookings made inside the dashboard, or by linking to the Connect site? | **Decided:** inside the dashboard, so the student never leaves it. | The booking, checkout, payment and cancellation endpoints already exist. Missing: a reschedule action (move a paid booking to another free slot of the same mentor, with the same 24-hour rule as cancellation). |
+| 4 | Do notifications update live, or on page load? | **Decided:** live. | A live channel that pushes each new `Notification` to the signed-in student: a WebSocket (Django Channels) or server-sent events. Neither is set up today; Redis is already a dependency. The list endpoint stays as the fallback on page load. |
+| 5 | Is the AI deadline feature (Zenna AI) in scope? | **Decided:** future scope. | Nothing now. |
+| 6 | Who sets document verification status: the assigned assistant, or any admin? | **Decided:** the student's assigned assistant, who manages everything for that student. | `verified_by` points to the assistant. Only the assigned assistant can set `verification_status` for their students. |
+
+One follow-up on question 6: a student with no assistant assigned yet has nobody who can verify their documents. Suggested: admins can verify as a fallback.
+
+## 8. The "verified" rule
 
 A student is verified when both are true:
 
@@ -127,21 +144,14 @@ Email verification is not part of the rule. An approved student is already an LT
 
 This needs one backend change: `IsZennaAllowed` in `users/permissions.py` also requires `is_email_verified` today, so it would refuse an approved student with an unverified email. Either drop that condition for approved students, or mark the email as verified when an admin approves the student.
 
-## 8. Decisions needed from the team
-
-1. Is LTA Connect open to every student or only to verified students?
-2. Are Connect bookings made inside the dashboard, or by linking to the Connect site?
-3. Do notifications update live, or on page load?
-4. Who sets document verification status: the assigned assistant, or any admin?
-
 ## 9. Suggested order
 
 1. Section 2 changes (the Zenna permission first) and `dashboard/summary/`. Mostly existing data; unblocks Home and Zenna.
 2. `Application` deadline columns and student access to steps.
 3. University and course display columns.
 4. Document verification columns and `GET documents/`.
-5. `Notification`.
-6. Connect: `topic`, `sessions_count`, recommendations.
+5. `Notification` and its live channel.
+6. Connect: `topic`, `sessions_count`, recommendations, reschedule.
 7. After-the-offer status fields and checklist.
 8. Events registration and team calls.
 9. Project004 tables.
