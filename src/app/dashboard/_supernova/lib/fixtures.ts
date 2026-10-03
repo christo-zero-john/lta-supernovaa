@@ -12,7 +12,7 @@ export const PERSONAS = {
     },
     stage: 0,
   },
-  paid: {
+  verified: {
     tab: "Paid client",
     sub: "2026 · Applicant",
     role: "Applicant",
@@ -54,7 +54,7 @@ export const FOCUS = {
     cta: "See my chances",
     go: "cst",
   },
-  paid: {
+  verified: {
     cap: "What matters today",
     b: "Deggendorf portal submission is due in 8 days.",
     p: "Everything else is on track — 2 offers already confirmed. Zenna and your mentor Jisha are both watching this deadline with you.",
@@ -97,7 +97,7 @@ export const HERO = {
       g: "linear-gradient(140deg,#5B7FD6,#2A2470)",
     },
   ],
-  paid: [
+  verified: [
     {
       big: "8d",
       badge: "⚠ Deadline",
@@ -153,13 +153,13 @@ export const HERO = {
 
 export const HERO_T = {
   free: "Your top chances",
-  paid: "Your applications at a glance",
+  verified: "Your applications at a glance",
   p004: "Your matches & rank",
 } as const;
 
 export const HERO_GO = {
   free: "cst",
-  paid: "zenna",
+  verified: "zenna",
   p004: "p004",
 } as const;
 
@@ -303,7 +303,7 @@ export const PAGE_COPY = {
         "Built by people who've lived this journey — ask us anything, in English, Malayalam or German.",
     },
   },
-  paid: {
+  verified: {
     dashboard: {
       crumb: "Home",
       title: "Welcome back, Tino.",
@@ -444,7 +444,7 @@ export const GATES = {
       secondary: "How it will work",
     },
   },
-  paid: {
+  verified: {
     p004: {
       title: "Coming 2027 — and your account already works here",
       text: "Jobs, hackathons and leaderboards in one platform. Show your skills in real competitions, climb rankings employers actually watch, and get matched with German companies — instead of waiting like a duck for an ATS to read keywords.",

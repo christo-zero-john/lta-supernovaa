@@ -9,7 +9,7 @@ export function initialState(): AppState {
     choices: [],
     requests: [],
   });
-  return { free: fresh(), paid: fresh(), p004: fresh() };
+  return { free: fresh(), verified: fresh(), p004: fresh() };
 }
 export function appReducer(state: AppState, action: AppAction): AppState {
   if (action.type === "reset") return initialState();

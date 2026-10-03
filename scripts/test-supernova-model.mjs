@@ -73,7 +73,7 @@ const next = appReducer(initial, {
   session: { id: "test", mentorId: "team", date: "2027-01-01", slot: "17:00" },
 });
 assert.equal(next.free.notices[0].view, "support");
-assert.equal(next.paid.sessions.length, 0);
+assert.equal(next.verified.sessions.length, 0);
 assert.equal(appReducer(next, { type: "reset" }).free.sessions.length, 0);
 console.log(
   "PASS: source fixtures, persona entitlements, deterministic chances, input/upload/date validation",

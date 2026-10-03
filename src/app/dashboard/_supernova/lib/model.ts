@@ -24,10 +24,10 @@ export function parseNavigation(params: URLSearchParams): {
   const view = params.getAll("view").find((v) => views.includes(v));
   const persona = params
     .getAll("persona")
-    .find((p) => ["free", "paid", "p004"].includes(p));
+    .find((p) => ["free", "verified", "p004"].includes(p));
   return {
     view: views.includes(view || "") ? (view as ViewId) : "dashboard",
-    persona: ["free", "paid", "p004"].includes(persona || "")
+    persona: ["free", "verified", "p004"].includes(persona || "")
       ? (persona as PersonaId)
       : DEFAULT_PERSONA,
   };

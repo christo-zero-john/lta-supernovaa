@@ -1,4 +1,4 @@
-export type PersonaId = "free" | "paid" | "p004";
+export type PersonaId = "free" | "verified" | "p004";
 export type ViewId =
   | "dashboard"
   | "zenna"

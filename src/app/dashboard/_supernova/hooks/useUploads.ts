@@ -13,7 +13,7 @@ export function useUploads(persona: PersonaId) {
   const [all, setAll] = useState<UploadedDocument[]>([]),
     [errors, setErrors] = useState<Record<PersonaId, string>>({
       free: "",
-      paid: "",
+      verified: "",
       p004: "",
     }),
     urls = useRef(new Set<string>());
@@ -59,7 +59,7 @@ export function useUploads(persona: PersonaId) {
     urls.current.forEach((u) => URL.revokeObjectURL(u));
     urls.current.clear();
     setAll([]);
-    setErrors({ free: "", paid: "", p004: "" });
+    setErrors({ free: "", verified: "", p004: "" });
   };
   return {
     files: all.filter((f) => f.persona === persona),
