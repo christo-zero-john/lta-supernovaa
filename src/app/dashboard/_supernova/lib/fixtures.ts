@@ -13,7 +13,7 @@ export const PERSONAS = {
     stage: 0,
   },
   verified: {
-    tab: "Paid client",
+    tab: "Verified student",
     sub: "2026 · Applicant",
     role: "Applicant",
     ent: {
