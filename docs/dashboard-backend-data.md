@@ -287,6 +287,7 @@ There is one tier question: is the student verified by LTA or not. A verified st
     ```
 
 ### Feature: Zenna AI agent (deadlines found in the user's documents)
+**Future scope: do not build yet.** The format below is kept for later.
 - Did the AI find any deadlines in the user's documents? For each: which document, and how confident is it?
 - Can the user confirm the findings (which schedules reminders) or dismiss them?
     - Format: 🆕 `GET zenna/ai-findings/`
@@ -398,7 +399,8 @@ There is one tier question: is the student verified by LTA or not. A verified st
 5. Connect: mentors, availability and booking.
 6. Team-call booking.
 7. Course Shortlisting check.
-8. Zenna AI findings.
+
+Zenna AI findings are future scope.
 
 The account tier needs nothing new: every lock, lock screen and access tag reads the existing `is_approved`.
 
