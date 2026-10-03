@@ -2248,7 +2248,9 @@ body:has(.sn-root) {
   border-radius: 18px;
   background: #ffffff;
 }
+/* Three or four numbers, depending on what there is to count. */
 .sn-home-status .sn-stats {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   margin-bottom: 0;
 }
 .sn-stat {

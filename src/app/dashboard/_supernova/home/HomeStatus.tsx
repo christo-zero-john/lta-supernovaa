@@ -73,17 +73,12 @@ export default function HomeStatus({
     label: "No courses shortlisted yet",
     view: "cst",
   };
-  const askTheTeam: Stat = {
-    action: "Talk to our team",
-    label: "Free 15-minute call",
-    view: "support",
-  };
   const shortlistStats: Stat[] = courses.length
     ? [
         { value: String(courses.length), label: "Courses shortlisted" },
         { value: topChance, label: "Top admit chance" },
       ]
-    : [startShortlisting, askTheTeam];
+    : [startShortlisting];
   const stage = useJourneyStage();
 
   let focus: Focus;
@@ -171,7 +166,6 @@ export default function HomeStatus({
     stats = [
       startShortlisting,
       { value: "3 min", label: "To get your shortlist" },
-      askTheTeam,
       toIntake,
     ];
   }
