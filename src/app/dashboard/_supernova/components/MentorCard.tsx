@@ -1,6 +1,19 @@
 import { MENTORS } from "../lib/fixtures";
 import { useApp } from "./AppProvider";
 import { Button, Card, StatusBadge } from "./ui";
+/* eslint-disable @next/next/no-img-element -- Small local avatar files. */
+/** The mentor's 3D avatar on a pale tile, as on the profile button. */
+export function MentorAvatar({
+  mentor: m,
+}: {
+  mentor: (typeof MENTORS)[number];
+}) {
+  return (
+    <span className="sn-avatar">
+      <img src={m.avatar} alt="" />
+    </span>
+  );
+}
 export default function MentorCard({
   mentor: m,
 }: {
@@ -10,7 +23,7 @@ export default function MentorCard({
   return (
     <Card className="sn-mentor" data-mentor>
       <div className="sn-mentor-head">
-        <span className="sn-avatar">{m.init}</span>
+        <MentorAvatar mentor={m} />
         <div>
           <b>{m.n}</b>
           <small>{m.role}</small>

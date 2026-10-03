@@ -170,8 +170,9 @@ export const MENTORS = [
     c: "linear-gradient(140deg,#6450E0,#241A54)",
     role: "M.Sc. Logistics & Production · TU München",
     tags: ["Mechanical", "TUM admits", "Winter intake"],
-    rate: "★ 4.9 · 41 sessions",
+    rate: "4.9 · 41 sessions",
     id: "mentor-0",
+    avatar: "/assets/avatars/common/student_medium.png",
   },
   {
     n: "Gladia Thomas",
@@ -179,8 +180,9 @@ export const MENTORS = [
     c: "linear-gradient(140deg,#5B7FD6,#2A2470)",
     role: "M.Sc. Electrical Engineering · TU Dresden",
     tags: ["Electrical", "Scholarships", "DAAD"],
-    rate: "★ 4.8 · 33 sessions",
+    rate: "4.8 · 33 sessions",
     id: "mentor-1",
+    avatar: "/assets/avatars/common/student_light.png",
   },
   {
     n: "Anee Mathew",
@@ -188,8 +190,9 @@ export const MENTORS = [
     c: "linear-gradient(140deg,#22B562,#0F4D33)",
     role: "M.Sc. Computer Engineering · Uni Duisburg-Essen",
     tags: ["CS/IT", "UDE", "Part-time jobs"],
-    rate: "★ 5.0 · 27 sessions",
+    rate: "5.0 · 27 sessions",
     id: "mentor-2",
+    avatar: "/assets/avatars/common/student_dark.png",
   },
   {
     n: "Rahul Nair",
@@ -197,8 +200,9 @@ export const MENTORS = [
     c: "linear-gradient(140deg,#E3A417,#7A4E0B)",
     role: "Working Professional · Automotive · Munich",
     tags: ["Job market", "Blue Card", "Salary talk"],
-    rate: "★ 4.9 · 52 sessions",
+    rate: "4.9 · 52 sessions",
     id: "mentor-3",
+    avatar: "/assets/avatars/common/student_medium.png",
   },
   {
     n: "Sneha Pillai",
@@ -206,8 +210,9 @@ export const MENTORS = [
     c: "linear-gradient(140deg,#9C8CF5,#4E3DBE)",
     role: "Ausbildung Nurse · Klinikum · Bavaria",
     tags: ["Nursing", "Ausbildung", "B2 German"],
-    rate: "★ 4.8 · 38 sessions",
+    rate: "4.8 · 38 sessions",
     id: "mentor-4",
+    avatar: "/assets/avatars/common/student_dark.png",
   },
   {
     n: "Kevin Joseph",
@@ -215,8 +220,9 @@ export const MENTORS = [
     c: "linear-gradient(140deg,#C33A34,#5E1815)",
     role: "M.Sc. Data Science · RWTH Aachen",
     tags: ["Data/AI", "RWTH", "Uni assist"],
-    rate: "★ 4.7 · 19 sessions",
+    rate: "4.7 · 19 sessions",
     id: "mentor-5",
+    avatar: "/assets/avatars/common/student_light.png",
   },
 ] as const;
 

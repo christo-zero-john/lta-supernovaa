@@ -5,7 +5,7 @@ import { MENTORS } from "../lib/fixtures";
 import { Button, Card, EmptyState, Icon } from "../components/ui";
 import { useDemoData } from "../demo/DemoDataProvider";
 import Gate from "../components/Gate";
-import MentorCard from "../components/MentorCard";
+import MentorCard, { MentorAvatar } from "../components/MentorCard";
 export default function ConnectView() {
   const { persona, state, openDialog, notify } = useApp(),
     demo = useDemoData();
@@ -34,22 +34,25 @@ export default function ConnectView() {
               account.
             </p>
           </div>
-          <Button onClick={() => openDialog({ kind: "requests" })}>
-            Review requests →
+          <Button
+            variant="secondary"
+            onClick={() => openDialog({ kind: "requests" })}
+          >
+            Review requests
           </Button>
         </section>
       ) : !session ? (
         <Card>
+          <h3>No sessions booked yet</h3>
           <EmptyState>
-            No sessions booked yet. Pick a mentor below and book a 1:1 — it
-            will show up here.
+            Pick a mentor below and book a 1:1. It will show up here.
           </EmptyState>
         </Card>
       ) : (
         <Card className="sn-session">
-          <span className="sn-avatar">{mentor.init}</span>
+          <MentorAvatar mentor={mentor} />
           <div>
-            <b>Your next session — {mentor.n}</b>
+            <b>Your next session with {mentor.n}</b>
             <small>
               {session.date} · {session.slot} · Video call · “{topic}”
             </small>
@@ -72,8 +75,8 @@ export default function ConnectView() {
         </Card>
       )}
       {persona === "verified" && session && (
-        <div className="sn-followups">
-          <Card className="sn-session">
+        <Card className="sn-followups">
+          <div className="sn-session">
             <span className="sn-avatar">GT</span>
             <div>
               <b>Rate your last session</b>
@@ -85,8 +88,8 @@ export default function ConnectView() {
             >
               Review
             </Button>
-          </Card>
-          <Card className="sn-session">
+          </div>
+          <div className="sn-session">
             <span className="sn-avatar">RN</span>
             <div>
               <b>Finish your booking</b>
@@ -98,15 +101,15 @@ export default function ConnectView() {
             >
               Resume
             </Button>
-          </Card>
-          <Card className="sn-session">
+          </div>
+          <div className="sn-session">
             <span className="sn-avatar">2</span>
             <div>
               <b>Sessions completed</b>
               <small>with 2 mentors · 1 saved mentor</small>
             </div>
-          </Card>
-        </div>
+          </div>
+        </Card>
       )}
       {local
         .filter((s) => s.id !== "source-session")
@@ -134,7 +137,7 @@ export default function ConnectView() {
         ))}
       <h2 className="sn-section-title">
         Mentors picked for your profile
-        <small>· mechanical & logistics first</small>
+        <small>Mechanical and logistics first</small>
       </h2>
       <div className="sn-mentor-grid">
         {MENTORS.map((m) => (
