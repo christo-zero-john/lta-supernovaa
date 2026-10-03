@@ -1,14 +1,13 @@
 /* Glass-pill buttons: a soft lit top edge and a shaded bottom edge, and on
-   hover or focus a soft sheen, in the button's own tint, that travels round
-   the border. */
+   hover or focus a comet of light that travels round the border. */
 @property --lta-ray {
   syntax: "<angle>";
   inherits: false;
   initial-value: 0deg;
 }
 .sn-root :is(.sn-button.primary, .primary-cta, .product-action) {
-  --lta-ray-color: rgba(214, 198, 255, 0.85);
-  --lta-ray-tail: rgba(176, 150, 240, 0.35);
+  --lta-ray-color: #f3edff;
+  --lta-ray-tail: rgba(168, 136, 250, 0.6);
   background:
     linear-gradient(
       180deg,
@@ -26,8 +25,8 @@
     inset 0 -2px 3px rgba(64, 38, 150, 0.28) !important;
 }
 .sn-root :is(.sn-button.secondary, .chat-cta) {
-  --lta-ray-color: rgba(135, 100, 222, 0.6);
-  --lta-ray-tail: rgba(135, 100, 222, 0.18);
+  --lta-ray-color: #8764de;
+  --lta-ray-tail: rgba(135, 100, 222, 0.35);
   background:
     linear-gradient(
       180deg,
@@ -45,8 +44,17 @@
 .sn-root :is(.sn-button.primary, .sn-button.secondary, .chat-cta) {
   position: relative;
 }
-/* The ray is a ring exactly over the border: the mask keeps only the
-   padding band. */
+/* The light is a comet: a bright head with a long fading tail. ::after
+   draws it on the border itself and ::before is its glow just outside.
+   Both are rings: the mask keeps only the padding band of each. */
+.sn-root
+  :is(
+    .sn-button.primary,
+    .sn-button.secondary,
+    .primary-cta,
+    .product-action,
+    .chat-cta
+  )::before,
 .sn-root
   :is(
     .sn-button.primary,
@@ -57,15 +65,14 @@
   )::after {
   content: "";
   position: absolute;
-  inset: -1.5px;
-  padding: 1.5px;
+  inset: -2px;
+  padding: 2px;
   border-radius: inherit;
   background: conic-gradient(
     from var(--lta-ray),
-    transparent 0 58%,
-    var(--lta-ray-tail) 72%,
-    var(--lta-ray-color) 80%,
-    var(--lta-ray-tail) 88%,
+    transparent 0 50%,
+    var(--lta-ray-tail) 82%,
+    var(--lta-ray-color) 97%,
     transparent 100%
   );
   -webkit-mask:
@@ -77,7 +84,19 @@
     linear-gradient(#000 0 0);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 400ms ease-out;
+  transition: opacity 300ms ease-out;
+}
+.sn-root
+  :is(
+    .sn-button.primary,
+    .sn-button.secondary,
+    .primary-cta,
+    .product-action,
+    .chat-cta
+  )::before {
+  inset: -4px;
+  padding: 4px;
+  filter: blur(2px);
 }
 @media (hover: hover) {
   .sn-root
@@ -87,9 +106,17 @@
       .primary-cta,
       .product-action,
       .chat-cta
+    ):not(:disabled):hover::before,
+  .sn-root
+    :is(
+      .sn-button.primary,
+      .sn-button.secondary,
+      .primary-cta,
+      .product-action,
+      .chat-cta
     ):not(:disabled):hover::after {
     opacity: 1;
-    animation: lta-border-ray 3.2s linear infinite;
+    animation: lta-border-ray 2.8s linear infinite;
   }
 }
 .sn-root
@@ -99,16 +126,43 @@
     .primary-cta,
     .product-action,
     .chat-cta
+  ):not(:disabled):focus-visible::before,
+.sn-root
+  :is(
+    .sn-button.primary,
+    .sn-button.secondary,
+    .primary-cta,
+    .product-action,
+    .chat-cta
   ):not(:disabled):focus-visible::after {
   opacity: 1;
-  animation: lta-border-ray 3.2s linear infinite;
+  animation: lta-border-ray 2.8s linear infinite;
 }
+/* A pill is much wider than tall, so equal angles are not equal distances.
+   These stops (for a pill about 3.5 times as wide as tall) keep the comet
+   at an even speed along the sides and round the ends. */
 @keyframes lta-border-ray {
-  to {
+  0% {
+    --lta-ray: 0deg;
+  }
+  15.4% {
+    --lta-ray: 68deg;
+  }
+  34.7% {
+    --lta-ray: 112deg;
+  }
+  65.4% {
+    --lta-ray: 248deg;
+  }
+  84.7% {
+    --lta-ray: 292deg;
+  }
+  100% {
     --lta-ray: 360deg;
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .sn-root :is(.sn-button, .primary-cta, .product-action, .chat-cta)::before,
   .sn-root :is(.sn-button, .primary-cta, .product-action, .chat-cta)::after {
     display: none;
   }
