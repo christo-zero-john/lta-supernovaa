@@ -331,7 +331,7 @@ export default function ShortlistingView() {
                 Back
               </Button>
               <Button type="submit" disabled={phase === "preparing"}>
-                {step === STEPS.length ? "Get my shortlist →" : "Continue →"}
+                {step === STEPS.length ? "Get my shortlist" : "Continue"}
               </Button>
             </div>
           </form>
@@ -409,7 +409,7 @@ export default function ShortlistingView() {
           </p>
         )}
         <div className="sn-disclaimer">
-          ⚖️ Honesty note: the chance is an estimate from your answers and each
+          <b>Honesty note.</b> The chance is an estimate from your answers and each
           course’s published requirements. For a module-level prediction
           (matching your actual transcripts against course handbooks), our
           application team does a full evaluation. No one can honestly promise
@@ -428,7 +428,7 @@ export default function ShortlistingView() {
               })
             }
           >
-            Talk to our team about these results →
+            Talk to our team about these results
           </Button>
         )}
       </Card>
