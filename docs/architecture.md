@@ -112,7 +112,7 @@ Two query parameters carry extra state:
 
 | Parameter | Meaning | Default |
 | --- | --- | --- |
-| `persona` | `free`, `paid` or `p004`; decides locks and page copy | `free` (omitted from URLs) |
+| `persona` | `free`, `verified` or `p004`; decides locks and page copy | `free` (omitted from URLs) |
 | `item` | An application or mentor id; opens its dialog on arrival | none |
 
 Only the search box sets `item` (`DashboardSearch` → `navigate(view, item)`).
@@ -123,13 +123,14 @@ The persona is the dashboard's stand-in for the account's tier. It comes from
 the URL, not from the user's account. `hasAccess()` in `lib/model.ts` decides
 locks:
 
-| View | `free` | `paid` | `p004` |
+| View | `free` | `verified` | `p004` |
 | --- | --- | --- | --- |
 | Zenna, LTA Connect | Locked (gate / waitlist) | Open | Open |
 | Project004 | Locked | Locked | Open |
 | Everything else | Open | Open | Open |
 
-The backend plan replaces this with a single `is_paid` field on `users/me/`
+The plan replaces this with the existing `is_approved` field on `users/me/`:
+an approved student is the `verified` persona
 ([dashboard-backend-data.md](dashboard-backend-data.md#feature-user-tier)).
 
 ### State
