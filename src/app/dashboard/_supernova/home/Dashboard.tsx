@@ -8,6 +8,7 @@ import SorbonneCard from "./SorbonneCard";
 import DarmstadtCard from "./DarmstadtCard";
 import FourthCard from "./FourthCard";
 import ZennaIntro from "./ZennaIntro";
+import HomeStatus from "./HomeStatus";
 import { universityCardProps } from "./universityCard";
 import { MONTH_NAMES, toCalendarEvent, type CalendarEvent } from "./events";
 import { TESTIMONIALS } from "./testimonials";
@@ -15,6 +16,7 @@ import { useApp } from "../components/AppProvider";
 import { useShellNavigation } from "../components/AppShell";
 import UserAvatar from "../components/UserAvatar";
 import DemoDataSwitch from "../demo/DemoDataSwitch";
+import PersonaSelect from "../components/PersonaSelect";
 import NotificationBell from "../components/NotificationBell";
 import { DEMO_DATA, useDemoData } from "../demo/DemoDataProvider";
 import type { ViewId } from "../lib/types";
@@ -68,7 +70,7 @@ const products: Product[] = [
     view: "zenna",
     title: "LTA Zenna",
     image: "1-799-imgFrame2147225052.png",
-    access: "LTA Members Only",
+    access: "Verified Students Only",
     action: "Watch video",
     locked: true,
     videoUrl: VIDEO_URL,
@@ -308,7 +310,7 @@ export default function Dashboard({
   greeting: string;
   courses: ShortlistedCourse[];
 }) {
-  const { navigate, openDialog } = useApp();
+  const { navigate, openDialog, persona } = useApp();
   const demo = useDemoData();
   const courses = demo.has("colleges") ? DEMO_DATA.colleges : fetchedCourses;
   const { navigationOpen, openNavigation } = useShellNavigation();
@@ -328,10 +330,9 @@ export default function Dashboard({
     );
   const zennaMessage = courses.length
     ? `Here are your ${courses.length} university chance${courses.length === 1 ? "" : "s"} for your chosen course`
-    : "No offers for you for now. We're working on it!";
+    : "Tell me about yourself and I'll find your best-fit courses.";
 
-  // The LTA suite. With no course matches it fills Zenna's row instead
-  // of having a section of its own.
+  // The LTA suite fills Zenna's row until the user has course matches.
   const suiteCards = (
     <div className="products-grid">
       {products.map((product) => (
@@ -410,6 +411,7 @@ export default function Dashboard({
               onChange={(event) => setQuery(event.target.value)}
             />
             <div className="reference-header-actions">
+              <PersonaSelect />
               <DemoDataSwitch />
               <NotificationBell />
               <button
@@ -423,6 +425,7 @@ export default function Dashboard({
           </header>
           <div className="reference-content">
             <h1>{greeting}</h1>
+            <HomeStatus courses={courses} />
             <section
               className="recommendations"
               data-section="recommendations"
@@ -478,17 +481,8 @@ export default function Dashboard({
                 suiteCards
               )}
             </section>
-            {courses.length > 0 && (
-              <section
-                className="products-section"
-                data-section="products"
-                aria-labelledby="products-title"
-              >
-                <h2 id="products-title">Explore LTA Suit</h2>
-                {suiteCards}
-              </section>
-            )}
-            <Events onSelect={setDialog} />
+            {/* Only verified students have sessions and events to show. */}
+            {persona !== "free" && <Events onSelect={setDialog} />}
             <section
               className="testimonials-section"
               data-section="testimonials"

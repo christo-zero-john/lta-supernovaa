@@ -57,11 +57,10 @@ html:has(.figma-dashboard) { scrollbar-width: none; }
 .university-card-canvas { width: 273px; height: 317px; zoom: calc(100cqw / 273px); }
 .no-results { align-self: center; font-size: 16px; width: 250px; }
 .products-section { display: flex; flex-direction: column; gap: 16px; }
-.products-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 250px)); gap: 24px; align-items: center; }
+.products-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 250px)); gap: 24px; align-items: stretch; }
 .product-card { background: #ffffff; border: 1.378px solid #f7f7f7; padding: 3px; border-radius: 18px; box-shadow: 5px 8px 24.9px rgba(237,230,214,.5); min-width: 0; }
 .product-card h3 { font-size: 16px; font-weight: 600; line-height: 24px; padding: 20px 16px 0; margin: 0 0 12px; white-space: nowrap; }
 .product-media { position: relative; height: 172px; border-radius: 18.033px; overflow: hidden; background: #c4afef; }
-.product-card:nth-child(2) .product-media { height: 143.443px; }
 .product-photo { width: 100%; height: 100%; object-fit: cover; }
 .access-tag { position: absolute; top: 5.738px; left: 0; display: flex; align-items: center; gap: 6px; backdrop-filter: blur(13.361px); background: rgba(255,255,255,.2); padding: 4.918px 9.836px; border-radius: 0 42.623px 42.623px 0; font: 500 11.475px/13.115px var(--figma-geist), sans-serif; color: #e9e4f3; }
 .figma-dashboard .product-action, .figma-dashboard .primary-cta { position: relative; display: inline-flex; align-items: center; justify-content: center; border: 2px solid rgba(78,73,89,.65); border-radius: 63px; background: linear-gradient(180deg, rgba(77,55,131,.2), rgba(238,227,255,.2) 51.442%), #735daa; color: white; box-shadow: inset 0 3px 1px #9779e0; font-weight: 600; }
