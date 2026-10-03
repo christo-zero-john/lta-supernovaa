@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Anek_Bangla, Inter, Geist, Rubik, Manrope } from "next/font/google";
+import { Plus_Jakarta_Sans, Anek_Bangla, Inter, Geist, Rubik, Manrope, Momo_Trust_Sans } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
 import "./globals.css";
 
@@ -10,6 +10,12 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 const anekBangla = Anek_Bangla({
     subsets: ["latin"],
     variable: "--font-anek-bangla",
+});
+
+// The dashboard's display face, shared with the LTA website design.
+const momoTrustSans = Momo_Trust_Sans({
+    subsets: ["latin"],
+    variable: "--font-momo-trust-sans",
 });
 
 const inter = Inter({ subsets: ["latin"], variable: "--figma-inter" });
@@ -30,7 +36,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={`${plusJakartaSans.variable} ${anekBangla.variable} ${inter.variable} ${geist.variable} ${rubik.variable} ${manrope.variable}`}>
+        <html lang="en" className={`${plusJakartaSans.variable} ${anekBangla.variable} ${momoTrustSans.variable} ${inter.variable} ${geist.variable} ${rubik.variable} ${manrope.variable}`}>
         <body>
         <SmoothScroll/>
         {children}

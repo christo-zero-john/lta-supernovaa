@@ -1,6 +1,8 @@
+/* Dashboard type follows the LTA website: Geist for text, Momo Trust Sans
+   for headings. Both are loaded once in src/app/layout.tsx. */
 .sn-root {
-  --sn-body: var(--font-plus-jakarta-sans);
-  --sn-heading: var(--font-anek-bangla);
-  --figma-jakarta: var(--font-plus-jakarta-sans);
-  --figma-anek: var(--font-anek-bangla);
+  --sn-body: var(--figma-geist);
+  --sn-heading: var(--font-momo-trust-sans);
+  --figma-jakarta: var(--figma-geist);
+  --figma-anek: var(--font-momo-trust-sans);
 }

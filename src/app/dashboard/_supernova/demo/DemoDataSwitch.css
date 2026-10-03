@@ -2,7 +2,7 @@
 .sn-demo {
   position: relative;
   flex-shrink: 0;
-  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-family: var(--sn-body), sans-serif;
 }
 .sn-demo-trigger {
   display: inline-flex;
@@ -14,7 +14,7 @@
   border-radius: 44px;
   background: white;
   color: #242a33;
-  font: 600 12px/1 var(--font-plus-jakarta-sans), sans-serif;
+  font: 600 12px/1 var(--sn-body), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   transition: background-color 150ms ease-out;
@@ -164,7 +164,7 @@
   border-radius: 30px;
   background: #f3f1f6;
   color: #5b4b7a;
-  font: 600 11px/1 var(--font-plus-jakarta-sans), sans-serif;
+  font: 600 11px/1 var(--sn-body), sans-serif;
   cursor: pointer;
   transition: background-color 150ms ease-out;
 }
