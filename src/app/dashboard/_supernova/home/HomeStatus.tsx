@@ -8,24 +8,13 @@ import { JOURNEY } from "../lib/fixtures";
 import type { ViewId } from "../lib/types";
 import type { ShortlistedCourse } from "@/lib/services/course.service";
 
-const DAY = 24 * 60 * 60 * 1000;
-
-/** The next summer intake (1 April) that is at least two months away. */
-function nextIntake(now: Date) {
-  let year = now.getFullYear();
-  let date = new Date(year, 3, 1);
-  while (date.getTime() - now.getTime() < 60 * DAY)
-    date = new Date(++year, 3, 1);
-  return {
-    label: `Summer ${year}`,
-    days: Math.ceil((date.getTime() - now.getTime()) / DAY),
-  };
-}
-
-/** A number, or, when there is nothing to count yet, the way to start. */
+/**
+ * One of the student's own numbers. With nothing to count yet, the tile
+ * keeps its name and offers the screen where that number starts.
+ */
 type Stat =
-  | { value: string; label: string }
-  | { action: string; label: string; view: ViewId };
+  | { label: string; value: string }
+  | { label: string; action: string; view: ViewId };
 
 type Focus = {
   eyebrow: string;
@@ -37,7 +26,7 @@ type Focus = {
 
 /**
  * The top of the home page: where the student is on their journey, the one
- * thing that matters next, and four numbers. Everything but the shortlisted
+ * thing that matters next, and the student's own numbers. Everything but the shortlisted
  * courses is placeholder data until the backend provides it.
  */
 export default function HomeStatus({
@@ -45,9 +34,8 @@ export default function HomeStatus({
 }: {
   courses: ShortlistedCourse[];
 }) {
-  const { persona, navigate } = useApp();
+  const { persona, navigate, uploads } = useApp();
   const demo = useDemoData();
-  const intake = nextIntake(new Date());
   const verified = persona !== "free";
   const applications =
     verified && demo.has("applications") ? DEMO_DATA.applications : [];
@@ -64,21 +52,24 @@ export default function HomeStatus({
   const topChance = courses.length
     ? `${Math.max(...courses.map((c) => c.admission_percentage))}%`
     : "";
-  const toIntake: Stat = {
-    value: String(intake.days),
-    label: `Days to ${intake.label}`,
-  };
-  const startShortlisting: Stat = {
-    action: "Start shortlisting",
-    label: "No courses shortlisted yet",
-    view: "cst",
-  };
   const shortlistStats: Stat[] = courses.length
     ? [
         { value: String(courses.length), label: "Courses shortlisted" },
         { value: topChance, label: "Top admit chance" },
       ]
-    : [startShortlisting];
+    : [
+        {
+          label: "Courses shortlisted",
+          action: "Start shortlisting",
+          view: "cst",
+        },
+      ];
+  const documentCount =
+    (demo.has("documents") ? DEMO_DATA.documents.length : 0) +
+    uploads.files.length;
+  const documentStat: Stat = documentCount
+    ? { value: String(documentCount), label: "Documents uploaded" }
+    : { label: "Documents uploaded", action: "Upload a document", view: "documents" };
   const stage = useJourneyStage();
 
   let focus: Focus;
@@ -109,7 +100,7 @@ export default function HomeStatus({
       { value: String(applications.length), label: "Applications" },
       { value: "1", label: "Offer accepted" },
       { value: "1 / 5", label: "After-the-offer steps done" },
-      toIntake,
+      documentStat,
     ];
   } else if (applications.length) {
     focus = {
@@ -139,8 +130,8 @@ export default function HomeStatus({
     };
     stats = [
       ...shortlistStats,
-      { action: "Open Zenna", label: "No applications yet", view: "zenna" },
-      toIntake,
+      documentStat,
+      { value: "0", label: "Applications" },
     ];
   } else if (courses.length) {
     focus = {
@@ -150,11 +141,7 @@ export default function HomeStatus({
       action: "See my shortlist",
       view: "cst",
     };
-    stats = [
-      ...shortlistStats,
-      { action: "Apply with LTA", label: "Get verified", view: "zenna" },
-      toIntake,
-    ];
+    stats = [...shortlistStats, documentStat];
   } else {
     focus = {
       eyebrow: "Your next step",
@@ -163,11 +150,7 @@ export default function HomeStatus({
       action: "Start shortlisting",
       view: "cst",
     };
-    stats = [
-      startShortlisting,
-      { value: "3 min", label: "To get your shortlist" },
-      toIntake,
-    ];
+    stats = [...shortlistStats, documentStat];
   }
 
   return (
@@ -197,21 +180,18 @@ export default function HomeStatus({
         </Button>
       </section>
       <div className="sn-stats">
-        {stats.map((stat) =>
-          "action" in stat ? (
-            <div className="sn-stat" key={stat.label}>
+        {stats.map((stat) => (
+          <div className="sn-stat" key={stat.label}>
+            {"action" in stat ? (
               <Button className="compact" onClick={() => navigate(stat.view)}>
                 {stat.action}
               </Button>
-              <small>{stat.label}</small>
-            </div>
-          ) : (
-            <div className="sn-stat" key={stat.label}>
+            ) : (
               <strong>{stat.value}</strong>
-              <small>{stat.label}</small>
-            </div>
-          ),
-        )}
+            )}
+            <small>{stat.label}</small>
+          </div>
+        ))}
       </div>
     </div>
   );
