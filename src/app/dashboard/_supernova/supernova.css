@@ -379,14 +379,72 @@ body:has(.sn-root) {
   width: 34px;
   height: 34px;
 }
-.sn-icon-button > i {
+.sn-bell {
+  display: grid;
+  place-items: center;
+}
+/* The unread count sits on the button's top right edge. */
+.sn-icon-button > b {
   position: absolute;
-  right: 6px;
-  top: 5px;
-  width: 5px;
-  height: 5px;
+  top: -4px;
+  right: -4px;
+  display: grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border: 2px solid var(--sn-page);
+  border-radius: 18px;
+  background: #8764de;
+  color: #ffffff;
+  font:
+    600 10px/1 var(--sn-body),
+    sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+/* Unread notifications: the bell rings three times and a ripple leaves
+   the button, like the current journey step. */
+.sn-icon-button.has-unread .sn-bell {
+  transform-origin: 50% 15%;
+  animation: sn-bell-ring 1s ease-in-out 3;
+}
+.sn-icon-button.has-unread::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
-  background: #ad507d;
+  pointer-events: none;
+  animation: sn-bell-ripple 1s ease-out 3;
+}
+@keyframes sn-bell-ring {
+  0%,
+  60%,
+  100% {
+    transform: rotate(0);
+  }
+  10% {
+    transform: rotate(16deg);
+  }
+  20% {
+    transform: rotate(-14deg);
+  }
+  30% {
+    transform: rotate(10deg);
+  }
+  40% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+@keyframes sn-bell-ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(135, 100, 222, 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(135, 100, 222, 0);
+  }
 }
 .sn-personas {
   background: #ffffff50;
