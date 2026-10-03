@@ -1965,6 +1965,22 @@ body:has(.sn-root) {
   font-size: 20px;
   letter-spacing: -0.3px;
 }
+/* A tile with nothing to count yet offers the way to start instead. */
+.sn-stat-action {
+  width: 100%;
+  text-align: left;
+  transition: background-color 150ms ease-out;
+}
+.sn-stat-action strong {
+  display: block;
+  font-size: 16px;
+  line-height: 38px;
+  letter-spacing: -0.2px;
+  color: #8764de;
+}
+.sn-stat-action:hover {
+  background: #fff;
+}
 /* The next-step banner carries the website's violet. */
 .sn-focus {
   background: linear-gradient(120deg, #8764de, #4d3783);

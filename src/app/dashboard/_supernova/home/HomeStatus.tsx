@@ -20,6 +20,11 @@ function nextIntake(now: Date) {
   };
 }
 
+/** A number, or, when there is nothing to count yet, the way to start. */
+type Stat =
+  | { value: string; label: string }
+  | { action: string; label: string; view: ViewId };
+
 type Focus = {
   eyebrow: string;
   title: string;
@@ -56,16 +61,32 @@ export default function HomeStatus({
   const offerAccepted = applications.length > 0 && demo.has("offer");
   const topChance = courses.length
     ? `${Math.max(...courses.map((c) => c.admission_percentage))}%`
-    : "—";
-  const toIntake: [string, string] = [
-    String(intake.days),
-    `Days to ${intake.label}`,
-  ];
+    : "";
+  const toIntake: Stat = {
+    value: String(intake.days),
+    label: `Days to ${intake.label}`,
+  };
+  const startShortlisting: Stat = {
+    action: "Start shortlisting",
+    label: "No courses shortlisted yet",
+    view: "cst",
+  };
+  const askTheTeam: Stat = {
+    action: "Talk to our team",
+    label: "Free 15-minute call",
+    view: "support",
+  };
+  const shortlistStats: Stat[] = courses.length
+    ? [
+        { value: String(courses.length), label: "Courses shortlisted" },
+        { value: topChance, label: "Top admit chance" },
+      ]
+    : [startShortlisting, askTheTeam];
   const stage =
     persona === "p004" ? 3 : offerAccepted ? 2 : verified ? 1 : 0;
 
   let focus: Focus;
-  let stats: [string, string][];
+  let stats: Stat[];
   if (persona === "p004") {
     focus = {
       eyebrow: "What matters today",
@@ -75,10 +96,10 @@ export default function HomeStatus({
       view: "p004",
     };
     stats = [
-      ["6 / 9", "Job profile steps"],
-      ["3", "Matched jobs"],
-      ["3", "Job applications in review"],
-      ["#7", "Logistics Challenge rank"],
+      { value: "6 / 9", label: "Job profile steps" },
+      { value: "3", label: "Matched jobs" },
+      { value: "3", label: "Job applications in review" },
+      { value: "#7", label: "Logistics Challenge rank" },
     ];
   } else if (offerAccepted) {
     focus = {
@@ -89,9 +110,9 @@ export default function HomeStatus({
       view: "zenna",
     };
     stats = [
-      [String(applications.length), "Applications"],
-      ["1", "Offer accepted"],
-      ["1 / 5", "After-the-offer steps done"],
+      { value: String(applications.length), label: "Applications" },
+      { value: "1", label: "Offer accepted" },
+      { value: "1 / 5", label: "After-the-offer steps done" },
       toIntake,
     ];
   } else if (applications.length) {
@@ -105,10 +126,12 @@ export default function HomeStatus({
       view: "zenna",
     };
     stats = [
-      [String(applications.length), "Applications"],
-      [String(offers), "Offers received"],
-      [next?.dl || "—", next ? `Next deadline · ${next.mono}` : "Next deadline"],
-      [`${average}%`, "Average completion"],
+      { value: String(applications.length), label: "Applications" },
+      { value: String(offers), label: "Offers received" },
+      next
+        ? { value: next.dl, label: `Next deadline · ${next.mono}` }
+        : { value: "On track", label: "No open deadlines" },
+      { value: `${average}%`, label: "Average completion" },
     ];
   } else if (verified) {
     focus = {
@@ -119,9 +142,8 @@ export default function HomeStatus({
       view: "zenna",
     };
     stats = [
-      [String(courses.length || "—"), "Courses shortlisted"],
-      [topChance, "Top admit chance"],
-      ["0", "Applications"],
+      ...shortlistStats,
+      { action: "Open Zenna", label: "No applications yet", view: "zenna" },
       toIntake,
     ];
   } else if (courses.length) {
@@ -133,9 +155,8 @@ export default function HomeStatus({
       view: "cst",
     };
     stats = [
-      [String(courses.length), "Courses shortlisted"],
-      [topChance, "Top admit chance"],
-      ["Open", "Course Shortlisting"],
+      ...shortlistStats,
+      { action: "Apply with LTA", label: "Get verified", view: "zenna" },
       toIntake,
     ];
   } else {
@@ -147,9 +168,9 @@ export default function HomeStatus({
       view: "cst",
     };
     stats = [
-      ["—", "Courses shortlisted"],
-      ["—", "Top admit chance"],
-      ["3 min", "To get your shortlist"],
+      startShortlisting,
+      { value: "3 min", label: "To get your shortlist" },
+      askTheTeam,
       toIntake,
     ];
   }
@@ -184,12 +205,23 @@ export default function HomeStatus({
         </button>
       </section>
       <div className="sn-stats">
-        {stats.map(([value, label]) => (
-          <div className="sn-stat" key={label}>
-            <strong>{value}</strong>
-            <small>{label}</small>
-          </div>
-        ))}
+        {stats.map((stat) =>
+          "action" in stat ? (
+            <button
+              className="sn-stat sn-stat-action"
+              key={stat.label}
+              onClick={() => navigate(stat.view)}
+            >
+              <strong>{stat.action} →</strong>
+              <small>{stat.label}</small>
+            </button>
+          ) : (
+            <div className="sn-stat" key={stat.label}>
+              <strong>{stat.value}</strong>
+              <small>{stat.label}</small>
+            </div>
+          ),
+        )}
       </div>
     </div>
   );
