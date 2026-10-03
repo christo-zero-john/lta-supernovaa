@@ -94,7 +94,7 @@ dashboard/layout.tsx          fetch users/me/ → useStore
       └─ AppProvider          persona, view, reducer state, dialogs, uploads
          ├─ AppShell          Sidebar + <ViewTransition> page column
          │  └─ page.tsx       home, or SupernovaPage(view) → Topbar,
-         │                    PersonaSwitcher, PageHeader, the view
+         │                    PageHeader, the view
          └─ SupernovaOverlays InteractionDialog + feedback toast
 ```
 
