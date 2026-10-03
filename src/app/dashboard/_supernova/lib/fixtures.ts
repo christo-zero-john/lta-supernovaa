@@ -482,10 +482,16 @@ export const FAQS = [
   },
 ] as const;
 
+/** LTA's official WhatsApp number, for every contact point. */
+export const LTA_WHATSAPP = {
+  display: "+91 755 883 8318",
+  href: "https://wa.me/917558838318",
+} as const;
+
 export const HELP_CARDS = [
   {
     title: "WhatsApp us",
-    text: "Fastest reply · usually within 2 hours, IST daytime",
+    text: `${LTA_WHATSAPP.display} · usually within 2 hours, IST daytime`,
   },
   {
     title: "Book a call",
