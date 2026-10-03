@@ -81,6 +81,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     /* eslint-disable react-hooks/set-state-in-effect */ setDialog(null);
     notify(""); /* eslint-enable react-hooks/set-state-in-effect */
   }, [persona, view]);
+  // A notice leaves by itself after a few seconds.
+  useEffect(() => {
+    if (!feedback) return;
+    const timer = setTimeout(() => notify(""), 5000);
+    return () => clearTimeout(timer);
+  }, [feedback]);
   const navigate = (next: ViewId, item?: string) => {
     closeDialog();
     router.push(viewHref(next, persona, item), { scroll: true });
